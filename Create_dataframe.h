@@ -18,4 +18,10 @@ COLUMN* create_column(char* title);
 */
 void delete_column(COLUMN **col);
 
+/**
+* @brief: Print a column content
+* @param: Pointer to a column
+*/
+void print_col(COLUMN* col);
+
 #endif //CDATAFRAME_CREATE_DATAFRAME_H

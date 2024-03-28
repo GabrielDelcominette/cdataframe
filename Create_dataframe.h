@@ -20,8 +20,27 @@ void delete_column(COLUMN **col);
 
 /**
 * @brief: Print a column content
-* @param: Pointer to a column
+* @param: col - Pointer to a column
 */
 void print_col(COLUMN* col);
 
+/**
+ * @brief: return the number of occurences of value in the column
+ * @param : col - Pointer to a column
+ * @param : int - value that we search in the column
+ */
+int occurence(COLUMN * col, int value);
+
+/**
+ * @brief: return the value at position pos
+ * @param : col - Pointer to a column
+ * @param2 : position of the value
+*/
+int find_value(COLUMN * col, int pos);
+
+int n_taller_values(COLUMN * col, int value);
+
+int n_smaller_values(COLUMN * col, int value);
+
+int n_equals_values(COLUMN * col, int value);
 #endif //CDATAFRAME_CREATE_DATAFRAME_H

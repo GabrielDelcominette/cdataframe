@@ -17,7 +17,40 @@ void delete_column(COLUMN** col){
     free(*col);
 }
 
+int occurence(COLUMN * col, int value){
+    int number = 0;
+    for (int i=0; i<col->TL; i++){
+        if (value==*(col->data + i))
+            number++;
+    }
+    return number;
+}
+
+int find_value(COLUMN * col, int pos){
+    return *(col->data + pos);
+}
+
 void print_col(COLUMN* col){
     for (int i=0; i<col->TL; i++)
         printf("[%d] %d", i, *(col->data + i));
+}
+
+int n_taller_values(COLUMN * col, int value){
+    int number = 0;
+    for (int i=0; i<col->TL; i++)
+        if (value<=*(col->data + i))
+            number++;
+    return number;
+}
+
+int n_smaller_values(COLUMN * col, int value){
+    int number = 0;
+    for (int i=0; i<col->TL; i++)
+        if (value>=*(col->data + i))
+            number++;
+    return number;
+}
+
+int n_equals_values(COLUMN * col, int value){
+    return occurence(col, value);
 }

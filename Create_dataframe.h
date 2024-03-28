@@ -1,8 +1,6 @@
-//
-// Created by etien on 3/28/2024.
-//
-
 #ifndef CDATAFRAME_CREATE_DATAFRAME_H
 #define CDATAFRAME_CREATE_DATAFRAME_H
+
+COLUMN* create_column(char* title);
 
 #endif //CDATAFRAME_CREATE_DATAFRAME_H

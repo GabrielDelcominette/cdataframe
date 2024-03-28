@@ -11,6 +11,7 @@ COLUMN* create_column(char* title){
     return column;
 }
 void delete_column(COLUMN** col){
-    free((*col)->data);
-    free()
+    for (int i=0 ; i<(*col)->TP ; i++)
+        free((*col)->data + i);
+    free(*col);
 }

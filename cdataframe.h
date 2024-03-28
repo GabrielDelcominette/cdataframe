@@ -1,8 +1,0 @@
-//
-// Created by etien on 3/28/2024.
-//
-
-#ifndef CDATAFRAME_CDATAFRAME_H
-#define CDATAFRAME_CDATAFRAME_H
-
-#endif //CDATAFRAME_CDATAFRAME_H

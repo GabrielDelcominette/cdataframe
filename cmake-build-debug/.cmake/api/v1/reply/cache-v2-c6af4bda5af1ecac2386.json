@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug"
+			"value" : "c:/Users/gabri/OneDrive/Documents/GitHub/cdataframe/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -475,7 +475,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/gabri/OneDrive/Documents/GitHub/cdataframe/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -547,7 +547,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/etien/Documents/GitHub/cdataframe"
+			"value" : "C:/Users/gabri/OneDrive/Documents/GitHub/cdataframe"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1195,7 +1195,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug"
+			"value" : "C:/Users/gabri/OneDrive/Documents/GitHub/cdataframe/cmake-build-debug"
 		},
 		{
 			"name" : "cdataframe_IS_TOP_LEVEL",
@@ -1219,7 +1219,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/etien/Documents/GitHub/cdataframe"
+			"value" : "C:/Users/gabri/OneDrive/Documents/GitHub/cdataframe"
 		}
 	],
 	"kind" : "cache",

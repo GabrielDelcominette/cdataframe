@@ -1,8 +1,17 @@
-//
-// Created by etien on 3/28/2024.
-//
+#include "dataframe.h"
 
 #ifndef CDATAFRAME_CDATAFRAME_H
 #define CDATAFRAME_CDATAFRAME_H
+
+typedef struct{
+    int TP;
+    int TL;
+    COLUMN * columns;
+} CDATAFRAME;
+
+CDATAFRAME* create_cdataframe();
+
+void read_cdataframe_user(CDATAFRAME *);
+
 
 #endif //CDATAFRAME_CDATAFRAME_H

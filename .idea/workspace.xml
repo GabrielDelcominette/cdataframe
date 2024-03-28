@@ -20,6 +20,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="77283c3d-9637-4179-a7bb-e03dff4ecfa4" name="Changes" comment="hiyviv">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -55,6 +56,12 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/cdataframe.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cdataframe.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+=======
+    <list default="true" id="77283c3d-9637-4179-a7bb-e03dff4ecfa4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/cdataframe.h" beforeDir="false" afterPath="$PROJECT_DIR$/cdataframe.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataframe.c" beforeDir="false" afterPath="$PROJECT_DIR$/dataframe.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataframe.h" beforeDir="false" afterPath="$PROJECT_DIR$/dataframe.h" afterDir="false" />
+>>>>>>> Etienne
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

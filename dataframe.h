@@ -19,6 +19,14 @@ COLUMN* create_column(char* title);
 void delete_column(COLUMN **col);
 
 /**
+@brief : Add a new value to a column
+@param1 : Pointer to a column
+@param2 : The value to be added
+@return : 1 if the value is added 0 otherwise
+*/
+int insert_value(COLUMN* col, int value);
+
+/**
 * @brief: Print a column content
 * @param: col - Pointer to a column
 */

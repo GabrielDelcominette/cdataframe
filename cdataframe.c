@@ -1,10 +1,9 @@
-//
-// Created by etien on 3/28/2024.
-//
-
 #include "cdataframe.h"
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Etienne
 #include <stdlib.h>
 
 CDATAFRAME* create_cdataframe(){
@@ -16,7 +15,13 @@ CDATAFRAME* create_cdataframe(){
     return dataframe;
 }
 
+<<<<<<< HEAD
 void read_cdataframe_user(CDATAFRAME * cdataframe){
     
 }
 >>>>>>> Stashed changes
+=======
+void read_cdataframe_user(CDATAFRAME *){
+    
+}
+>>>>>>> Etienne

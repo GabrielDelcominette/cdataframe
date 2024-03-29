@@ -21,9 +21,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77283c3d-9637-4179-a7bb-e03dff4ecfa4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdataframe.c" beforeDir="false" afterPath="$PROJECT_DIR$/cdataframe.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cdataframe.h" beforeDir="false" afterPath="$PROJECT_DIR$/cdataframe.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataframe.c" beforeDir="false" afterPath="$PROJECT_DIR$/dataframe.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataframe.h" beforeDir="false" afterPath="$PROJECT_DIR$/dataframe.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,11 +63,6 @@
   }
 }</component>
   <component name="RunManager" selected="C/C++ File.main.c">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="cdataframe" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cdataframe" TARGET_NAME="cdataframe" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cdataframe" RUN_TARGET_NAME="cdataframe">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -89,6 +84,7 @@
       <option name="presentableId" value="Default" />
       <updated>1711631803630</updated>
       <workItem from="1711631804790" duration="669000" />
+      <workItem from="1711736056873" duration="232000" />
     </task>
     <servers />
   </component>

@@ -20,8 +20,12 @@ int insert_value(COLUMN* col, int value){
         return 0;
     }
     if (col->TL == col->TP){
-        col->TP += REALOC_SIZE;
-        realloc(col->data, col->TP * sizeof(int));
+        int * tmp = col->data; // variable temporaire au cas où realoc ne fonctionnerait pas
+        tmp = (int *) realloc(tmp, (col->TP + 256) * sizeof(int));
+        if (tmp != NULL) {
+            col->TP += REALOC_SIZE;
+            col->data = tmp;
+        }
     }
     if (col->TL < col->TP){
         col->data[col->TL-1] = value;

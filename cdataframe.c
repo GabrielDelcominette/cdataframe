@@ -1,6 +1,8 @@
 #include "cdataframe.h"
 #include <stdlib.h>
 
+#define REALLOC_COL_NUMBER 10
+
 CDATAFRAME* create_cdataframe(){
     CDATAFRAME * dataframe;
     dataframe = (CDATAFRAME*) malloc(sizeof(CDATAFRAME));
@@ -10,19 +12,25 @@ CDATAFRAME* create_cdataframe(){
     return dataframe;
 }
 
-int insert_column(CDATAFRAME * cdataframe){
+int insert_column(CDATAFRAME * cdataframe, COLUMN * col){
     if (cdataframe->columns == NULL){
-        cdataframe->columns = (COLUMN *) malloc(256 * sizeof(COLUMN));
+        cdataframe->columns = (COLUMN **) malloc(REALLOC_COL_NUMBER * sizeof(COLUMN *));
     }
     if (cdataframe->columns == NULL){
         return 0;
     }
     if (cdataframe->TL == cdataframe->TP){
-        cdataframe->TP += REALOC_SIZE;
-        realloc(cdataframe->columns, cdataframe->TP * sizeof(int));
+        COLUMN ** tmp = cdataframe->columns; // variable temporaire au cas où realoc ne fonctionnerait pas
+        tmp = (COLUMN **) realloc(tmp, (cdataframe->TP + REALLOC_COL_NUMBER) * sizeof(COLUMN *));
+        if (tmp != NULL) {
+            cdataframe->TP += REALOC_SIZE;
+            cdataframe->columns = tmp;
+        }
+        else
+            return 0;
     }
     if (cdataframe->TL < cdataframe->TP){
-        cdataframe->columns[cdataframe->TL-1] = value;
+        cdataframe->columns[cdataframe->TL] = col;
         cdataframe->TL+=1;
         return 1;
     }

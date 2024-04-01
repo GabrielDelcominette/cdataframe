@@ -14,21 +14,23 @@ COLUMN* create_column(char* title){
 
 int insert_value(COLUMN* col, int value){
     if (col->data == NULL){
-        col->data = (int*) malloc(256 * sizeof(int));
+        col->data = (int*) malloc(REALOC_SIZE * sizeof(int));
     }
     if (col->data == NULL){
         return 0;
     }
     if (col->TL == col->TP){
         int * tmp = col->data; // variable temporaire au cas où realoc ne fonctionnerait pas
-        tmp = (int *) realloc(tmp, (col->TP + 256) * sizeof(int));
+        tmp = (int *) realloc(tmp, (col->TP + REALOC_SIZE) * sizeof(int));
         if (tmp != NULL) {
             col->TP += REALOC_SIZE;
             col->data = tmp;
         }
+        else
+            return 0;
     }
     if (col->TL < col->TP){
-        col->data[col->TL-1] = value;
+        col->data[col->TL] = value;
         col->TL+=1;
         return 1;
     }

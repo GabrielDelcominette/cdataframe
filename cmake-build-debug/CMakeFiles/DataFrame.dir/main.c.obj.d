@@ -1,5 +1,5 @@
-CMakeFiles/cdataframe.dir/main.c.obj: \
- C:\Users\gabri\OneDrive\Documents\GitHub\cdataframe\main.c \
+CMakeFiles/DataFrame.dir/main.c.obj: \
+ C:\Users\etien\Documents\GitHub\cdataframe\main.c \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/x86_64-w64-mingw32/include/stdio.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/x86_64-w64-mingw32/include/corecrt_stdio_config.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/x86_64-w64-mingw32/include/corecrt.h \
@@ -21,4 +21,5 @@ CMakeFiles/cdataframe.dir/main.c.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/x86_64-w64-mingw32/include/malloc.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/x86_64-w64-mingw32/include/errno.h \
- C:\Users\gabri\OneDrive\Documents\GitHub\cdataframe\Create_dataframe.h
+ C:\Users\etien\Documents\GitHub\cdataframe\cdataframe.h \
+ C:\Users\etien\Documents\GitHub\cdataframe\dataframe.h

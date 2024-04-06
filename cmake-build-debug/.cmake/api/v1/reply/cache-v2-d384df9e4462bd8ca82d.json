@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/gabri/OneDrive/Documents/GitHub/cdataframe/cmake-build-debug"
+			"value" : "c:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -475,7 +475,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/gabri/OneDrive/Documents/GitHub/cdataframe/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -547,7 +547,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/gabri/OneDrive/Documents/GitHub/cdataframe"
+			"value" : "C:/Users/etien/Documents/GitHub/cdataframe"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -559,7 +559,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Program Files (x86)/cdataframe"
+			"value" : "C:/Program Files (x86)/DataFrame"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -779,7 +779,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "cdataframe"
+			"value" : "DataFrame"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1174,19 +1174,7 @@
 			"value" : "FALSE"
 		},
 		{
-			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "linker supports push/pop state"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "TRUE"
-		},
-		{
-			"name" : "cdataframe_BINARY_DIR",
+			"name" : "DataFrame_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1195,10 +1183,10 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/gabri/OneDrive/Documents/GitHub/cdataframe/cmake-build-debug"
+			"value" : "C:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug"
 		},
 		{
-			"name" : "cdataframe_IS_TOP_LEVEL",
+			"name" : "DataFrame_IS_TOP_LEVEL",
 			"properties" : 
 			[
 				{
@@ -1210,7 +1198,7 @@
 			"value" : "ON"
 		},
 		{
-			"name" : "cdataframe_SOURCE_DIR",
+			"name" : "DataFrame_SOURCE_DIR",
 			"properties" : 
 			[
 				{
@@ -1219,7 +1207,19 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/gabri/OneDrive/Documents/GitHub/cdataframe"
+			"value" : "C:/Users/etien/Documents/GitHub/cdataframe"
+		},
+		{
+			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "linker supports push/pop state"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "TRUE"
 		}
 	],
 	"kind" : "cache",

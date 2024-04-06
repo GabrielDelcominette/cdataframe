@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "cdataframe.exe"
+			"path" : "DataFrame.exe"
 		},
 		{
-			"path" : "cdataframe.pdb"
+			"path" : "DataFrame.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -53,11 +53,12 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1
+				1,
+				2
 			]
 		}
 	],
-	"id" : "cdataframe::@6890427a1f51a3e7e1df",
+	"id" : "DataFrame::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -77,8 +78,8 @@
 		],
 		"language" : "C"
 	},
-	"name" : "cdataframe",
-	"nameOnDisk" : "cdataframe.exe",
+	"name" : "DataFrame",
+	"nameOnDisk" : "DataFrame.exe",
 	"paths" : 
 	{
 		"build" : ".",
@@ -91,7 +92,8 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1
+				1,
+				2
 			]
 		}
 	],
@@ -106,7 +108,13 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "Create_dataframe.c",
+			"path" : "dataframe.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "cdataframe.c",
 			"sourceGroupIndex" : 0
 		}
 	],

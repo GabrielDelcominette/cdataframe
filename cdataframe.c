@@ -15,16 +15,13 @@ CDATAFRAME* create_cdataframe(){
 
 int insert_column(CDATAFRAME * cdataframe, COLUMN * col){
     if (cdataframe->columns == NULL){
-        printf("yooo\n");
         cdataframe->columns = (COLUMN **) malloc(REALLOC_COL_NUMBER * sizeof(COLUMN *));
         cdataframe->TP += REALLOC_COL_NUMBER;
     }
-    printf("On regarde le premier avant insertion : %s - - adresse %X\n", (*cdataframe->columns)->title, *cdataframe->columns);
     if (cdataframe->columns == NULL){
         return 0;
     }
     if (cdataframe->TL == cdataframe->TP){
-        printf("yiii \n");
         COLUMN ** tmp = cdataframe->columns; // variable temporaire au cas où realoc ne fonctionnerait pas
         tmp = (COLUMN **) realloc(tmp, (cdataframe->TP + REALLOC_COL_NUMBER) * sizeof(COLUMN *));
         if (tmp != NULL) {
@@ -35,8 +32,6 @@ int insert_column(CDATAFRAME * cdataframe, COLUMN * col){
             return 0;
     }
     if (cdataframe->TL < cdataframe->TP){
-        printf("Le TL est egal a : %d\n", cdataframe->TL);
-        printf("Le premier titre est : %s\n", cdataframe->columns[0]->title);
         //*(cdataframe->columns + cdataframe->TL) = col;
         cdataframe->columns[cdataframe->TL] = col;
         cdataframe->TL+=1;
@@ -61,7 +56,6 @@ void read_cdataframe_user(CDATAFRAME * cdataframe) {
         scanf(" %s", name);
         new_column = create_column(name); // création d'une nouvelle colonne ayant pour titre celui entré par l'utilisateur
         insert_column(cdataframe, new_column); // on ajoute la nouvelle colonne à la cdataframe
-        printf("Voici la nouvelle colone %s en position %d - adresse %X\n", (cdataframe->columns[i])->title, i, cdataframe->columns[i]);
     }
     for (int i=0; i<C; i++){
         //printf("Voici la nouvelle colone %s en position %d\n", (cdataframe->columns[i])->title, i);
@@ -73,19 +67,20 @@ void read_cdataframe_user(CDATAFRAME * cdataframe) {
             printf("Saisissez la valeure de la ligne %d de la colonne %d : \n", ligne+1, colonne+1);
             scanf("%d", &value);
             insert_value(*(cdataframe->columns + colonne), value);
+            printf("On insère la valeur à %d, %d - %d - %d", colonne, ligne, cdataframe->columns[colonne]->data[ligne], value);
         }
     }
 }
 
-void write_cdataframe(CDATAFRAME * cdataframe) {
+void write_cdataframe(CDATAFRAME * cdataframe, int start_column, int start_row, int end_column, int end_row) {
     printf("test01\n\n");
-    for (int i=0; i<cdataframe->TL; i++){
-        printf("%s %d\t", (*(cdataframe->columns + i))->title, i);
+    for (int i=start_column-1; i<end_column; i++){
+        printf("%s\t", (*(cdataframe->columns + i))->title);
     }
-    for (int j=0; j<(*cdataframe->columns)->TL; j++){
+    for (int j=start_row-1; j<end_row-1; j++){
         printf("\n");
-        for (int i = 0; i < cdataframe->TL; i++) {
-            printf("%d\t", *((*(cdataframe->columns + j))->data + j));
+        for (int i = start_column-1; i < end_column; i++) {
+            printf("%d\t\t", cdataframe->columns[i]->data[j]);
         }
     }
 }

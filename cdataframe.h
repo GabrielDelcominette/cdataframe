@@ -6,11 +6,14 @@
 typedef struct{
     int TP;
     int TL;
-    COLUMN * columns;
+    COLUMN ** columns; // liste de pointer vers des colonnes
 } CDATAFRAME;
 
 CDATAFRAME* create_cdataframe();
 
 void read_cdataframe_user(CDATAFRAME *);
 
+void write_cdataframe(CDATAFRAME * cdataframe);
+
+int insert_column(CDATAFRAME *, COLUMN *);
 #endif //CDATAFRAME_CDATAFRAME_H

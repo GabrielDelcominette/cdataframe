@@ -1,13 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Create_dataframe.h"
+#include "cdataframe.h"
+
 
 int main(){
-    COLUMN *mycol = create_column("My column");
-    int val = 5;
-    if (insert_value(mycol, val))
-        printf("Value added successfully to my column\n");
-    else
-        printf("Error adding value to my column\n");
+    CDATAFRAME * cdf;
+    COLUMN * column;
+
+    column = create_column("cannard");
+    insert_value(column, 2);
+    insert_value(column, 4);
+    printf("%s %d %d\n", column->title, *(column->data), *(column->data+1));
+
+    printf("coucou ceci est un test\n");
+    cdf = create_cdataframe();
+    read_cdataframe_user(cdf);
+    printf("%s %d\n", (*cdf->columns)->title, *((*cdf->columns)->data));
+    printf("%s %d\n", (cdf->columns[1])->title, *((*cdf->columns)->data));
+    printf("%s %d\n", (cdf->columns[0])->title, *((*cdf->columns)->data));
+    printf("%s %d\n", (*(cdf->columns+1))->title, *((*cdf->columns)->data));
+    write_cdataframe(cdf);
     return 0;
 }

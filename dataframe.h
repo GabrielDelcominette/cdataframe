@@ -1,7 +1,7 @@
 #ifndef CDATAFRAME_CREATE_DATAFRAME_H
 #define CDATAFRAME_CREATE_DATAFRAME_H
 
-#define REALOC_SIZE 256;
+#define REALOC_SIZE 256
 
 typedef struct {
     char * title;

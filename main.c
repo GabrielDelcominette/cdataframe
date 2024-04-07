@@ -19,6 +19,6 @@ int main(){
     printf("%s %d\n", (cdf->columns[1])->title, *((*cdf->columns)->data));
     printf("%s %d\n", (cdf->columns[0])->title, *((*cdf->columns)->data));
     printf("%s %d\n", (*(cdf->columns+1))->title, *((*cdf->columns)->data));
-    write_cdataframe(cdf);
+    display_cdataframe(cdf, 1, 1, 2, 2);
     return 0;
 }

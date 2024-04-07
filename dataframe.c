@@ -83,3 +83,14 @@ int n_smaller_values(COLUMN * col, int value){
 int n_equals_values(COLUMN * col, int value){
     return occurence(col, value);
 }
+
+int rename_column(COLUMN * col, char * title){
+    char * tmp = col->title;
+    tmp = (char *) realloc( tmp, sizeof(char *) * (strlen(title) + 1));
+    if (tmp == NULL)
+        return 0;
+    else {
+        col->title = tmp;
+        strcpy(col->title, title);
+    }
+}

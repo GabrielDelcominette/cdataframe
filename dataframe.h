@@ -51,4 +51,7 @@ int n_taller_values(COLUMN * col, int value);
 int n_smaller_values(COLUMN * col, int value);
 
 int n_equals_values(COLUMN * col, int value);
+
+int rename_column(COLUMN * col, char * string);
+
 #endif //CDATAFRAME_CREATE_DATAFRAME_H

@@ -72,15 +72,53 @@ void read_cdataframe_user(CDATAFRAME * cdataframe) {
     }
 }
 
-void write_cdataframe(CDATAFRAME * cdataframe, int start_column, int start_row, int end_column, int end_row) {
-    printf("test01\n\n");
-    for (int i=start_column-1; i<end_column; i++){
-        printf("%s\t", (*(cdataframe->columns + i))->title);
+void display_titles(CDATAFRAME * cdataframe){
+    for (int i=0; i<cdataframe->TL; i++){
+        printf("%s\t", cdataframe->columns[i]->title);
     }
-    for (int j=start_row-1; j<end_row-1; j++){
+}
+
+
+void display_whole_cdataframe(CDATAFRAME * cdataframe){
+    display_titles(cdataframe); // affichages des titles des colonnes en première ligne de la cdataframe
+    for (int j=0; j<cdataframe->columns[0]->TL; j++) {
         printf("\n");
-        for (int i = start_column-1; i < end_column; i++) {
+        for (int i = 0; i < cdataframe->TL; i++) {
             printf("%d\t\t", cdataframe->columns[i]->data[j]);
         }
     }
+}
+
+
+void display_cdataframe(CDATAFRAME * cdataframe, int start_column, int start_row, int end_column, int end_row) {
+    if (start_column < 1 || start_row < 1 || start_column>end_column || start_row>end_row || end_column > cdataframe->TL || end_row > cdataframe->columns[0]->TL){
+        printf("ERREUR : les indices entrées sont impossibles !");
+    }
+    else{
+        for (int i=start_column-1; i<end_column; i++){
+            printf("%s\t", cdataframe->columns[i]->title);
+        }
+        for (int j=start_row-1; j<end_row-1; j++) {
+            printf("\n");
+            for (int i = start_column - 1; i < end_column; i++) {
+                printf("%d\t\t", cdataframe->columns[i]->data[j]);
+            }
+        }
+    }
+}
+
+void insert_row_cdataframe(CDATAFRAME * cdataframe){
+
+}
+
+void display_rows_number(CDATAFRAME * cdataframe){
+    printf("Il y a %d lignes dans la cdataframe.\n", cdataframe->columns[0]->TL);
+}
+
+void display_columns_number(CDATAFRAME * cdataframe){
+    printf("Il y a %d colonnes dans la cdataframe.\n", cdataframe->TL);
+}
+
+void cdataframe_rename_column(CDATAFRAME * cdataframe, char * new_title, int i_column){
+    rename_column(cdataframe->columns[i_column - 1], new_title);
 }

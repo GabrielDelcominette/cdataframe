@@ -29,6 +29,10 @@ int n_lower_values(CDATAFRAME * cdataframe, int value);
 int n_equals_values(CDATAFRAME * cdataframe, int value);
 
 int find_value(CDATAFRAME * cdataframe, int col, int row);
+void change_cell_value(CDATAFRAME * cdataframe, int new_value, int col, int row);
+
+void delete_column(CDATAFRAME * cdataframe, int column);
+void delete_row(CDATAFRAME * cdataframe, int row);
 
 #endif //CDATAFRAME_CDATAFRAME_H
 

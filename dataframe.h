@@ -13,12 +13,6 @@ typedef struct {
 COLUMN* create_column(char* title);
 
 /**
-* @brief : Free allocated memory
-* @param1 : Pointer to a column
-*/
-void delete_column(COLUMN **col);
-
-/**
 @brief : Add a new value to a column
 @param1 : Pointer to a column
 @param2 : The value to be added

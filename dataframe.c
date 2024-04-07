@@ -40,12 +40,6 @@ int insert_value(COLUMN* col, int value){
     return 0;
 }
 
-void delete_column(COLUMN** col){
-    for (int i=0 ; i<(*col)->TP ; i++)
-        free((*col)->data + i);
-    free(*col);
-}
-
 int occurence(COLUMN * col, int value){
     int number = 0;
     for (int i=0; i<col->TL; i++){
@@ -98,5 +92,5 @@ int rename_column(COLUMN * col, char * title){
 void free_column(COLUMN * col){
     free(col->data);
     free(col->title);
-    col = NULL;
+    free(col);
 }

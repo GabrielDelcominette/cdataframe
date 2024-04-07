@@ -171,6 +171,10 @@ void change_cell_value(CDATAFRAME * cdataframe, int new_value, int col, int row)
     cdataframe->columns[col-1]->data[row-1] = new_value;
 }
 
+void delete_column(CDATAFRAME * cdataframe, int column){
+    free_column(cdataframe->columns[column]);
+}
+
 void delete_row(CDATAFRAME * cdataframe, int row){
 
 }

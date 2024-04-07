@@ -94,3 +94,9 @@ int rename_column(COLUMN * col, char * title){
         strcpy(col->title, title);
     }
 }
+
+void free_column(COLUMN * col){
+    free(col->data);
+    free(col->title);
+    col = NULL;
+}

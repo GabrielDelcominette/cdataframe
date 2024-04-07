@@ -54,4 +54,6 @@ int column_n_equals_values(COLUMN * col, int value);
 
 int rename_column(COLUMN * col, char * string);
 
+void free_column(COLUMN * col);
+
 #endif //CDATAFRAME_CREATE_DATAFRAME_H

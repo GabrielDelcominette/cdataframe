@@ -41,7 +41,7 @@ int insert_column(CDATAFRAME * cdataframe, COLUMN * col){
 }
 
 void read_cdataframe_user(CDATAFRAME * cdataframe) {
-    int C, L, value;
+    int C, L;
     char name[50];
     COLUMN* new_column = NULL;
     //new_column = (COLUMN**) malloc(sizeof(COLUMN **));
@@ -61,14 +61,19 @@ void read_cdataframe_user(CDATAFRAME * cdataframe) {
         //printf("Voici la nouvelle colone %s en position %d\n", (cdataframe->columns[i])->title, i);
     }
 
-    printf("\t\t ********* Entrez les valeurs dans les cellules ***********\n");
-    for (int colonne=0; colonne<C; colonne++){
-        for (int ligne=0; ligne<L; ligne++){
-            printf("Saisissez la valeure de la ligne %d de la colonne %d : \n", ligne+1, colonne+1);
-            scanf("%d", &value);
-            insert_value(*(cdataframe->columns + colonne), value);
-            printf("On insère la valeur à %d, %d - %d - %d", colonne, ligne, cdataframe->columns[colonne]->data[ligne], value);
-        }
+    printf("\t\t ********* Entrer les valeurs dans les cellules ***********\n");
+    for (int ligne=1; ligne<L+1; ligne++){
+        printf("***** Saisir les valeurs de la ligne %d *****\n", ligne + 1);
+        insert_row(cdataframe);
+    }
+}
+
+void insert_row(CDATAFRAME * cdataframe){
+    int value;
+    for (int colonne=0; colonne<cdataframe->TL; colonne++){
+        printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
+        scanf("%d", &value);
+        insert_value(cdataframe->columns[colonne], value);
     }
 }
 
@@ -156,4 +161,16 @@ int n_higher_values(CDATAFRAME * cdataframe, int value){
         sum += column_n_higher_values(cdataframe->columns[i], value);
     }
     return sum;
+}
+
+int find_value(CDATAFRAME * cdataframe, int col, int row){
+    return cdataframe->columns[col]->data[row];
+}
+
+void change_cell_value(CDATAFRAME * cdataframe, int new_value, int col, int row){
+    cdataframe->columns[col-1]->data[row-1] = new_value;
+}
+
+void delete_row(CDATAFRAME * cdataframe, int row){
+
 }

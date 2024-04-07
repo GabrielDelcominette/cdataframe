@@ -44,13 +44,13 @@ int occurence(COLUMN * col, int value);
  * @param : col - Pointer to a column
  * @param2 : position of the value
 */
-int find_value(COLUMN * col, int pos);
+int column_find_value(COLUMN * col, int pos);
 
-int n_taller_values(COLUMN * col, int value);
+int column_n_higher_values(COLUMN * col, int value);
 
-int n_smaller_values(COLUMN * col, int value);
+int column_n_lower_values(COLUMN * col, int value);
 
-int n_equals_values(COLUMN * col, int value);
+int column_n_equals_values(COLUMN * col, int value);
 
 int rename_column(COLUMN * col, char * string);
 

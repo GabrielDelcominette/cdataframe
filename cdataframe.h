@@ -20,8 +20,12 @@ int insert_column(CDATAFRAME *, COLUMN *);
 void display_rows_number(CDATAFRAME * cdataframe);
 void display_columns_number(CDATAFRAME * cdataframe);
 void cdataframe_rename_column(CDATAFRAME * cdataframe, char * new_title, int i_column);
-
 void display_titles(CDATAFRAME * cdataframe);
+int is_value_in(CDATAFRAME * cdataframe, int value);
+
+int n_higher_values(CDATAFRAME * cdataframe, int value);
+int n_lower_values(CDATAFRAME * cdataframe, int value);
+int n_equals_values(CDATAFRAME * cdataframe, int value);
 
 #endif //CDATAFRAME_CDATAFRAME_H
 

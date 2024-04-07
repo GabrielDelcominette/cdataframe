@@ -55,8 +55,8 @@ int occurence(COLUMN * col, int value){
     return number;
 }
 
-int find_value(COLUMN * col, int pos){
-    return *(col->data + pos);
+int column_find_value(COLUMN * col, int pos){
+    return col->data[pos];
 }
 
 void print_col(COLUMN* col){
@@ -64,7 +64,7 @@ void print_col(COLUMN* col){
         printf("[%d] %d", i, *(col->data + i));
 }
 
-int n_taller_values(COLUMN * col, int value){
+int column_n_higher_values(COLUMN * col, int value){
     int number = 0;
     for (int i=0; i<col->TL; i++)
         if (value<=*(col->data + i))
@@ -72,7 +72,7 @@ int n_taller_values(COLUMN * col, int value){
     return number;
 }
 
-int n_smaller_values(COLUMN * col, int value){
+int column_n_lower_values(COLUMN * col, int value){
     int number = 0;
     for (int i=0; i<col->TL; i++)
         if (value>=*(col->data + i))
@@ -80,7 +80,7 @@ int n_smaller_values(COLUMN * col, int value){
     return number;
 }
 
-int n_equals_values(COLUMN * col, int value){
+int column_n_equals_values(COLUMN * col, int value){
     return occurence(col, value);
 }
 

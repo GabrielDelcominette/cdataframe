@@ -122,3 +122,38 @@ void display_columns_number(CDATAFRAME * cdataframe){
 void cdataframe_rename_column(CDATAFRAME * cdataframe, char * new_title, int i_column){
     rename_column(cdataframe->columns[i_column - 1], new_title);
 }
+
+int is_value_in(CDATAFRAME * cdataframe, int value){
+    for (int i=0; i<cdataframe->TL; i++){
+        for (int j=0; j<cdataframe->columns[0]->TL; j++){
+            if (cdataframe->columns[i]->data[i] == value){
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int n_equals_values(CDATAFRAME * cdataframe, int value){
+    int sum=0;
+    for (int i=0; i<cdataframe->TL; i++){
+        sum += column_n_equals_values(cdataframe->columns[i], value);
+    }
+    return sum;
+}
+
+int n_lower_values(CDATAFRAME * cdataframe, int value){
+    int sum=0;
+    for (int i=0; i<cdataframe->TL; i++){
+        sum += column_n_lower_values(cdataframe->columns[i], value);
+    }
+    return sum;
+}
+
+int n_higher_values(CDATAFRAME * cdataframe, int value){
+    int sum=0;
+    for (int i=0; i<cdataframe->TL; i++){
+        sum += column_n_higher_values(cdataframe->columns[i], value);
+    }
+    return sum;
+}

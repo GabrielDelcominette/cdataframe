@@ -171,10 +171,28 @@ void change_cell_value(CDATAFRAME * cdataframe, int new_value, int col, int row)
     cdataframe->columns[col-1]->data[row-1] = new_value;
 }
 
-void delete_column(CDATAFRAME * cdataframe, int column){
-    free_column(cdataframe->columns[column]);
+void delete_column(CDATAFRAME * cdataframe, int col){
+    if (col < 1 ||  col > cdataframe->TL) {
+        printf("ERREUR : les indices entrées sont impossibles !");
+    }
+    else {
+        for (int i = col; i < cdataframe->TL; i++) {
+            cdataframe->columns[i - 1] = cdataframe->columns[i];
+        }
+        free_column(cdataframe->columns[--cdataframe->TL]);
+    }
 }
 
 void delete_row(CDATAFRAME * cdataframe, int row){
-
+    if (row < 1 ||  row > cdataframe->columns[0]->TL) {
+        printf("ERREUR : les indices entrées sont impossibles !");
+    }
+    else{
+        for (int i=0; i<cdataframe->TL; i++){
+            for (int j=row; j<cdataframe->columns[0]->TL; j++){
+                cdataframe->columns[i]->data[j-1] = cdataframe->columns[i]->data[j];
+            }
+            cdataframe->columns[i]->TL--;
+        }
+    }
 }

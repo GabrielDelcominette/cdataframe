@@ -76,6 +76,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/etien/Documents/GitHub/cdataframe/almost_perfect_dataframe.c">
+			<Option target="DataFrame"/>
+		</Unit>
+		<Unit filename="C:/Users/etien/Documents/GitHub/cdataframe/almost_perfect_dataframe.h">
+			<Option target="DataFrame"/>
+		</Unit>
 		<Unit filename="C:/Users/etien/Documents/GitHub/cdataframe/cdataframe.c">
 			<Option target="DataFrame"/>
 		</Unit>

@@ -128,6 +128,30 @@ DataFrame/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\DataFrame.dir\build.make CMakeFiles/DataFrame.dir/build
 .PHONY : DataFrame/fast
 
+almost_perfect_dataframe.obj: almost_perfect_dataframe.c.obj
+.PHONY : almost_perfect_dataframe.obj
+
+# target to build an object file
+almost_perfect_dataframe.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DataFrame.dir\build.make CMakeFiles/DataFrame.dir/almost_perfect_dataframe.c.obj
+.PHONY : almost_perfect_dataframe.c.obj
+
+almost_perfect_dataframe.i: almost_perfect_dataframe.c.i
+.PHONY : almost_perfect_dataframe.i
+
+# target to preprocess a source file
+almost_perfect_dataframe.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DataFrame.dir\build.make CMakeFiles/DataFrame.dir/almost_perfect_dataframe.c.i
+.PHONY : almost_perfect_dataframe.c.i
+
+almost_perfect_dataframe.s: almost_perfect_dataframe.c.s
+.PHONY : almost_perfect_dataframe.s
+
+# target to generate assembly for a file
+almost_perfect_dataframe.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DataFrame.dir\build.make CMakeFiles/DataFrame.dir/almost_perfect_dataframe.c.s
+.PHONY : almost_perfect_dataframe.c.s
+
 cdataframe.obj: cdataframe.c.obj
 .PHONY : cdataframe.obj
 
@@ -209,6 +233,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... DataFrame
+	@echo ... almost_perfect_dataframe.obj
+	@echo ... almost_perfect_dataframe.i
+	@echo ... almost_perfect_dataframe.s
 	@echo ... cdataframe.obj
 	@echo ... cdataframe.i
 	@echo ... cdataframe.s

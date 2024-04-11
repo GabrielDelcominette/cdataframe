@@ -60,6 +60,15 @@ int insert_AP_value(AP_COLUMN *col, void *value);
 */
 void delete_column(AP_COLUMN **col);
 
+/**
+* @brief: Convert a value into a string
+* @param1: Pointer to the column
+* @param2: Position of the value in the data array
+* @param3: The string in which the value will be written
+* @param4: Maximum size of the string
+*/
+void convert_value(AP_COLUMN *col, unsigned long long int i, char *str, int size);
+
 #define DATAFRAME_ALMOST_PERFECT_H
 
 #endif //DATAFRAME_ALMOST_PERFECT_H

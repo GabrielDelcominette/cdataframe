@@ -64,3 +64,36 @@ void delete_column(AP_COLUMN **col){
     free(*col);
     free(col);
 }
+
+void convert_value(AP_COLUMN *col, unsigned long long int i, char *str, int size){
+    if (col == NULL || col->data == NULL || i >= col->TL || str == NULL || size <= 0) {
+        return; // Vérification des paramètres
+    }
+
+    DATA_TYPE* value = col->data[i]; // Récupération de la valeur à l'index donné
+
+    // Conversion de la valeur en chaîne de caractères en fonction de son type
+    switch (col->column_type) {
+        case UINT:
+            snprintf(str, size, "%u", value->uint_value);
+            break;
+        case INT:
+            snprintf(str, size, "%d", value->int_value);
+            break;
+        case CHAR:
+            snprintf(str, size, "%c", value->char_value);
+            break;
+        case FLOAT:
+            snprintf(str, size, "%f", value->float_value);
+            break;
+        case DOUBLE:
+            snprintf(str, size, "%lf", value->double_value);
+            break;
+        case STRING:
+            strncpy(str, value->string_value, size - 1); // Copie de la chaîne dans le buffer
+            str[size - 1] = '\0'; // Assure la terminaison de la chaîne
+            break;
+        default:
+            snprintf(str, size, "Unsupported Type");
+    }
+}

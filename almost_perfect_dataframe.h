@@ -1,5 +1,9 @@
 #ifndef DATAFRAME_ALMOST_PERFECT_H
 
+#define REALOC_SIZE 256
+
+// AP means Almost Perfect
+
 enum enum_type
 {
     NULLVAL = 1 , UINT, INT, CHAR, FLOAT, DOUBLE, STRING, STRUCTURE
@@ -14,14 +18,14 @@ typedef union column_type{
     double double_value;
     char* string_value;
     void* struct_value;
-}COL_TYPE;
+}DATA_TYPE;
 
 struct column {
     char *title;
     unsigned int TL; //logical size
     unsigned int TP; //physical size
     ENUM_TYPE column_type;
-    COL_TYPE **data; // array of pointers to stored data
+    DATA_TYPE **data; // array of pointers to stored data
     unsigned long long int *index; // array of integers
 };
 typedef struct column AP_COLUMN;
@@ -40,8 +44,15 @@ typedef enum enum_type ENUM_TYPE;
 * @param2 : Column title
 * @return : Pointer to the created column
 */
-COLUMN *create_column(ENUM_TYPE type, char *title);
+AP_COLUMN * create_AP_column(ENUM_TYPE type, char *title);
 
+/**
+* @brief: Insert a new value into a column
+* @param1: Pointer to the column
+* @param2: Pointer to the value to insert
+* @return: 1 if the value is correctly inserted 0 otherwise
+*/
+int insert_AP_value(AP_COLUMN *col, void *value);
 
 #define DATAFRAME_ALMOST_PERFECT_H
 

@@ -31,13 +31,11 @@ int insert_AP_value(AP_COLUMN *col, void *value){
     if (col->TL == col->TP){
         DATA_TYPE ** tmp = col->data; // variable temporaire au cas où realoc ne fonctionnerait pas
         tmp = (DATA_TYPE **) realloc(tmp, (col->TP + REALOC_SIZE) * sizeof(DATA_TYPE*));
-        if (tmp != NULL) {
-            allocation = 1;
-            col->TP += REALOC_SIZE;
-            col->data = tmp;
-        }
-        else
+        if (tmp == NULL)
             return 0;
+        allocation = 1;
+        col->TP += REALOC_SIZE;
+        col->data = tmp;
     }
 
     // allocation des tableaux sur lesquels pointes les pointeurs
@@ -48,6 +46,7 @@ int insert_AP_value(AP_COLUMN *col, void *value){
     }
 
     if (col->TL < col->TP){
+        value = (DATA_TYPE*) value; // on convertie le type de value
         col->data[col->TL] = value;
         col->TL+=1;
         return 1;

@@ -54,6 +54,12 @@ AP_COLUMN * create_AP_column(ENUM_TYPE type, char *title);
 */
 int insert_AP_value(AP_COLUMN *col, void *value);
 
+/**
+* @brief: Free the space allocated by a column
+* @param1: Pointer to the column
+*/
+void delete_column(AP_COLUMN **col);
+
 #define DATAFRAME_ALMOST_PERFECT_H
 
 #endif //DATAFRAME_ALMOST_PERFECT_H

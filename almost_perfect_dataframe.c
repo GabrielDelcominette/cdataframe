@@ -53,3 +53,14 @@ int insert_AP_value(AP_COLUMN *col, void *value){
     }
     return 0;
 }
+
+
+void delete_column(AP_COLUMN **col){
+    free((*col)->title);
+    for (int i = 0; i<(*col)->TP; i++){
+        free((*col)->data[i]);
+    }
+    free((*col)->data);
+    free(*col);
+    free(col);
+}

@@ -18,18 +18,18 @@ typedef union column_type{
 
 struct column {
     char *title;
-    unsigned int size; //logical size
-    unsigned int max_size; //physical size
+    unsigned int TL; //logical size
+    unsigned int TP; //physical size
     ENUM_TYPE column_type;
     COL_TYPE **data; // array of pointers to stored data
     unsigned long long int *index; // array of integers
 };
-typedef struct column COLUMN;
+typedef struct column AP_COLUMN;
 
 typedef struct{
     int TP;
     int TL;
-    COLUMN ** columns; // liste de pointer vers des colonnes
+    AP_COLUMN ** columns; // liste de pointer vers des colonnes
 } CDATAFRAME;
 
 typedef enum enum_type ENUM_TYPE;

@@ -97,3 +97,12 @@ void convert_value(AP_COLUMN *col, unsigned long long int i, char *str, int size
             snprintf(str, size, "Unsupported Type");
     }
 }
+
+void print_col(AP_COLUMN* col){
+    int max_size = 50;
+    char string[max_size];
+    for (int i=0; i<col->TL; i++) {
+        convert_value(col, i, string, max_size);
+        printf("[%d] %s\n", i, string);
+    }
+}

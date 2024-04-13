@@ -69,6 +69,12 @@ void delete_column(AP_COLUMN **col);
 */
 void convert_value(AP_COLUMN *col, unsigned long long int i, char *str, int size);
 
+/**
+* @brief: Display the content of a column
+* @param: Pointer to the column to display
+*/
+void print_col(AP_COLUMN* col);
+
 #define DATAFRAME_ALMOST_PERFECT_H
 
 #endif //DATAFRAME_ALMOST_PERFECT_H

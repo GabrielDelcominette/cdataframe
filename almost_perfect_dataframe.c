@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-AP_COLUMN* create_AP_column(ENUM_TYPE type, char * title){
+AP_COLUMN* AP_create_column(ENUM_TYPE type, char * title){
     AP_COLUMN * column;
     column = (AP_COLUMN*) malloc(sizeof(AP_COLUMN));
     column->title = (char *) malloc(sizeof(char *) * (strlen(title) + 1));
@@ -17,7 +17,7 @@ AP_COLUMN* create_AP_column(ENUM_TYPE type, char * title){
     return column;
 }
 
-int insert_AP_value(AP_COLUMN *col, void *value){
+int AP_insert_value(AP_COLUMN *col, void *value){
     int allocation = 0; // booléen, correspond à si l'on alloue de l'espace mémoire en plus
     if (col->data == NULL){
         // allocation du tableau de pointeur
@@ -55,7 +55,7 @@ int insert_AP_value(AP_COLUMN *col, void *value){
 }
 
 
-void delete_column(AP_COLUMN **col){
+void AP_delete_column(AP_COLUMN **col){
     free((*col)->title);
     for (int i = 0; i<(*col)->TP; i++){
         free((*col)->data[i]);
@@ -65,7 +65,7 @@ void delete_column(AP_COLUMN **col){
     free(col);
 }
 
-void convert_value(AP_COLUMN *col, unsigned long long int i, char *str, int size){
+void AP_convert_value(AP_COLUMN *col, unsigned long long int i, char *str, int size){
     if (col == NULL || col->data == NULL || i >= col->TL || str == NULL || size <= 0) {
         return; // Vérification des paramètres
     }
@@ -98,11 +98,40 @@ void convert_value(AP_COLUMN *col, unsigned long long int i, char *str, int size
     }
 }
 
-void print_col(AP_COLUMN* col){
+void AP_print_col(AP_COLUMN* col){
     int max_size = 50;
     char string[max_size];
     for (int i=0; i<col->TL; i++) {
-        convert_value(col, i, string, max_size);
+        AP_convert_value(col, i, string, max_size);
         printf("[%d] %s\n", i, string);
     }
+}
+
+void* AP_find_value(AP_CDATAFRAME * ap_cdataframe, int ligne, int colonne){
+    return ap_cdataframe->columns[colonne-1]->data[ligne-1];
+}
+
+
+int AP_n_equals_values(AP_CDATAFRAME * cdataframe, int value){
+    int sum=0;
+    for (int i=0; i<cdataframe->TL; i++){
+        sum += column_n_equals_values(cdataframe->columns[i], value);
+    }
+    return sum;
+}
+
+int AP_n_lower_values(AP_CDATAFRAME * cdataframe, int value){
+    int sum=0;
+    for (int i=0; i<cdataframe->TL; i++){
+        sum += column_n_lower_values(cdataframe->columns[i], value);
+    }
+    return sum;
+}
+
+int AP_n_higher_values(AP_CDATAFRAME * cdataframe, int value){
+    int sum=0;
+    for (int i=0; i<cdataframe->TL; i++){
+        sum += column_n_higher_values(cdataframe->columns[i], value);
+    }
+    return sum;
 }

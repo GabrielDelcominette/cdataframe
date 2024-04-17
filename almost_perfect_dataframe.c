@@ -152,10 +152,29 @@ int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
     return sum;
 }
 
-int AP_n_higher_values(AP_CDATAFRAME * cdataframe, int value){
+int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, int value){
     int sum=0;
-    for (int i=0; i<cdataframe->TL; i++){
-        sum += column_n_higher_values(cdataframe->columns[i], value);
+    int size = 50;
+    char str_value[size], str_col_value[size]; //initialisation des chaines de caractères associés à value et les valeurs des cellules
+    for (int i=0; i<ap_cdataframe->TL; i++){
+        AP_convert_value(ap_cdataframe->columns[i]->column_type, value, str_value, size);
+        for (int j=0; j<ap_cdataframe->columns[0]->TL; j++){
+            AP_convert_value(ap_cdataframe->columns[i]->column_type, ap_cdataframe->columns[i]->data[j], str_col_value, size);
+
+            // on compare les deux chaines de caractères obtenues
+            int x=0;
+            while (str_col_value[x] == str_value[x] && str_col_value[x] != '\0' && str_value[x] != '\0')
+                x++;
+            if (str_value[x] == '\0'){
+                if (str_col_value[x] != '\0'){
+                    sum += 1;
+                }
+            }
+            else{
+                if (str_col_value[x] != '\0' && str_col_value[x] > str_value[x])
+                    sum += 1;
+            }
+        }
     }
     return sum;
 }

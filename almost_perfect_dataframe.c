@@ -65,15 +65,9 @@ void AP_delete_column(AP_COLUMN **col){
     free(col);
 }
 
-void AP_convert_value(AP_COLUMN *col, unsigned long long int i, char *str, int size){
-    if (col == NULL || col->data == NULL || i >= col->TL || str == NULL || size <= 0) {
-        return; // Vérification des paramètres
-    }
-
-    DATA_TYPE* value = col->data[i]; // Récupération de la valeur à l'index donné
-
+void AP_convert_value(ENUM_TYPE type, DATA_TYPE * value, char *str, int size){
     // Conversion de la valeur en chaîne de caractères en fonction de son type
-    switch (col->column_type) {
+    switch (type) {
         case UINT:
             snprintf(str, size, "%u", value->uint_value);
             break;
@@ -102,28 +96,58 @@ void AP_print_col(AP_COLUMN* col){
     int max_size = 50;
     char string[max_size];
     for (int i=0; i<col->TL; i++) {
-        AP_convert_value(col, i, string, max_size);
+        AP_convert_value(col->column_type, col->data[i], string, max_size);
         printf("[%d] %s\n", i, string);
     }
 }
 
-void* AP_find_value(AP_CDATAFRAME * ap_cdataframe, int ligne, int colonne){
+DATA_TYPE * AP_find_value(AP_CDATAFRAME * ap_cdataframe, int ligne, int colonne){
     return ap_cdataframe->columns[colonne-1]->data[ligne-1];
 }
 
-
-int AP_n_equals_values(AP_CDATAFRAME * cdataframe, int value){
+int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
     int sum=0;
-    for (int i=0; i<cdataframe->TL; i++){
-        sum += column_n_equals_values(cdataframe->columns[i], value);
+    int size = 50;
+    char str_value[size], str_col_value[size]; //initialisation des chaines de caractères associés à value et les valeurs des cellules
+    for (int i=0; i<ap_cdataframe->TL; i++){
+        AP_convert_value(ap_cdataframe->columns[i]->column_type, value, str_value, size);
+        for (int j=0; j<ap_cdataframe->columns[0]->TL; j++){
+            AP_convert_value(ap_cdataframe->columns[i]->column_type, ap_cdataframe->columns[i]->data[j], str_col_value, size);
+
+            // on compare les deux chaines de caractères obtenues
+            int x=0;
+            while (str_col_value[x] == str_value[x] && str_col_value[x] != '\0' && str_value[x] != '\0')
+                x++;
+            if (str_col_value[x] == '\0' && str_value[x] == '\0')
+                sum += 1;
+        }
     }
     return sum;
 }
 
-int AP_n_lower_values(AP_CDATAFRAME * cdataframe, int value){
+int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
     int sum=0;
-    for (int i=0; i<cdataframe->TL; i++){
-        sum += column_n_lower_values(cdataframe->columns[i], value);
+    int size = 50;
+    char str_value[size], str_col_value[size]; //initialisation des chaines de caractères associés à value et les valeurs des cellules
+    for (int i=0; i<ap_cdataframe->TL; i++){
+        AP_convert_value(ap_cdataframe->columns[i]->column_type, value, str_value, size);
+        for (int j=0; j<ap_cdataframe->columns[0]->TL; j++){
+            AP_convert_value(ap_cdataframe->columns[i]->column_type, ap_cdataframe->columns[i]->data[j], str_col_value, size);
+
+            // on compare les deux chaines de caractères obtenues
+            int x=0;
+            while (str_col_value[x] == str_value[x] && str_col_value[x] != '\0' && str_value[x] != '\0')
+                x++;
+            if (str_col_value[x] == '\0'){
+                if (str_value[x] != '\0'){
+                    sum += 1;
+                }
+            }
+            else{
+                if (str_value[x] != '\0' && str_col_value[x] < str_value[x])
+                    sum += 1;
+            }
+        }
     }
     return sum;
 }

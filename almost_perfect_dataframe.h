@@ -10,7 +10,7 @@ enum enum_type
 };
 typedef enum enum_type ENUM_TYPE;
 
-typedef union column_type{
+typedef union {
     unsigned int uint_value;
     signed int int_value;
     char char_value;
@@ -64,7 +64,8 @@ void AP_delete_column(AP_COLUMN **col);
 * @param3: The string in which the value will be written
 * @param4: Maximum size of the string
 */
-void AP_convert_value(AP_COLUMN *col, unsigned long long int i, char *str, int size);
+
+void AP_convert_value(ENUM_TYPE type, DATA_TYPE * value, char *str, int size);
 
 /**
 * @brief: Display the content of a column

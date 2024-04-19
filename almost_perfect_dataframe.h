@@ -73,6 +73,11 @@ void AP_convert_value(ENUM_TYPE type, DATA_TYPE * value, char *str, int size);
 */
 void AP_print_col(AP_COLUMN* col);
 
+void AP_print_col(AP_COLUMN* col);
+int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
+int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
+int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
+
 #define DATAFRAME_ALMOST_PERFECT_H
 
 #endif //DATAFRAME_ALMOST_PERFECT_H

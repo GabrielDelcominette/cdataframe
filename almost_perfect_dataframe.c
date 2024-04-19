@@ -152,7 +152,7 @@ int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
     return sum;
 }
 
-int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, int value){
+int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
     int sum=0;
     int size = 50;
     char str_value[size], str_col_value[size]; //initialisation des chaines de caractères associés à value et les valeurs des cellules
@@ -178,3 +178,5 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, int value){
     }
     return sum;
 }
+
+

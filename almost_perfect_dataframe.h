@@ -27,6 +27,15 @@ typedef struct{
     ENUM_TYPE column_type;
     DATA_TYPE **data; // array of pointers to stored data
     unsigned long long int *index; // array of integers
+// index valid
+// 0 : no index
+// -1 : invalid index
+// 1 : valid index
+    int valid_index;
+// direction de tri Ascendant ou Déscendant
+// 0 : ASC
+// 1 : DESC
+    int sort_dir;
 }AP_COLUMN;
 
 typedef struct{

@@ -8,6 +8,6 @@ CMake Deprecation Warning:
   use the cmake-file-api(7) to view CMake-generated project build trees.
 
 
--- Configuring done (1.3s)
--- Generating done (5.2s)
+-- Configuring done (2.6s)
+-- Generating done (1.0s)
 -- Build files have been written to: C:/Users/etien/OneDrive/Documents/cdataframe/cmake-build-debug

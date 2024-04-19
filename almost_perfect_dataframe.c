@@ -14,31 +14,40 @@ AP_COLUMN* AP_create_column(ENUM_TYPE type, char * title){
     column->column_type = type;
     column->data = NULL;
     column->index = NULL;
+    column->valid_index = 0;
+    column->sort_dir = 0;
     return column;
 }
 
 int AP_insert_value(AP_COLUMN *col, void *value){
     int allocation = 0; // booléen, correspond à si l'on alloue de l'espace mémoire en plus
     if (col->data == NULL){
-        // allocation du tableau de pointeur
+        // allocation du tableau de pointeur et du tableau d'indice
         col->data = (DATA_TYPE **) malloc(REALOC_SIZE * sizeof(DATA_TYPE*));
-        if (col->data == NULL) // dans le cas où l'allocation a échoué
-            return 0;
+        col->index = (unsigned long long int *) malloc(REALOC_SIZE * sizeof(unsigned long long int));
+        if (col->data == NULL || col->index){ // dans le cas où une des deux allocation a échoué
+            free(col->data);
+            free(col->index); // on libère les deux tableaux car un a peut-être de l'espace alloué
+            return 0;}
         allocation = 1;
         col->TP += REALOC_SIZE;
     }
 
     if (col->TL == col->TP){
-        DATA_TYPE ** tmp = col->data; // variable temporaire au cas où realoc ne fonctionnerait pas
+        // variable temporaire au cas où realoc ne fonctionnerait pas
+        DATA_TYPE ** tmp = col->data;
+        unsigned long long int * tmp2 = col->index;
         tmp = (DATA_TYPE **) realloc(tmp, (col->TP + REALOC_SIZE) * sizeof(DATA_TYPE*));
-        if (tmp == NULL)
+        tmp2 = (unsigned long long int *) realloc(tmp2, (col->TP + REALOC_SIZE) * sizeof(unsigned long long int));
+        if (tmp == NULL || tmp2 == NULL) // si une des deux allocations a échoué
             return 0;
         allocation = 1;
         col->TP += REALOC_SIZE;
         col->data = tmp;
+        col->index = tmp2;
     }
 
-    // allocation des tableaux sur lesquels pointes les pointeurs
+    // allocation des tableaux sur lesquels pointent les pointeurs (col->data)
     if (allocation) {
         for (int i = 0; i < REALOC_SIZE; i++) {
             col->data[i] = (DATA_TYPE *) malloc(sizeof(DATA_TYPE));
@@ -48,6 +57,7 @@ int AP_insert_value(AP_COLUMN *col, void *value){
     if (col->TL < col->TP){
         value = (DATA_TYPE*) value; // on convertie le type de value
         col->data[col->TL] = value;
+        col->index[col->TL] = col->TL; // on assigne un index à la valeur
         col->TL+=1;
         return 1;
     }
@@ -108,18 +118,50 @@ DATA_TYPE * AP_find_value(AP_CDATAFRAME * ap_cdataframe, int ligne, int colonne)
 int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
     int sum=0;
     int size = 50;
-    char str_value[size], str_col_value[size]; //initialisation des chaines de caractères associés à value et les valeurs des cellules
-    for (int i=0; i<ap_cdataframe->TL; i++){
-        AP_convert_value(ap_cdataframe->columns[i]->column_type, value, str_value, size);
-        for (int j=0; j<ap_cdataframe->columns[0]->TL; j++){
-            AP_convert_value(ap_cdataframe->columns[i]->column_type, ap_cdataframe->columns[i]->data[j], str_col_value, size);
-
-            // on compare les deux chaines de caractères obtenues
-            int x=0;
-            while (str_col_value[x] == str_value[x] && str_col_value[x] != '\0' && str_value[x] != '\0')
-                x++;
-            if (str_col_value[x] == '\0' && str_value[x] == '\0')
-                sum += 1;
+    char str_value[size]; //initialisation d'une chaine de caractères associés à value
+    AP_convert_value(STRING, value, str_value, size);
+    for (int i=0; i<ap_cdataframe->TL; i++) {
+        switch (ap_cdataframe->columns[i]->column_type) {
+            case (STRING):
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    // on compare les deux chaines de caractères
+                    int x = 0;
+                    while (ap_cdataframe->columns[i]->data[j]->string_value[x] == str_value[x] & ap_cdataframe->columns[i]->data[j]->string_value[x] != '\0' && str_value[x] != '\0')
+                        x++;
+                    if (ap_cdataframe->columns[i]->data[j]->string_value[x] == '\0' && str_value[x] == '\0')
+                        sum += 1;
+                }
+                break;
+            case UINT:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->uint_value == value->uint_value)
+                        sum++;
+                }
+                break;
+            case INT:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->int_value == value->int_value)
+                        sum++;
+                }
+                break;
+            case CHAR:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->char_value == value->char_value)
+                        sum++;
+                }
+                break;
+            case FLOAT:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->float_value == value->float_value)
+                        sum++;
+                }
+                break;
+            case DOUBLE:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->double_value == value->double_value)
+                        sum++;
+                }
+                break;
         }
     }
     return sum;
@@ -128,25 +170,57 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
 int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
     int sum=0;
     int size = 50;
-    char str_value[size], str_col_value[size]; //initialisation des chaines de caractères associés à value et les valeurs des cellules
-    for (int i=0; i<ap_cdataframe->TL; i++){
-        AP_convert_value(ap_cdataframe->columns[i]->column_type, value, str_value, size);
-        for (int j=0; j<ap_cdataframe->columns[0]->TL; j++){
-            AP_convert_value(ap_cdataframe->columns[i]->column_type, ap_cdataframe->columns[i]->data[j], str_col_value, size);
-
-            // on compare les deux chaines de caractères obtenues
-            int x=0;
-            while (str_col_value[x] == str_value[x] && str_col_value[x] != '\0' && str_value[x] != '\0')
-                x++;
-            if (str_col_value[x] == '\0'){
-                if (str_value[x] != '\0'){
-                    sum += 1;
+    char str_value[size]; //initialisation d'une chaine de caractères associés à value
+    AP_convert_value(STRING, value, str_value, size);
+    for (int i=0; i<ap_cdataframe->TL; i++) {
+        switch (ap_cdataframe->columns[i]->column_type) {
+            case (STRING):
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    // on compare les deux chaines de caractères obtenues
+                    int x = 0;
+                    while (ap_cdataframe->columns[i]->data[j]->string_value[x] == str_value[x] &
+                           ap_cdataframe->columns[i]->data[j]->string_value[x] != '\0' && str_value[x] != '\0')
+                        x++;
+                    if (ap_cdataframe->columns[i]->data[j]->string_value[x] == '\0') {
+                        if (str_value[x] != '\0') {
+                            sum += 1;
+                        }
+                    } else {
+                        if (str_value[x] != '\0' && ap_cdataframe->columns[i]->data[j]->string_value[x] < str_value[x])
+                            sum += 1;
+                    }
                 }
-            }
-            else{
-                if (str_value[x] != '\0' && str_col_value[x] < str_value[x])
-                    sum += 1;
-            }
+                break;
+            case UINT:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->uint_value < value->uint_value)
+                        sum++;
+                }
+                break;
+            case INT:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->int_value < value->int_value)
+                        sum++;
+                }
+                break;
+            case CHAR:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->char_value < value->char_value)
+                        sum++;
+                }
+                break;
+            case FLOAT:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->float_value < value->float_value)
+                        sum++;
+                }
+                break;
+            case DOUBLE:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->double_value < value->double_value)
+                        sum++;
+                }
+                break;
         }
     }
     return sum;
@@ -155,25 +229,57 @@ int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
 int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
     int sum=0;
     int size = 50;
-    char str_value[size], str_col_value[size]; //initialisation des chaines de caractères associés à value et les valeurs des cellules
-    for (int i=0; i<ap_cdataframe->TL; i++){
-        AP_convert_value(ap_cdataframe->columns[i]->column_type, value, str_value, size);
-        for (int j=0; j<ap_cdataframe->columns[0]->TL; j++){
-            AP_convert_value(ap_cdataframe->columns[i]->column_type, ap_cdataframe->columns[i]->data[j], str_col_value, size);
-
-            // on compare les deux chaines de caractères obtenues
-            int x=0;
-            while (str_col_value[x] == str_value[x] && str_col_value[x] != '\0' && str_value[x] != '\0')
-                x++;
-            if (str_value[x] == '\0'){
-                if (str_col_value[x] != '\0'){
-                    sum += 1;
+    char str_value[size]; //initialisation d'une chaine de caractères associés à value
+    AP_convert_value(STRING, value, str_value, size);
+    for (int i=0; i<ap_cdataframe->TL; i++) {
+        switch (ap_cdataframe->columns[i]->column_type) {
+            case (STRING):
+                for (int j=0; j<ap_cdataframe->columns[0]->TL; j++){
+                    // on compare les deux chaines de caractères obtenues
+                    int x=0;
+                    while (ap_cdataframe->columns[i]->data[j]->string_value[x] == str_value[x] & ap_cdataframe->columns[i]->data[j]->string_value[x] != '\0' && str_value[x] != '\0')
+                        x++;
+                    if (str_value[x] == '\0'){
+                        if (ap_cdataframe->columns[i]->data[j]->string_value[x] != '\0'){
+                            sum += 1;
+                        }
+                    }
+                    else{
+                        if (ap_cdataframe->columns[i]->data[j]->string_value[x] != '\0' && ap_cdataframe->columns[i]->data[j]->string_value[x] > str_value[x])
+                            sum += 1;
+                    }
                 }
-            }
-            else{
-                if (str_col_value[x] != '\0' && str_col_value[x] > str_value[x])
-                    sum += 1;
-            }
+                break;
+            case UINT:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->uint_value > value->uint_value)
+                        sum++;
+                }
+                break;
+            case INT:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->int_value > value->int_value)
+                        sum++;
+                }
+                break;
+            case CHAR:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->char_value > value->char_value)
+                        sum++;
+                }
+                break;
+            case FLOAT:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->float_value > value->float_value)
+                        sum++;
+                }
+                break;
+            case DOUBLE:
+                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                    if (ap_cdataframe->columns[i]->data[j]->double_value > value->double_value)
+                        sum++;
+                }
+                break;
         }
     }
     return sum;

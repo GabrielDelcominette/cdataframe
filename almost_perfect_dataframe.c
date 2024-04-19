@@ -3,6 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+int comparate_string(char* string1, char* string2){
+    int x = 0;
+    while (string1[x] == string2[x] && string1[x] != '\0' && string2[x] != '\0')
+        x++;
+    if (string1[x] == '\0' && string2[x] == '\0')
+        return 0;
+    else{
+        if (string1[x] == '\0' || string1[x] < string2[x])
+            return -1;
+        else
+            return 1;
+    }
+}
 
 AP_COLUMN* AP_create_column(ENUM_TYPE type, char * title){
     AP_COLUMN * column;
@@ -125,40 +138,36 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
             case (STRING):
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
                     // on compare les deux chaines de caractères
-                    int x = 0;
-                    while (ap_cdataframe->columns[i]->data[j]->string_value[x] == str_value[x] & ap_cdataframe->columns[i]->data[j]->string_value[x] != '\0' && str_value[x] != '\0')
-                        x++;
-                    if (ap_cdataframe->columns[i]->data[j]->string_value[x] == '\0' && str_value[x] == '\0')
-                        sum += 1;
-                }
+                    if (!comparate_string((char*) ap_cdataframe->columns[i]->data[j], str_value))
+                        sum++;}
                 break;
             case UINT:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->uint_value == value->uint_value)
+                    if (* (unsigned int*) ap_cdataframe->columns[i]->data[j] == * (unsigned int*) value)
                         sum++;
                 }
                 break;
             case INT:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->int_value == value->int_value)
+                    if (* (int*) ap_cdataframe->columns[i]->data[j] == * (int*) value)
                         sum++;
                 }
                 break;
             case CHAR:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->char_value == value->char_value)
+                    if (* (char*) ap_cdataframe->columns[i]->data[j] == * (char *) value)
                         sum++;
                 }
                 break;
             case FLOAT:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->float_value == value->float_value)
+                    if (* (float*) ap_cdataframe->columns[i]->data[j] == * (float*) value)
                         sum++;
                 }
                 break;
             case DOUBLE:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->double_value == value->double_value)
+                    if (* (double*) ap_cdataframe->columns[i]->data[j] == * (double *) value)
                         sum++;
                 }
                 break;
@@ -177,47 +186,37 @@ int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
             case (STRING):
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
                     // on compare les deux chaines de caractères obtenues
-                    int x = 0;
-                    while (ap_cdataframe->columns[i]->data[j]->string_value[x] == str_value[x] &
-                           ap_cdataframe->columns[i]->data[j]->string_value[x] != '\0' && str_value[x] != '\0')
-                        x++;
-                    if (ap_cdataframe->columns[i]->data[j]->string_value[x] == '\0') {
-                        if (str_value[x] != '\0') {
-                            sum += 1;
-                        }
-                    } else {
-                        if (str_value[x] != '\0' && ap_cdataframe->columns[i]->data[j]->string_value[x] < str_value[x])
-                            sum += 1;
-                    }
+                    if (comparate_string((char*) ap_cdataframe->columns[i]->data[j], str_value) == -1)
+                        sum++;
                 }
                 break;
             case UINT:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->uint_value < value->uint_value)
+                    if (* (unsigned int*) ap_cdataframe->columns[i]->data[j] < * (unsigned int*) value)
                         sum++;
                 }
                 break;
             case INT:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->int_value < value->int_value)
+                    if (* (int*) ap_cdataframe->columns[i]->data[j] < * (int*) value)
                         sum++;
                 }
                 break;
             case CHAR:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->char_value < value->char_value)
+                    if (* (char*) ap_cdataframe->columns[i]->data[j] < * (char *) value)
                         sum++;
                 }
                 break;
             case FLOAT:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->float_value < value->float_value)
+                    if (* (float*) ap_cdataframe->columns[i]->data[j] < * (float*) value)
                         sum++;
                 }
                 break;
             case DOUBLE:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->double_value < value->double_value)
+                    if (* (double*) ap_cdataframe->columns[i]->data[j] < * (double *) value)
                         sum++;
                 }
                 break;
@@ -236,47 +235,37 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
             case (STRING):
                 for (int j=0; j<ap_cdataframe->columns[0]->TL; j++){
                     // on compare les deux chaines de caractères obtenues
-                    int x=0;
-                    while (ap_cdataframe->columns[i]->data[j]->string_value[x] == str_value[x] & ap_cdataframe->columns[i]->data[j]->string_value[x] != '\0' && str_value[x] != '\0')
-                        x++;
-                    if (str_value[x] == '\0'){
-                        if (ap_cdataframe->columns[i]->data[j]->string_value[x] != '\0'){
-                            sum += 1;
-                        }
-                    }
-                    else{
-                        if (ap_cdataframe->columns[i]->data[j]->string_value[x] != '\0' && ap_cdataframe->columns[i]->data[j]->string_value[x] > str_value[x])
-                            sum += 1;
-                    }
+                    if (comparate_string((char*) ap_cdataframe->columns[i]->data[j], str_value) == 1)
+                        sum++;
                 }
                 break;
             case UINT:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->uint_value > value->uint_value)
+                    if (* (unsigned int*) ap_cdataframe->columns[i]->data[j] > * (unsigned int*) value)
                         sum++;
                 }
                 break;
             case INT:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->int_value > value->int_value)
+                    if (* (int*) ap_cdataframe->columns[i]->data[j] > * (int*) value)
                         sum++;
                 }
                 break;
             case CHAR:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->char_value > value->char_value)
+                    if (* (char*) ap_cdataframe->columns[i]->data[j] > * (char *) value)
                         sum++;
                 }
                 break;
             case FLOAT:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->float_value > value->float_value)
+                    if (* (float*) ap_cdataframe->columns[i]->data[j] > * (float*) value)
                         sum++;
                 }
                 break;
             case DOUBLE:
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (ap_cdataframe->columns[i]->data[j]->double_value > value->double_value)
+                    if (* (double*) ap_cdataframe->columns[i]->data[j] > * (double *) value)
                         sum++;
                 }
                 break;
@@ -286,3 +275,134 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
 }
 
 
+// définition d'une macro permettant de faire le trie par insertion d'une colonne quelque soit son type
+// cette macro ne peut être appeler que dans insertion_sort()
+#define INSERTION_SORT(TYPE) \
+    for (int i = 1; i < col->TL; ++i) { \
+        TYPE k = *((TYPE *)col->data[i]); \
+        int j = i - 1;       \
+        if (ascending){                  \
+            while (j >= 0 && *((TYPE *)col->data[j]) > k) { \
+                col->data[j + 1] = col->data[j];            \
+                j = j - 1; \
+        } \
+        col->data[j + 1] = (DATA_TYPE *)&k;}            \
+        else{                \
+            while (j >= 0 && *((TYPE *)col->data[j]) < k) { \
+                col->data[j + 1] = col->data[j];            \
+                j = j - 1; }}}
+
+void insertion_sort(AP_COLUMN * col, int ascending){
+    switch (col->column_type){
+        case INT:
+            INSERTION_SORT(int)
+            break;
+        case UINT:
+            INSERTION_SORT(unsigned int)
+            break;
+        case CHAR:
+            INSERTION_SORT(char)
+            break;
+        case FLOAT:
+            INSERTION_SORT(float)
+            break;
+        case DOUBLE:
+            INSERTION_SORT(double)
+            break;
+        default:
+            return;
+    }
+}
+
+void insertion_string_sort(AP_COLUMN * col, int ascending){
+    for (int i = 1; i < col->TL; ++i) {
+        DATA_TYPE *k = col->data[i];
+        int j = i - 1;
+
+        if (ascending){
+            while (j >= 0 && comparate_string((char *) col->data[j], (char*) k) == 1) {
+                col->data[j + 1] = col->data[j];
+                j = j - 1;
+            }
+            col->data[j + 1] = k;
+        }
+        else{
+            while (j >= 0 && comparate_string((char *) col->data[j], (char*) k) == -1) {
+                col->data[j + 1] = col->data[j];
+                j = j - 1;
+            }
+            col->data[j + 1] = k;
+        }
+    }
+}
+
+void swap_values(AP_COLUMN * col, unsigned int i, unsigned int j){
+    DATA_TYPE *tmp = col->data[i];
+    col->data[i] = col->data[j];
+    col->data[j] = tmp;
+}
+
+unsigned partition(AP_COLUMN * col, unsigned left, unsigned right, unsigned ascending) {
+    DATA_TYPE* pivot = col->data[right];
+    unsigned int i = left - 1;
+
+    for (unsigned int j = left; j < right; j++) {
+        switch (col->column_type) {
+            case UINT:
+                if ((ascending && *(unsigned int*)col->data[j] >= *(unsigned int*)pivot) || (!ascending && *(unsigned int*)col->data[j] <= *(unsigned int*)pivot))
+                    swap_values(col, i, j);
+                break;
+            case INT:
+                if ((ascending && *(int*)col->data[j] >= *(int*)pivot) || (!ascending && *(int*)col->data[j] <= *(int*)pivot))
+                    swap_values(col, i, j);
+                break;
+            case CHAR:
+                if ((ascending && *(char*)col->data[j] >= *(char*)pivot) || (!ascending && *(char*)col->data[j] <= *(char*)pivot))
+                    swap_values(col, i, j);
+                break;
+            case FLOAT:
+                if ((ascending && *(float*)col->data[j] >= *(float*)pivot) || (!ascending && *(float*)col->data[j] <= *(float*)pivot))
+                    swap_values(col, i, j);
+                break;
+            case DOUBLE:
+                if ((ascending && *(double*)col->data[j] >= *(double*)pivot) || (!ascending && *(double*)col->data[j] <= *(double*)pivot))
+                    swap_values(col, i, j);
+                break;
+            case STRING:
+                if ((ascending && comparate_string((char*)col->data[j], (char*)pivot) >= 0) || (!ascending && comparate_string((char*)col->data[j], (char*)pivot) <= 0))
+                    swap_values(col, i, j);
+                break;
+        }
+    }
+    swap_values(col, right, i+1);
+    return i + 1;
+}
+
+void quicksort(AP_COLUMN * col, unsigned int left, unsigned int right, unsigned ascending) {
+    if (left < right) {
+        unsigned int pi = partition(col, left, right, ascending);
+        quicksort(col, left, pi - 1, ascending);
+        quicksort(col, pi + 1, right, ascending);
+    }
+}
+
+void sort_column(AP_COLUMN* col, int  ascending){
+    switch (col->column_type) {
+        case NULLVAL:
+            return;
+        case STRUCTURE:
+            return;
+        case STRING:
+            if (col->index == 0)
+                insertion_string_sort(col, ascending);
+
+            col->sort_dir = 1;
+            break;
+        default:
+            if (col->index == 0)
+                insertion_sort(col, ascending);
+            else
+                quicksort(col, 0, col->TL, ascending);
+            col->sort_dir = 1;
+        }
+    }

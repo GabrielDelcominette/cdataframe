@@ -44,6 +44,12 @@ typedef struct{
     AP_COLUMN ** columns; // liste de pointer vers des colonnes
 } AP_CDATAFRAME;
 
+
+/**
+ *Comparate two string
+ */
+int comparate_string(char* string1, char* string2);
+
 /**
 * Create a new column
 * @param1 : Column type
@@ -87,6 +93,11 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
 int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
 int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
 
-#define DATAFRAME_ALMOST_PERFECT_H
+void insertion_sort(AP_COLUMN * col, int ascending);
+void insertion_string_sort(AP_COLUMN * col, int ascending);
+void swap_values(AP_COLUMN * col, unsigned int i, unsigned int j);
+void quicksort(AP_COLUMN * col, unsigned left, unsigned right, unsigned ascending);
+unsigned partition(AP_COLUMN * col, unsigned left, unsigned right, unsigned ascending);
 
+#define DATAFRAME_ALMOST_PERFECT_H
 #endif //DATAFRAME_ALMOST_PERFECT_H

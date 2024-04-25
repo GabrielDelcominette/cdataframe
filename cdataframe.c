@@ -112,9 +112,6 @@ void display_cdataframe(CDATAFRAME * cdataframe, int start_column, int start_row
     }
 }
 
-void insert_row_cdataframe(CDATAFRAME * cdataframe){
-
-}
 
 void display_rows_number(CDATAFRAME * cdataframe){
     printf("Il y a %d lignes dans la cdataframe.\n", cdataframe->columns[0]->TL);

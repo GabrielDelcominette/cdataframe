@@ -173,10 +173,11 @@ void delete_column(CDATAFRAME * cdataframe, int col){
         printf("ERREUR : les indices entrées sont impossibles !");
     }
     else {
+        COLUMN* tmp = cdataframe->columns[col - 1];
         for (int i = col; i < cdataframe->TL; i++) {
             cdataframe->columns[i - 1] = cdataframe->columns[i];
         }
-        free_column(cdataframe->columns[--cdataframe->TL]);
+        free_column(tmp);
     }
 }
 

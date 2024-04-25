@@ -54,8 +54,9 @@ int column_find_value(COLUMN * col, int pos){
 }
 
 void print_col(COLUMN* col){
+    printf("%s\n", col->title);
     for (int i=0; i<col->TL; i++)
-        printf("[%d] %d", i, *(col->data + i));
+        printf("[%d] %d\n", i, *(col->data + i));
 }
 
 int column_n_higher_values(COLUMN * col, int value){

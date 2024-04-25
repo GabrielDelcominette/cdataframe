@@ -77,7 +77,6 @@ int AP_insert_value(AP_COLUMN *col, void *value){
     return 0;
 }
 
-
 void AP_delete_column(AP_COLUMN **col){
     free((*col)->title);
     for (int i = 0; i<(*col)->TP; i++){
@@ -123,6 +122,38 @@ void AP_print_col(AP_COLUMN* col){
         printf("[%d] %s\n", i, string);
     }
 }
+
+void read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
+    int C, L;
+    char name[50];
+    AP_COLUMN* new_column = NULL;
+    //new_column = (COLUMN**) malloc(sizeof(COLUMN **));
+    //new_column= (COLUMN*) malloc(sizeof(COLUMN *));
+    printf("saisissez le nombres de colonnes de la cdataframe : \n");
+    scanf(" %d", &C);
+    printf("saisissez le nombres de lignes de la cdataframe : \n");
+    scanf(" %d", &L);
+    printf("\t\t********** Entrez les titres et les types des colonnes *********\n");
+    for (int i=0; i<C; i++){
+        int tmp_type;
+        printf("Saisissez le type de la colonne :\n\t1 pour NULLVAL\n\t2 pour UNINT\n\t3 pour INT\n\t4 pour CHAR\n\t5 pour FLOAT\n\t6 pour DOUBLE\n\t pour STRING");
+        scanf(" %d", &tmp_type);
+        printf("Saisissez le titre de la colonnes %d : \n", i+1);
+        scanf(" %s", name);
+        new_column = AP_create_column(name); // création d'une nouvelle colonne ayant pour titre celui entré par l'utilisateur
+        insert_column(cdataframe, new_column); // on ajoute la nouvelle colonne à la cdataframe
+    }
+    for (int i=0; i<C; i++){
+        //printf("Voici la nouvelle colone %s en position %d\n", (cdataframe->columns[i])->title, i);
+    }
+
+    printf("\t\t ********* Entrer les valeurs dans les cellules ***********\n");
+    for (int ligne=1; ligne<L+1; ligne++){
+        printf("***** Saisir les valeurs de la ligne %d *****\n", ligne + 1);
+        insert_row(cdataframe);
+    }
+}
+
 
 DATA_TYPE * AP_find_value(AP_CDATAFRAME * ap_cdataframe, int ligne, int colonne){
     return ap_cdataframe->columns[colonne-1]->data[ligne-1];
@@ -277,6 +308,7 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
 
 // définition d'une macro permettant de faire le trie par insertion d'une colonne quelque soit son type
 // cette macro ne peut être appeler que dans insertion_sort()
+
 #define INSERTION_SORT(TYPE) \
     for (int i = 1; i < col->TL; ++i) { \
         TYPE k = *((TYPE *)col->data[i]); \
@@ -342,7 +374,7 @@ void swap_values(AP_COLUMN * col, unsigned int i, unsigned int j){
     col->data[j] = tmp;
 }
 
-unsigned partition(AP_COLUMN * col, unsigned left, unsigned right, unsigned ascending) {
+unsigned int partition(AP_COLUMN * col, unsigned int left, unsigned int right, unsigned int ascending) {
     DATA_TYPE* pivot = col->data[right];
     unsigned int i = left - 1;
 
@@ -378,9 +410,10 @@ unsigned partition(AP_COLUMN * col, unsigned left, unsigned right, unsigned asce
     return i + 1;
 }
 
-void quicksort(AP_COLUMN * col, unsigned int left, unsigned int right, unsigned ascending) {
+void quicksort(AP_COLUMN * col, unsigned int left, unsigned int right, unsigned int ascending) {
+    unsigned int pi;
     if (left < right) {
-        unsigned int pi = partition(col, left, right, ascending);
+        pi = partition(col, left, right, ascending);
         quicksort(col, left, pi - 1, ascending);
         quicksort(col, pi + 1, right, ascending);
     }
@@ -395,7 +428,8 @@ void sort_column(AP_COLUMN* col, int  ascending){
         case STRING:
             if (col->index == 0)
                 insertion_string_sort(col, ascending);
-
+            else
+                quicksort(col, 0, col->TL, ascending);
             col->sort_dir = 1;
             break;
         default:

@@ -497,10 +497,6 @@ void quicksort(AP_COLUMN * col, unsigned int left, unsigned int right, unsigned 
 
 void sort_column(AP_COLUMN* col, int  ascending){
     switch (col->column_type) {
-        case NULLVAL:
-            return;
-        case STRUCTURE:
-            return;
         case STRING:
             if (col->index == 0)
                 insertion_string_sort(col, ascending);

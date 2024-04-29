@@ -58,7 +58,7 @@ int comparate_string(char* string1, char* string2);
 * @return : Pointer to the created column
 */
 AP_COLUMN * AP_create_column(ENUM_TYPE type, char *title);
-
+AP_CDATAFRAME* AP_create_cdataframe();
 /**
 * @brief: Insert a new value into a column
 * @param1: Pointer to the column
@@ -91,7 +91,11 @@ void AP_print_col(AP_COLUMN* col);
 
 int AP_insert_column(AP_CDATAFRAME * cdataframe, AP_COLUMN * col);
 void AP_insert_row(AP_CDATAFRAME * cdataframe);
-void read_cdataframe_user(AP_CDATAFRAME * cdataframe);
+void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe);
+
+// affichage des cdataframe
+void AP_display_titles(AP_CDATAFRAME * cdataframe);
+void AP_display_whole_cdataframe(AP_CDATAFRAME * cdataframe);
 
 int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
 int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);

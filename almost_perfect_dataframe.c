@@ -32,6 +32,15 @@ AP_COLUMN* AP_create_column(ENUM_TYPE type, char * title){
     return column;
 }
 
+AP_CDATAFRAME* AP_create_cdataframe(){
+    AP_CDATAFRAME * dataframe;
+    dataframe = (AP_CDATAFRAME*) malloc(sizeof(AP_CDATAFRAME));
+    dataframe->TP = 0;
+    dataframe->TL = 0;
+    dataframe->columns = NULL;
+    return dataframe;
+}
+
 int AP_insert_value(AP_COLUMN *col, void *value){
     int allocation = 0; // booléen, correspond à si l'on alloue de l'espace mémoire en plus
     if (col->data == NULL){
@@ -199,7 +208,7 @@ void AP_insert_row(AP_CDATAFRAME * cdataframe){
     }
 }
 
-void read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
+void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
     int C, L;
     char name[50];
     AP_COLUMN* new_column = NULL;
@@ -230,6 +239,42 @@ void read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
     }
 }
 
+void AP_display_titles(AP_CDATAFRAME * cdataframe){
+    for (int i=0; i<cdataframe->TL; i++){
+        printf("%s\t", cdataframe->columns[i]->title);
+    }
+}
+
+
+void AP_display_whole_cdataframe(AP_CDATAFRAME * cdataframe){
+    AP_display_titles(cdataframe); // affichages des titles des colonnes en première ligne de la cdataframe
+    for (int j=0; j<cdataframe->columns[0]->TL; j++) {
+        printf("\n"); // avant d'afficher les valeurs de la ligne, on revient à la ligne
+        for (int i = 0; i < cdataframe->TL; i++) { // pour chaque colonne de la ligne
+            switch (cdataframe->columns[i]->column_type) {
+                // On affiche la valeur en fonction de son type
+                case UINT:
+                    printf("%u\t\t", *(unsigned int*) cdataframe->columns[i]->data[j]);
+                    break;
+                case INT:
+                    printf("%d\t\t", *(int*) cdataframe->columns[i]->data[j]);
+                    break;
+                case CHAR:
+                    printf("%c\t\t", *(char*) cdataframe->columns[i]->data[j]);
+                    break;
+                case FLOAT:
+                    printf("%f\t\t", *(float*) cdataframe->columns[i]->data[j]);
+                    break;
+                case DOUBLE:
+                    printf("%lf\t\t", *(double*) cdataframe->columns[i]->data[j]);
+                    break;
+                case STRING:
+                    printf("%s\t\t", (char*) cdataframe->columns[i]->data[j]);
+                    break;
+            }
+        }
+    }
+}
 
 DATA_TYPE * AP_find_value(AP_CDATAFRAME * ap_cdataframe, int ligne, int colonne){
     return ap_cdataframe->columns[colonne-1]->data[ligne-1];

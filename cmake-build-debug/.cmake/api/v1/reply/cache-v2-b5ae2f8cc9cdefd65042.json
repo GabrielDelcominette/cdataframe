@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/etien/CLionProjects/cdataframe_v_final/cmake-build-debug"
+			"value" : "c:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -431,7 +431,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/etien/CLionProjects/cdataframe_v_final/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -503,7 +503,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/etien/CLionProjects/cdataframe_v_final"
+			"value" : "C:/Users/etien/Documents/GitHub/cdataframe"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -515,7 +515,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Program Files (x86)/cdataframe_v_final"
+			"value" : "C:/Program Files (x86)/DataFrame"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -543,7 +543,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/PROGRA~1/JETBRA~1/CLION2~1.2/bin/ninja/win/x64/ninja.exe"
+			"value" : "C:/Program Files/JetBrains/CLion 2023.3.2/bin/ninja/win/x64/ninja.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -1135,7 +1135,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/etien/CLionProjects/cdataframe_v_final/cmake-build-debug"
+			"value" : "C:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug"
 		},
 		{
 			"name" : "DataFrame_IS_TOP_LEVEL",
@@ -1159,7 +1159,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/etien/CLionProjects/cdataframe_v_final"
+			"value" : "C:/Users/etien/Documents/GitHub/cdataframe"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",
@@ -1172,42 +1172,6 @@
 			],
 			"type" : "INTERNAL",
 			"value" : "TRUE"
-		},
-		{
-			"name" : "cdataframe_v_final_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "C:/Users/etien/CLionProjects/cdataframe_v_final/cmake-build-debug"
-		},
-		{
-			"name" : "cdataframe_v_final_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "ON"
-		},
-		{
-			"name" : "cdataframe_v_final_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "C:/Users/etien/CLionProjects/cdataframe_v_final"
 		}
 	],
 	"kind" : "cache",

@@ -47,9 +47,11 @@ int AP_insert_value(AP_COLUMN *col, void *value){
         // allocation du tableau de pointeur et du tableau d'indice
         col->data = (DATA_TYPE **) malloc(REALOC_SIZE * sizeof(DATA_TYPE*));
         col->index = (unsigned long long int *) malloc(REALOC_SIZE * sizeof(unsigned long long int));
-        if (col->data == NULL || col->index){ // dans le cas où une des deux allocation a échoué
+        if (col->data == NULL || col->index == NULL){ // dans le cas où une des deux allocation a échoué
             free(col->data);
             free(col->index); // on libère les deux tableaux car un a peut-être de l'espace alloué
+            col->data = NULL; // on réassigne la valeur NULL aux pointeurs dont l'allocation a échoué
+            col->index = NULL;
             return 0;}
         allocation = 1;
         col->TP += REALOC_SIZE;
@@ -61,8 +63,8 @@ int AP_insert_value(AP_COLUMN *col, void *value){
         unsigned long long int * tmp2 = col->index;
         tmp = (DATA_TYPE **) realloc(tmp, (col->TP + REALOC_SIZE) * sizeof(DATA_TYPE*));
         tmp2 = (unsigned long long int *) realloc(tmp2, (col->TP + REALOC_SIZE) * sizeof(unsigned long long int));
-        if (tmp == NULL || tmp2 == NULL) // si une des deux allocations a échoué
-            return 0;
+        if (tmp == NULL || tmp2 == NULL){ // si une des deux allocations a échoué
+            return 0;}
         allocation = 1;
         col->TP += REALOC_SIZE;
         col->data = tmp;
@@ -71,7 +73,7 @@ int AP_insert_value(AP_COLUMN *col, void *value){
 
     // allocation des tableaux sur lesquels pointent les pointeurs (col->data)
     if (allocation) {
-        for (int i = 0; i < REALOC_SIZE; i++) {
+        for (unsigned int i = col->TP - REALOC_SIZE; i < col->TP; i++) {
             col->data[i] = (DATA_TYPE *) malloc(sizeof(DATA_TYPE));
         }
     }

@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/etien/CLionProjects/cdataframe_v_final
+# Install script for directory: C:/Users/etien/Documents/GitHub/cdataframe
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/cdataframe_v_final")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/DataFrame")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/etien/CLionProjects/cdataframe_v_final/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

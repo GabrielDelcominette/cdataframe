@@ -1,6 +1,6 @@
 #ifndef DATAFRAME_ALMOST_PERFECT_H
 
-#define REALOC_SIZE 256
+#define REALOC_SIZE 3
 #define REALLOC_COL_NUMBER 10
 
 // AP means Almost Perfect

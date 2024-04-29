@@ -123,6 +123,82 @@ void AP_print_col(AP_COLUMN* col){
     }
 }
 
+int AP_insert_column(AP_CDATAFRAME * cdataframe, AP_COLUMN * col){
+    if (cdataframe->columns == NULL){
+        cdataframe->columns = (AP_COLUMN **) malloc(REALLOC_COL_NUMBER * sizeof(AP_COLUMN *));
+        cdataframe->TP += REALLOC_COL_NUMBER;
+    }
+    if (cdataframe->columns == NULL){
+        return 0;
+    }
+    if (cdataframe->TL == cdataframe->TP){
+        AP_COLUMN ** tmp = cdataframe->columns; // variable temporaire au cas où realoc ne fonctionnerait pas
+        tmp = (AP_COLUMN **) realloc(tmp, (cdataframe->TP + REALLOC_COL_NUMBER) * sizeof(AP_COLUMN *));
+        if (tmp != NULL) {
+            cdataframe->TP += REALLOC_COL_NUMBER;
+            cdataframe->columns = tmp;
+        }
+        else
+            return 0;
+    }
+    if (cdataframe->TL < cdataframe->TP){
+        //*(cdataframe->columns + cdataframe->TL) = col;
+        cdataframe->columns[cdataframe->TL] = col;
+        cdataframe->TL+=1;
+        return 1;
+    }
+    return 0;
+}
+
+void AP_insert_row(AP_CDATAFRAME * cdataframe){
+    for (int colonne=0; colonne<cdataframe->TL; colonne++){
+        switch (cdataframe->columns[colonne]->column_type) {
+            case UINT:
+            {
+                unsigned int * value = NULL;
+                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
+                scanf("%u", value);
+                AP_insert_value(cdataframe->columns[colonne], value);
+                break;}
+            case INT:
+            {
+                int * value = NULL;
+                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
+                scanf("%d", value);
+                AP_insert_value(cdataframe->columns[colonne], value);
+                break;}
+            case CHAR:
+            {
+                char * value = NULL;
+                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
+                scanf("%c", value);
+                AP_insert_value(cdataframe->columns[colonne], value);
+                break;}
+            case FLOAT:
+            {
+                float * value = NULL;
+                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
+                scanf("%f", value);
+                AP_insert_value(cdataframe->columns[colonne], value);
+                break;}
+            case DOUBLE:
+            {
+                double * value = NULL;
+                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
+                scanf("%lf", value);
+                AP_insert_value(cdataframe->columns[colonne], value);
+                break;}
+            case STRING:
+            {
+                char * value = NULL;
+                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
+                scanf("%s", value);
+                AP_insert_value(cdataframe->columns[colonne], value);
+                break;}
+        }
+    }
+}
+
 void read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
     int C, L;
     char name[50];
@@ -136,12 +212,12 @@ void read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
     printf("\t\t********** Entrez les titres et les types des colonnes *********\n");
     for (int i=0; i<C; i++){
         int tmp_type;
-        printf("Saisissez le type de la colonne :\n\t1 pour NULLVAL\n\t2 pour UNINT\n\t3 pour INT\n\t4 pour CHAR\n\t5 pour FLOAT\n\t6 pour DOUBLE\n\t pour STRING");
+        printf("Saisissez le type de la colonne :\n\t1 pour UNINT\n\t2 pour INT\n\t3 pour CHAR\n\t4 pour FLOAT\n\t5 pour DOUBLE\n\t6 pour STRING");
         scanf(" %d", &tmp_type);
         printf("Saisissez le titre de la colonnes %d : \n", i+1);
         scanf(" %s", name);
-        new_column = AP_create_column(name); // création d'une nouvelle colonne ayant pour titre celui entré par l'utilisateur
-        insert_column(cdataframe, new_column); // on ajoute la nouvelle colonne à la cdataframe
+        new_column = AP_create_column(tmp_type, name); // création d'une nouvelle colonne ayant pour titre celui entré par l'utilisateur
+        AP_insert_column(cdataframe, new_column); // on ajoute la nouvelle colonne à la cdataframe
     }
     for (int i=0; i<C; i++){
         //printf("Voici la nouvelle colone %s en position %d\n", (cdataframe->columns[i])->title, i);
@@ -150,7 +226,7 @@ void read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
     printf("\t\t ********* Entrer les valeurs dans les cellules ***********\n");
     for (int ligne=1; ligne<L+1; ligne++){
         printf("***** Saisir les valeurs de la ligne %d *****\n", ligne + 1);
-        insert_row(cdataframe);
+        AP_insert_row(cdataframe);
     }
 }
 

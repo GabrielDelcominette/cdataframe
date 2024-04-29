@@ -1,12 +1,13 @@
 #ifndef DATAFRAME_ALMOST_PERFECT_H
 
 #define REALOC_SIZE 256
+#define REALLOC_COL_NUMBER 10
 
 // AP means Almost Perfect
 
 enum enum_type
 {
-    NULLVAL = 1 , UINT, INT, CHAR, FLOAT, DOUBLE, STRING, STRUCTURE
+    UINT = 1, INT, CHAR, FLOAT, DOUBLE, STRING
 };
 typedef enum enum_type ENUM_TYPE;
 
@@ -88,7 +89,10 @@ void AP_convert_value(ENUM_TYPE type, DATA_TYPE * value, char *str, int size);
 */
 void AP_print_col(AP_COLUMN* col);
 
-void AP_print_col(AP_COLUMN* col);
+int AP_insert_column(AP_CDATAFRAME * cdataframe, AP_COLUMN * col);
+void AP_insert_row(AP_CDATAFRAME * cdataframe);
+void read_cdataframe_user(AP_CDATAFRAME * cdataframe);
+
 int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
 int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
 int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);

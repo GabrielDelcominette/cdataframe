@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/etien/OneDrive/Documents/cdataframe/cmake-build-debug",
-		"source" : "C:/Users/etien/OneDrive/Documents/cdataframe"
+		"build" : "C:/Users/etien/Documents/GitHub/cdataframe/cmake-build-debug",
+		"source" : "C:/Users/etien/Documents/GitHub/cdataframe"
 	},
 	"version" : 
 	{

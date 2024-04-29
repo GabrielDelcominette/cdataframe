@@ -1,3 +1,21 @@
 # ninja log v5
-0	88	7333348789813484	CMakeFiles/cdataframe.dir/main.c.obj	999323cd26762bcf
-90	220	7333348791101765	cdataframe.exe	3cfed76fbfdc05d8
+0	90	7360845446557551	CMakeFiles/cdataframe_v_final.dir/main.c.obj	dd41ceaea9aa0526
+1	115	7360847433889091	build.ninja	b7157127415de889
+4	74	7360847435188821	CMakeFiles/DataFrame.dir/main.c.obj	fb60e7acc8a71a13
+1	95	7360847435397736	CMakeFiles/DataFrame.dir/dataframe.c.obj	62234973d4d190a4
+8	103	7360847435467895	CMakeFiles/DataFrame.dir/cdataframe.c.obj	de71a311c4f7d8df
+11	135	7360847435796495	CMakeFiles/DataFrame.dir/almost_perfect_dataframe.c.obj	b1496b2af0d707b9
+135	221	7360847436627388	DataFrame.exe	112f72164f763835
+3	70	7360847587323877	CMakeFiles/DataFrame.dir/main.c.obj	fb60e7acc8a71a13
+70	156	7360847588158432	DataFrame.exe	112f72164f763835
+2	67	7360847787738083	CMakeFiles/DataFrame.dir/main.c.obj	fb60e7acc8a71a13
+67	149	7360847788533131	DataFrame.exe	112f72164f763835
+2	68	7360847925952487	CMakeFiles/DataFrame.dir/main.c.obj	fb60e7acc8a71a13
+68	145	7360847926687398	DataFrame.exe	112f72164f763835
+1	66	7360848128287429	CMakeFiles/DataFrame.dir/main.c.obj	fb60e7acc8a71a13
+67	142	7360848129009654	DataFrame.exe	112f72164f763835
+2	76	7360848833911798	CMakeFiles/DataFrame.dir/main.c.obj	fb60e7acc8a71a13
+7	117	7360848834318855	CMakeFiles/DataFrame.dir/almost_perfect_dataframe.c.obj	b1496b2af0d707b9
+117	196	7360848835078176	DataFrame.exe	112f72164f763835
+2	107	7360849263873354	CMakeFiles/DataFrame.dir/almost_perfect_dataframe.c.obj	b1496b2af0d707b9
+107	184	7360849264611390	DataFrame.exe	112f72164f763835

@@ -19,6 +19,6 @@ int main(){
     printf("coucou ceci est un test\n");
     cdf = AP_create_cdataframe();
     AP_read_cdataframe_user(cdf);
-    AP_
+    AP_display_whole_cdataframe(cdf);
     return 0;
 }

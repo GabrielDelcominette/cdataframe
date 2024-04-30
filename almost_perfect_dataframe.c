@@ -142,8 +142,11 @@ void AP_convert_value(ENUM_TYPE type, DATA_TYPE * value, char *str, int size){
             snprintf(str, size, "%lf", value->double_value);
             break;
         case STRING:
+            printf("On est dans les strings \n");
+            printf("%s \n", value->string_value);
             strncpy(str, value->string_value, size - 1); // Copie de la chaîne dans le buffer
             str[size - 1] = '\0'; // Assure la terminaison de la chaîne
+            printf("fin \n");
             break;
         default:
             snprintf(str, size, "Unsupported Type");
@@ -312,12 +315,41 @@ DATA_TYPE * AP_find_value(AP_CDATAFRAME * ap_cdataframe, int ligne, int colonne)
     return ap_cdataframe->columns[colonne-1]->data[ligne-1];
 }
 
-int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
+int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type){
+    printf("Debut de la fonction\n");
     int sum=0;
     int size = 50;
     char str_value[size]; //initialisation d'une chaine de caractères associés à value
-    AP_convert_value(STRING, value, str_value, size);
+    DATA_TYPE *value = malloc(sizeof(DATA_TYPE));
+
+    printf("conversion de la valeur\n");
+    //on assigne à la data_type value, la valeur - val
+    // on associe à value une chaine de caractère
+    switch (type) {
+        case UINT:
+            * (unsigned int *) value = * (unsigned int *) val;
+
+            break;
+        case INT:
+            * (int *) value = * (int *) val;
+            break;
+        case CHAR:
+            * (char *) value = * (char *) val;
+            break;
+        case FLOAT:
+            * (float *) value = * (float *) val;
+            break;
+        case DOUBLE:
+            * (double *) value = * (double *) val;
+            break;
+        case STRING:
+            value->string_value = (char *) malloc(sizeof(char) * strlen(val));
+            strcpy(value->string_value, val);
+            break;
+    }
+    printf("pas d'erreur\n");
     for (int i=0; i<ap_cdataframe->TL; i++) {
+        printf("on entre dans le switch\n");
         switch (ap_cdataframe->columns[i]->column_type) {
             case (STRING):
                 for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
@@ -357,10 +389,11 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
                 break;
         }
     }
+    printf("fin\n");
     return sum;
 }
 
-int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
+int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, void * value){
     int sum=0;
     int size = 50;
     char str_value[size]; //initialisation d'une chaine de caractères associés à value
@@ -409,7 +442,7 @@ int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
     return sum;
 }
 
-int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value){
+int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * value){
     int sum=0;
     int size = 50;
     char str_value[size]; //initialisation d'une chaine de caractères associés à value

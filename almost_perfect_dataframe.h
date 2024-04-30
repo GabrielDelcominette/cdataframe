@@ -97,9 +97,10 @@ void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe);
 void AP_display_titles(AP_CDATAFRAME * cdataframe);
 void AP_display_whole_cdataframe(AP_CDATAFRAME * cdataframe);
 
-int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
-int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
-int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, DATA_TYPE * value);
+DATA_TYPE * AP_find_value(AP_CDATAFRAME * ap_cdataframe, int ligne, int colonne);
+int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * value, ENUM_TYPE type);
+int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * value);
+int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, void * value);
 
 void insertion_sort(AP_COLUMN * col, int ascending);
 void insertion_string_sort(AP_COLUMN * col, int ascending);

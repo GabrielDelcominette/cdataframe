@@ -20,7 +20,7 @@ int comparate_string(char* string1, char* string2){
 AP_COLUMN* AP_create_column(ENUM_TYPE type, char * title){
     AP_COLUMN * column;
     column = (AP_COLUMN*) malloc(sizeof(AP_COLUMN));
-    column->title = (char *) malloc(sizeof(char *) * (strlen(title) + 1));
+    column->title = (char *) malloc(sizeof(char) * (strlen(title) + 1));
     strcpy(column->title, title);
     column->TP = 0;
     column->TL = 0;
@@ -42,6 +42,9 @@ AP_CDATAFRAME* AP_create_cdataframe(){
 }
 
 int AP_insert_value(AP_COLUMN *col, void *value){
+    if (value == NULL)
+        return 0;
+
     int allocation = 0; // booléen, correspond à si l'on alloue de l'espace mémoire en plus
     if (col->data == NULL){
         // allocation du tableau de pointeur et du tableau d'indice
@@ -53,7 +56,7 @@ int AP_insert_value(AP_COLUMN *col, void *value){
             col->data = NULL; // on réassigne la valeur NULL aux pointeurs dont l'allocation a échoué
             col->index = NULL;
             return 0;}
-        allocation = 1;
+        allocation = 1;  // on va allouer de l'espace pour les valeurs des pointeurs
         col->TP += REALOC_SIZE;
     }
 
@@ -65,7 +68,7 @@ int AP_insert_value(AP_COLUMN *col, void *value){
         tmp2 = (unsigned long long int *) realloc(tmp2, (col->TP + REALOC_SIZE) * sizeof(unsigned long long int));
         if (tmp == NULL || tmp2 == NULL){ // si une des deux allocations a échoué
             return 0;}
-        allocation = 1;
+        allocation = 1; // on va allouer de l'espace pour les valeurs des pointeurs
         col->TP += REALOC_SIZE;
         col->data = tmp;
         col->index = tmp2;
@@ -79,8 +82,30 @@ int AP_insert_value(AP_COLUMN *col, void *value){
     }
 
     if (col->TL < col->TP){
-        value = (DATA_TYPE*) value; // on convertie le type de value
-        col->data[col->TL] = value;
+        //value = (DATA_TYPE*) value; // on convertie le type de value
+        //col->data[col->TL] = value; // on assigne le pointeur à la colonne
+        //on assigne la valeur de ce pointeur au pointeur contenue dans la colonne
+        switch (col->column_type) {
+            case UINT:
+                *(unsigned int *) col->data[col->TL] = *(unsigned int *) value;
+                break;
+            case INT:
+                *(int *) col->data[col->TL] = *(int *) value;
+                break;
+            case CHAR:
+                *(char *) col->data[col->TL] = *(char *) value;
+                break;
+            case FLOAT:
+                *(float *) col->data[col->TL] = *(float *) value;
+                break;
+            case DOUBLE:
+                *(double *) col->data[col->TL] = *(double *) value;
+                break;
+            case STRING:
+                col->data[col->TL]->string_value = (char *) malloc(sizeof(char) * strlen(value));
+                strcpy(col->data[col->TL]->string_value, value);
+                break;
+        }
         col->index[col->TL] = col->TL; // on assigne un index à la valeur
         col->TL+=1;
         return 1;
@@ -134,7 +159,7 @@ void AP_print_col(AP_COLUMN* col){
     }
 }
 
-int AP_insert_column(AP_CDATAFRAME * cdataframe, AP_COLUMN * col){
+int  AP_insert_column(AP_CDATAFRAME * cdataframe, AP_COLUMN * col){
     if (cdataframe->columns == NULL){
         cdataframe->columns = (AP_COLUMN **) malloc(REALLOC_COL_NUMBER * sizeof(AP_COLUMN *));
         cdataframe->TP += REALLOC_COL_NUMBER;
@@ -163,51 +188,55 @@ int AP_insert_column(AP_CDATAFRAME * cdataframe, AP_COLUMN * col){
 
 void AP_insert_row(AP_CDATAFRAME * cdataframe){
     for (int colonne=0; colonne<cdataframe->TL; colonne++){
+        printf("début du switch\n");
         switch (cdataframe->columns[colonne]->column_type) {
             case UINT:
             {
-                unsigned int * value = NULL;
-                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
-                scanf("%u", value);
-                AP_insert_value(cdataframe->columns[colonne], value);
+                unsigned int value;
+                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est UNSIGNED INT : \\n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                scanf(" %u", &value);
+                AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
             case INT:
             {
-                int * value = NULL;
-                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
-                scanf("%d", value);
-                AP_insert_value(cdataframe->columns[colonne], value);
+                int value;
+                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est INT : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                scanf(" %d", &value);
+                printf("scanf\n");
+                AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
             case CHAR:
             {
-                char * value = NULL;
-                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
-                scanf("%c", value);
-                AP_insert_value(cdataframe->columns[colonne], value);
+                char value;
+                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est CHAR : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                scanf(" %c", &value);
+                AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
             case FLOAT:
             {
-                float * value = NULL;
-                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
-                scanf("%f", value);
-                AP_insert_value(cdataframe->columns[colonne], value);
+                float value;
+                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est FLOAT : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                scanf(" %f", &value);
+                AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
             case DOUBLE:
             {
-                double * value = NULL;
-                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
-                scanf("%lf", value);
-                AP_insert_value(cdataframe->columns[colonne], value);
+                double value;
+                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est DOUBLE : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                scanf(" %lf", &value);
+                AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
             case STRING:
             {
-                char * value = NULL;
-                printf("Saisissez la valeure de la colonne %d : \n", colonne+1);
-                scanf("%s", value);
+                char *value = NULL;
+                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est STRING : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                scanf(" %s", value);
                 AP_insert_value(cdataframe->columns[colonne], value);
                 break;}
         }
+        printf("%d \n", cdataframe->columns[colonne]->data[cdataframe->columns[colonne]->TL - 1]->int_value);
     }
+    AP_display_whole_cdataframe(cdataframe);
 }
 
 void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
@@ -223,7 +252,7 @@ void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
     printf("\t\t********** Entrez les titres et les types des colonnes *********\n");
     for (int i=0; i<C; i++){
         int tmp_type;
-        printf("Saisissez le type de la colonne :\n\t1 pour UNINT\n\t2 pour INT\n\t3 pour CHAR\n\t4 pour FLOAT\n\t5 pour DOUBLE\n\t6 pour STRING");
+        printf("Saisissez le type de la colonne :\n\t1 pour UNINT\n\t2 pour INT\n\t3 pour CHAR\n\t4 pour FLOAT\n\t5 pour DOUBLE\n\t6 pour STRING\n\n");
         scanf(" %d", &tmp_type);
         printf("Saisissez le titre de la colonnes %d : \n", i+1);
         scanf(" %s", name);
@@ -238,6 +267,7 @@ void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
     for (int ligne=1; ligne<L+1; ligne++){
         printf("***** Saisir les valeurs de la ligne %d *****\n", ligne + 1);
         AP_insert_row(cdataframe);
+        printf("%d \n", cdataframe->columns[0]->data[ligne]->int_value);
     }
 }
 

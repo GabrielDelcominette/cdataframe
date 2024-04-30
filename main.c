@@ -26,7 +26,10 @@ int main(){
 
     printf("coucou ceci est un test\n");
     cdf = AP_create_cdataframe();
+    printf("cdf crééé\n");
     AP_read_cdataframe_user(cdf);
+    printf("valeur inséréessss\n");
+    printf("%d \n", cdf->columns[0]->data[1]->int_value);
     AP_display_whole_cdataframe(cdf);
     return 0;
 }

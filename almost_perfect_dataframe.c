@@ -102,8 +102,15 @@ int AP_insert_value(AP_COLUMN *col, void *value){
                 *(double *) col->data[col->TL] = *(double *) value;
                 break;
             case STRING:
+                printf("insertion dans le string %s %c ahhhF\n", (char*) value, * (char*) value);
                 col->data[col->TL]->string_value = (char *) malloc(sizeof(char) * strlen(value));
-                strcpy(col->data[col->TL]->string_value, value);
+                // on copie la chaine de caractaires value
+                int i=0;
+                while (* ((char*) value + i) != '\0' && i < 49){
+                    *(col->data[col->TL]->string_value+i) = (* ((char*) value + i));
+                    i++;
+                }
+                *(col->data[col->TL]->string_value+i) = '\0';
                 break;
         }
         col->index[col->TL] = col->TL; // on assigne un index à la valeur
@@ -154,6 +161,7 @@ void AP_convert_value(ENUM_TYPE type, DATA_TYPE * value, char *str, int size){
 }
 
 void AP_print_col(AP_COLUMN* col){
+    printf("%s \n", col->title);
     int max_size = 50;
     char string[max_size];
     for (int i=0; i<col->TL; i++) {
@@ -276,7 +284,7 @@ void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
 
 void AP_display_titles(AP_CDATAFRAME * cdataframe){
     for (int i=0; i<cdataframe->TL; i++){
-        printf("%s\t", cdataframe->columns[i]->title);
+        printf("%s\t\t", cdataframe->columns[i]->title);
     }
 }
 
@@ -304,7 +312,7 @@ void AP_display_whole_cdataframe(AP_CDATAFRAME * cdataframe){
                     printf("%lf\t\t", *(double*) cdataframe->columns[i]->data[j]);
                     break;
                 case STRING:
-                    printf("%s\t\t", (char*) cdataframe->columns[i]->data[j]);
+                    printf("%s\t\t", cdataframe->columns[i]->data[j]->string_value);
                     break;
             }
         }
@@ -367,13 +375,15 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
     printf("conversion de la valeur\n");
 
     for (int i=0; i<ap_cdataframe->TL; i++) {
-        printf("on entre dans le switch\n");
         switch (ap_cdataframe->columns[i]->column_type) {
             case (STRING):
                 if (!is_digital) {
                     for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+
+                        printf("les caractères sont : %s et %s .\n",ap_cdataframe->columns[i]->data[j]->string_value, str_val);
+
                         // on compare les deux chaines de caractères
-                        if (!comparate_string((char *) ap_cdataframe->columns[i]->data[j], str_val))
+                        if (!comparate_string(ap_cdataframe->columns[i]->data[j]->string_value, str_val))
                             sum++;
                     }
                     break;
@@ -389,8 +399,7 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
             case INT:
                 if (is_digital) {
                     for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                        printf("les entiers sont : %lf  et %lf\n",
-                               (double) ap_cdataframe->columns[i]->data[j]->int_value, value);
+                        printf("les entiers sont : %lf  et %lf\n", (double) ap_cdataframe->columns[i]->data[j]->int_value, value);
                         if ((double) ap_cdataframe->columns[i]->data[j]->int_value == value)
                             sum++;
                     }
@@ -399,8 +408,7 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
             case CHAR:
                 if (!is_digital) {
                     for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                        printf("les caractères sont : %c  et %c et la terminaise %c\n",
-                               *(char *) ap_cdataframe->columns[i]->data[j], str_val[0], str_val[1]);
+                        printf("les caractères sont : %c  et %c et la terminaise %c .\n", *(char *) ap_cdataframe->columns[i]->data[j], str_val[0], str_val[1]);
                         if (ap_cdataframe->columns[i]->data[j]->char_value == str_val[0] && str_val[1] == '\0')
                             sum++;
                     }

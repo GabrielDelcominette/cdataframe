@@ -8,12 +8,12 @@ int comparate_string(char* string1, char* string2){
     while (string1[x] == string2[x] && string1[x] != '\0' && string2[x] != '\0')
         x++;
     if (string1[x] == '\0' && string2[x] == '\0')
-        return 0;
+        return 0; // les deux chaines de caractères sont égals
     else{
         if (string1[x] == '\0' || string1[x] < string2[x])
-            return -1;
+            return -1; // string1 est inférieur à string2
         else
-            return 1;
+            return 1; // string1 est supérieur à string2
     }
 }
 
@@ -324,7 +324,6 @@ DATA_TYPE * AP_find_value(AP_CDATAFRAME * ap_cdataframe, int ligne, int colonne)
 }
 
 int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type){
-    printf("Debut de la fonction\n");
     int sum=0;
     int size = 50;
 
@@ -432,101 +431,233 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
                 break;
         }
     }
-    printf("fin\n");
     return sum;
 }
 
-int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, void * value){
+int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type){
     int sum=0;
     int size = 50;
-    char str_value[size]; //initialisation d'une chaine de caractères associés à value
-    AP_convert_value(STRING, value, str_value, size);
+
+    // on peut comparer des nombres uniquement avec des nombres
+    int is_digital; // booléen indiquant si val est digital ou bien si il correspond à des chaines de caractères.
+
+    char str_val[size]; //initialisation d'une chaine de caractères associés à val
+
+    // on associe à val, sa valeur en type double.
+    double value;
+    // on convertit val en fonction de son type
+    switch (type) {
+        case UINT:
+            is_digital = 1; // True
+            value = * (unsigned int *) val;
+            break;
+
+        case INT:
+            is_digital = 1; // True
+            value = * (int *) val;
+            break;
+
+        case FLOAT:
+            is_digital = 1; // True
+            value = * (float *) val;
+            break;
+
+        case DOUBLE:
+            is_digital = 1; //True
+            value = * (double *) val;
+            break;
+
+        case CHAR:
+            is_digital = 0; //False
+            str_val[0] = *(char *) val;
+            str_val[1] = '\0';
+            break;
+
+        case STRING:
+            is_digital = 0; // False
+            int i=0;
+            while (* ((char *) val + i) != '\0'){
+                str_val[i] = * ((char *)val + i);
+                if (i > 48){
+                    printf("ERREUR : Chaine de caractères trop longue - max : 49 char");
+                    return -1;
+                }
+                i++;
+            }
+            str_val[i] = '\0';
+            break;
+    }
+
     for (int i=0; i<ap_cdataframe->TL; i++) {
         switch (ap_cdataframe->columns[i]->column_type) {
+
             case (STRING):
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    // on compare les deux chaines de caractères obtenues
-                    if (comparate_string((char*) ap_cdataframe->columns[i]->data[j], str_value) == -1)
-                        sum++;
+                if (!is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+
+                        printf("les caractères sont : %s et %s .\n",ap_cdataframe->columns[i]->data[j]->string_value, str_val);
+
+                        // on compare les deux chaines de caractères
+                        if (comparate_string(ap_cdataframe->columns[i]->data[j]->string_value, str_val) == -1)
+                            sum++;
+                    }
+                    break;
                 }
-                break;
+
             case UINT:
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (* (unsigned int*) ap_cdataframe->columns[i]->data[j] < * (unsigned int*) value)
-                        sum++;
+                if (is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                        if ((double) ap_cdataframe->columns[i]->data[j]->uint_value < value)
+                            sum++;
+                    }
+                    break;
                 }
-                break;
+
             case INT:
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (* (int*) ap_cdataframe->columns[i]->data[j] < * (int*) value)
-                        sum++;
+                if (is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                        if ((double) ap_cdataframe->columns[i]->data[j]->int_value < value)
+                            sum++;
+                    }
+                    break;
                 }
-                break;
+
             case CHAR:
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (* (char*) ap_cdataframe->columns[i]->data[j] < * (char *) value)
-                        sum++;
+                if (!is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                        if (ap_cdataframe->columns[i]->data[j]->char_value < str_val[0] ||
+                            (ap_cdataframe->columns[i]->data[j]->char_value == str_val[0] && str_val[1] != '\0'))
+                            sum++;
+                    }
+                    break;
                 }
-                break;
+
             case FLOAT:
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (* (float*) ap_cdataframe->columns[i]->data[j] < * (float*) value)
-                        sum++;
+                if (is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                        if ((double) ap_cdataframe->columns[i]->data[j]->float_value < value)
+                            sum++;
+                    }
+                    break;
                 }
-                break;
+
             case DOUBLE:
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (* (double*) ap_cdataframe->columns[i]->data[j] < * (double *) value)
-                        sum++;
+                if (is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                        if (ap_cdataframe->columns[i]->data[j]->double_value < value)
+                            sum++;
+                    }
+                    break;
                 }
-                break;
         }
     }
     return sum;
 }
 
-int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * value){
+int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type){
     int sum=0;
     int size = 50;
-    char str_value[size]; //initialisation d'une chaine de caractères associés à value
-    AP_convert_value(STRING, value, str_value, size);
+
+    // on peut comparer des nombres uniquement avec des nombres
+    int is_digital; // booléen indiquant si val est digital ou bien si il correspond à des chaines de caractères.
+
+    char str_val[size]; //initialisation d'une chaine de caractères associés à val
+
+    // on associe à val, sa valeur en type double.
+    double value;
+    // on convertit val en fonction de son type
+    switch (type) {
+        case UINT:
+            is_digital = 1; // True
+            value = * (unsigned int *) val;
+            break;
+        case INT:
+            is_digital = 1; // True
+            value = * (int *) val;
+            break;
+        case FLOAT:
+            is_digital = 1; // True
+            value = * (float *) val;
+            break;
+        case DOUBLE:
+            is_digital = 1; //True
+            value = * (double *) val;
+            break;
+        case CHAR:
+            is_digital = 0; //False
+            str_val[0] = *(char *) val;
+            str_val[1] = '\0';
+            break;
+        case STRING:
+            is_digital = 0; // False
+            int i=0;
+            while (* ((char *) val + i) != '\0'){
+                str_val[i] = * ((char *)val + i);
+                if (i > 48){
+                    printf("ERREUR : Chaine de caractères trop longue - max : 49 char");
+                    return -1;
+                }
+                i++;
+            }
+            str_val[i] = '\0';
+            break;
+    }
+    printf("conversion de la valeur\n");
+
     for (int i=0; i<ap_cdataframe->TL; i++) {
         switch (ap_cdataframe->columns[i]->column_type) {
             case (STRING):
-                for (int j=0; j<ap_cdataframe->columns[0]->TL; j++){
-                    // on compare les deux chaines de caractères obtenues
-                    if (comparate_string((char*) ap_cdataframe->columns[i]->data[j], str_value) == 1)
-                        sum++;
+                if (!is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+
+                        printf("les caractères sont : %s et %s .\n",ap_cdataframe->columns[i]->data[j]->string_value, str_val);
+
+                        // on compare les deux chaines de caractères
+                        if (comparate_string(ap_cdataframe->columns[i]->data[j]->string_value, str_val) == 1)
+                            sum++;
+                    }
+                    break;
                 }
-                break;
             case UINT:
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (* (unsigned int*) ap_cdataframe->columns[i]->data[j] > * (unsigned int*) value)
-                        sum++;
+                if (is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                        if ((double) ap_cdataframe->columns[i]->data[j]->uint_value > value)
+                            sum++;
+                    }
                 }
                 break;
             case INT:
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (* (int*) ap_cdataframe->columns[i]->data[j] > * (int*) value)
-                        sum++;
+                if (is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                        printf("les entiers sont : %lf  et %lf\n", (double) ap_cdataframe->columns[i]->data[j]->int_value, value);
+                        if ((double) ap_cdataframe->columns[i]->data[j]->int_value > value)
+                            sum++;
+                    }
                 }
                 break;
             case CHAR:
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (* (char*) ap_cdataframe->columns[i]->data[j] > * (char *) value)
-                        sum++;
+                if (!is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                        printf("les caractères sont : %c  et %c et la terminaise %c .\n", *(char *) ap_cdataframe->columns[i]->data[j], str_val[0], str_val[1]);
+                        if (ap_cdataframe->columns[i]->data[j]->char_value > str_val[0])
+                            sum++;
+                    }
                 }
                 break;
             case FLOAT:
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (* (float*) ap_cdataframe->columns[i]->data[j] > * (float*) value)
-                        sum++;
+                if (is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                        if ((double) ap_cdataframe->columns[i]->data[j]->float_value > value)
+                            sum++;
+                    }
                 }
                 break;
             case DOUBLE:
-                for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                    if (* (double*) ap_cdataframe->columns[i]->data[j] > * (double *) value)
-                        sum++;
+                if (is_digital) {
+                    for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
+                        if (ap_cdataframe->columns[i]->data[j]->double_value > value)
+                            sum++;
+                    }
                 }
                 break;
         }

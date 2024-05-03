@@ -105,8 +105,9 @@ int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, void * value, ENUM_TYPE typ
 void insertion_sort(AP_COLUMN * col, int ascending);
 void insertion_string_sort(AP_COLUMN * col, int ascending);
 void swap_values(AP_COLUMN * col, unsigned int i, unsigned int j);
-void quicksort(AP_COLUMN * col, unsigned left, unsigned right, unsigned ascending);
-unsigned partition(AP_COLUMN * col, unsigned left, unsigned right, unsigned ascending);
+void quicksort(AP_COLUMN * col, int left, int right, int ascending);
+int partition(AP_COLUMN * col, int left, int right, int ascending);
+void AP_sort_dataframe(AP_CDATAFRAME * cdataframe, int  ascending);
 
 #define DATAFRAME_ALMOST_PERFECT_H
 #endif //DATAFRAME_ALMOST_PERFECT_H

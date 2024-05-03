@@ -670,7 +670,7 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
 // cette macro ne peut être appeler que dans insertion_sort()
 
 #define INSERTION_SORT(TYPE) \
-    for (int i = 1; i < col->TL; ++i) { \
+    printf("début\n"); for (int i = 1; i < col->TL; ++i) { \
         TYPE k = *((TYPE *)col->data[i]); \
         int j = i - 1;       \
         if (ascending){                  \
@@ -682,11 +682,14 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
         else{                \
             while (j >= 0 && *((TYPE *)col->data[j]) < k) { \
                 col->data[j + 1] = col->data[j];            \
-                j = j - 1; }}}
+                j = j - 1; }}} printf("Fin\n");
 
 void insertion_sort(AP_COLUMN * col, int ascending){
+    printf("on est sensé être dans la fonction \n");
+    printf("début \n");
     switch (col->column_type){
         case INT:
+            printf("là \n");
             INSERTION_SORT(int)
             break;
         case UINT:
@@ -729,52 +732,78 @@ void insertion_string_sort(AP_COLUMN * col, int ascending){
 }
 
 void swap_values(AP_COLUMN * col, unsigned int i, unsigned int j){
+    printf("Swap_values \n");
+    printf("%d", i);
+    printf("%d, %c\n", i, col->data[i]->char_value);
     DATA_TYPE *tmp = col->data[i];
+    printf("Swap_values \n");
     col->data[i] = col->data[j];
+    printf("Swap_values \n");
     col->data[j] = tmp;
+    printf("fin de la fonction swap_value\n");
 }
 
-unsigned int partition(AP_COLUMN * col, unsigned int left, unsigned int right, unsigned int ascending) {
+int partition(AP_COLUMN * col, int left, int right, int ascending) {
+    printf("\n\nPartition beggining  left %d right %d ascending %d\n", left, right, ascending);
     DATA_TYPE* pivot = col->data[right];
-    unsigned int i = left - 1;
+    int i = left - 1;
 
     for (unsigned int j = left; j < right; j++) {
+        printf("j %d %d column type : %d\n", j, right, col->column_type);
         switch (col->column_type) {
             case UINT:
-                if ((ascending && *(unsigned int*)col->data[j] >= *(unsigned int*)pivot) || (!ascending && *(unsigned int*)col->data[j] <= *(unsigned int*)pivot))
-                    swap_values(col, i, j);
+                if ((ascending && *(unsigned int*)col->data[j] >= *(unsigned int*)pivot) || (!ascending && *(unsigned int*)col->data[j] <= *(unsigned int*)pivot)){
+                    i++;
+                    swap_values(col, i, j);}
                 break;
             case INT:
-                if ((ascending && *(int*)col->data[j] >= *(int*)pivot) || (!ascending && *(int*)col->data[j] <= *(int*)pivot))
-                    swap_values(col, i, j);
+                printf("Dans le int %d, %d, %d\n", *(int*)col->data[j], *(int*)pivot, ascending);
+                if ((ascending && *(int*)col->data[j] >= *(int*)pivot) || (!ascending && *(int*)col->data[j] <= *(int*)pivot)){
+                    printf("Swap \n");
+                    i++;
+                    swap_values(col, i, j);}
                 break;
             case CHAR:
-                if ((ascending && *(char*)col->data[j] >= *(char*)pivot) || (!ascending && *(char*)col->data[j] <= *(char*)pivot))
-                    swap_values(col, i, j);
+                printf("Dans le int %c, %c, %d\n", *(char *)col->data[j], *(char *)pivot, ascending);
+                if ((ascending && *(char*)col->data[j] >= *(char*)pivot) || (!ascending && *(char*)col->data[j] <= *(char*)pivot)){
+                    printf("Swap \n");
+                    i++;
+                    swap_values(col, i, j);}
                 break;
             case FLOAT:
-                if ((ascending && *(float*)col->data[j] >= *(float*)pivot) || (!ascending && *(float*)col->data[j] <= *(float*)pivot))
+                if ((ascending && *(float*)col->data[j] >= *(float*)pivot) || (!ascending && *(float*)col->data[j] <= *(float*)pivot)){
+                    i++;
                     swap_values(col, i, j);
+                }
                 break;
             case DOUBLE:
-                if ((ascending && *(double*)col->data[j] >= *(double*)pivot) || (!ascending && *(double*)col->data[j] <= *(double*)pivot))
+                if ((ascending && *(double*)col->data[j] >= *(double*)pivot) || (!ascending && *(double*)col->data[j] <= *(double*)pivot)){
+                    i++;
                     swap_values(col, i, j);
+                }
                 break;
             case STRING:
-                if ((ascending && comparate_string((char*)col->data[j], (char*)pivot) >= 0) || (!ascending && comparate_string((char*)col->data[j], (char*)pivot) <= 0))
-                    swap_values(col, i, j);
+                if ((ascending && comparate_string((char*)col->data[j], (char*)pivot) >= 0) || (!ascending && comparate_string((char*)col->data[j], (char*)pivot) <= 0)){
+                    i++;
+                    swap_values(col, i, j);}
                 break;
         }
     }
+    printf("voici l'indice avant le swap : %d \n", i+1);
     swap_values(col, right, i+1);
+    printf("voici l'indice avant le return : %d \n", i+1);
+    printf("voici l'indice avant le return : %d \n", i);
     return i + 1;
 }
 
-void quicksort(AP_COLUMN * col, unsigned int left, unsigned int right, unsigned int ascending) {
-    unsigned int pi;
+void quicksort(AP_COLUMN * col, int left, int right, int ascending) {
+    int pi;
+    printf("Start of function %d %d %d", left, right, ascending);
     if (left < right) {
         pi = partition(col, left, right, ascending);
+        printf("fin de la partition %d \n", pi);
         quicksort(col, left, pi - 1, ascending);
+        printf("fin du premier quicksort \n");
         quicksort(col, pi + 1, right, ascending);
     }
 }
@@ -785,14 +814,28 @@ void sort_column(AP_COLUMN* col, int  ascending){
             if (col->index == 0)
                 insertion_string_sort(col, ascending);
             else
-                quicksort(col, 0, col->TL, ascending);
+                quicksort(col, 0, col->TL - 1, ascending);
             col->sort_dir = 1;
             break;
         default:
-            if (col->index == 0)
+            if (col->index == 0){
+                printf("Default insertion_sort\n");
+                printf("Le ascending %d \n", ascending);
                 insertion_sort(col, ascending);
-            else
-                quicksort(col, 0, col->TL, ascending);
+            }
+            else{
+                printf("\n\nDefault quick_sort\n");
+                quicksort(col, 0, col->TL - 1, ascending);
+            }
             col->sort_dir = 1;
         }
     }
+
+void AP_sort_dataframe(AP_CDATAFRAME * cdataframe, int  ascending){
+    for (int i=0; i<cdataframe->TL; i++){
+        printf("Column number : %d \n", i);
+        sort_column(cdataframe->columns[i], ascending);
+        AP_print_col(cdataframe->columns[i]);
+    }
+}
+

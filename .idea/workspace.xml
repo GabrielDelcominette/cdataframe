@@ -28,7 +28,6 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/DataFrame.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/DataFrame.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -224,6 +223,7 @@
       <workItem from="1714381231146" duration="246000" />
       <workItem from="1714382112500" duration="12231000" />
       <workItem from="1714465972933" duration="5351000" />
+      <workItem from="1714748415072" duration="7881000" />
     </task>
     <servers />
   </component>

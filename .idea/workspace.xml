@@ -21,15 +21,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79469505-cc29-400a-98f2-cf696fb6bab2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/almost_perfect_dataframe.c" beforeDir="false" afterPath="$PROJECT_DIR$/almost_perfect_dataframe.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/almost_perfect_dataframe.h" beforeDir="false" afterPath="$PROJECT_DIR$/almost_perfect_dataframe.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/DataFrame.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/DataFrame.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
-    </list>
+    <list default="true" id="79469505-cc29-400a-98f2-cf696fb6bab2" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -223,7 +215,7 @@
       <workItem from="1714381231146" duration="246000" />
       <workItem from="1714382112500" duration="12231000" />
       <workItem from="1714465972933" duration="5351000" />
-      <workItem from="1714748415072" duration="7881000" />
+      <workItem from="1714748415072" duration="8433000" />
     </task>
     <servers />
   </component>

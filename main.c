@@ -77,6 +77,7 @@ int main(){
     printf("La valeur 4 apparait %d fois \n", AP_n_equals_values(cdf, valeur4, type4));
     printf("La valeur 4bis apparait %d fois \n", AP_n_equals_values(cdf, valeur4bis, type4));
 
+    AP_display_whole_cdataframe(cdf);
     AP_sort_dataframe(cdf, 1);
     AP_display_whole_cdataframe(cdf);
 

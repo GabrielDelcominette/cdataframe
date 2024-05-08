@@ -671,19 +671,22 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
 // cette macro ne peut être appeler que dans insertion_sort()
 
 #define INSERTION_SORT(TYPE) \
-    printf("début\n"); for (int i = 1; i < col->TL; ++i) { \
-        TYPE k = *((TYPE *)col->data[i]); \
+    printf("debut\n"); for (int i = 1; i < col->TL; ++i) { \
+        printf("Affichage de la colonne\n"); AP_print_col(col); \
+        DATA_TYPE * k;\
+        k = col->data[i]; \
         int j = i - 1;       \
         if (ascending){                  \
-            while (j >= 0 && *((TYPE *)col->data[j]) > k) { \
+            while (j >= 0 && *(TYPE *)col->data[j] > *(TYPE *)k) { \
                 col->data[j + 1] = col->data[j];            \
                 j = j - 1; \
         } \
-        col->data[j + 1] = (DATA_TYPE *)&k;}            \
+        col->data[j + 1] = k;}            \
         else{                \
-            while (j >= 0 && *((TYPE *)col->data[j]) < k) { \
+            while (j >= 0 && *(TYPE *)col->data[j] < *(TYPE *) k) { \
                 col->data[j + 1] = col->data[j];            \
-                j = j - 1; }}} printf("Fin\n");
+                j = j - 1; } \
+                col->data[j + 1] = k;}} printf("Fin\n");
 
 void insertion_sort(AP_COLUMN * col, int ascending){
     printf("on est sensé être dans la fonction \n");
@@ -712,18 +715,18 @@ void insertion_sort(AP_COLUMN * col, int ascending){
 
 void insertion_string_sort(AP_COLUMN * col, int ascending){
     for (int i = 1; i < col->TL; ++i) {
-        DATA_TYPE *k = col->data[i];
+        DATA_TYPE * k = col->data[i];
         int j = i - 1;
 
         if (ascending){
-            while (j >= 0 && comparate_string((char *) col->data[j], (char*) k) == 1) {
+            while (j >= 0 && comparate_string(*(char **) col->data[j], *(char**) k) == 1) {
                 col->data[j + 1] = col->data[j];
                 j = j - 1;
             }
             col->data[j + 1] = k;
         }
         else{
-            while (j >= 0 && comparate_string((char *) col->data[j], (char*) k) == -1) {
+            while (j >= 0 && comparate_string(*(char **) col->data[j], *(char**) k) == -1) {
                 col->data[j + 1] = col->data[j];
                 j = j - 1;
             }
@@ -811,10 +814,10 @@ void quicksort(AP_COLUMN * col, int left, int right, int ascending) {
 }
 
 void sort_column(AP_COLUMN* col, int ascending){
-    if (col->valid_index != 1){
+    if (col->valid_index != 1){ // on ne trie la colonne, uniquement si elle n'est pas déjà trié
         switch (col->column_type) {
             case STRING:
-                if (col->valid_index != 0){
+                if (col->valid_index == -1){
                     printf("String insertion_sort\n");
                     insertion_string_sort(col, ascending);}
                 else{
@@ -824,7 +827,7 @@ void sort_column(AP_COLUMN* col, int ascending){
                 col->sort_dir = ascending;
                 break;
             default:
-                if (col->valid_index != 0){
+                if (col->valid_index == -1){
                     printf("Default insertion_sort\n");
                     printf("Le ascending %d \n", ascending);
                     insertion_sort(col, ascending);

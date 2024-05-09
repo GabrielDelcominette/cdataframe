@@ -27,7 +27,7 @@ AP_COLUMN* AP_create_column(ENUM_TYPE type, char * title){
     column->column_type = type;
     column->data = NULL;
     column->index = NULL;
-    column->valid_index = 0;
+    column->valid_index = -1;
     column->sort_dir = 0;
     return column;
 }
@@ -167,7 +167,7 @@ void AP_print_col(AP_COLUMN* col){
     char string[max_size];
     for (int i=0; i<col->TL; i++) {
         AP_convert_value(col->column_type, col->data[i], string, max_size);
-        printf("[%d] %s\n", i, string);
+        printf("[%llu] %s\n", col->index[i], string);
     }
 }
 
@@ -284,38 +284,51 @@ void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
 }
 
 void AP_display_titles(AP_CDATAFRAME * cdataframe){
+    printf("\n\n");
     for (int i=0; i<cdataframe->TL; i++){
         printf("%s\t\t", cdataframe->columns[i]->title);
     }
 }
 
-
 void AP_display_whole_cdataframe(AP_CDATAFRAME * cdataframe){
+    AP_display_titles(cdataframe); // affichages des titles des colonnes en première ligne de la cdataframe
+    for (int j=1; j<cdataframe->columns[0]->TL+1; j++) {
+        printf("\n"); // avant d'afficher les valeurs de la ligne, on revient à la ligne
+        AP_display_row(cdataframe, j);
+    }
+}
+
+void AP_display_sorted_cdataframe(AP_CDATAFRAME * cdataframe, long long unsigned int sorted_column){
     AP_display_titles(cdataframe); // affichages des titles des colonnes en première ligne de la cdataframe
     for (int j=0; j<cdataframe->columns[0]->TL; j++) {
         printf("\n"); // avant d'afficher les valeurs de la ligne, on revient à la ligne
-        for (int i = 0; i < cdataframe->TL; i++) { // pour chaque colonne de la ligne
-            switch (cdataframe->columns[i]->column_type) {
-                // On affiche la valeur en fonction de son type
-                case UINT:
-                    printf("%u\t\t", *(unsigned int*) cdataframe->columns[i]->data[j]);
-                    break;
-                case INT:
-                    printf("%d\t\t", *(int*) cdataframe->columns[i]->data[j]);
-                    break;
-                case CHAR:
-                    printf("%c\t\t", *(char*) cdataframe->columns[i]->data[j]);
-                    break;
-                case FLOAT:
-                    printf("%f\t\t", *(float*) cdataframe->columns[i]->data[j]);
-                    break;
-                case DOUBLE:
-                    printf("%lf\t\t", *(double*) cdataframe->columns[i]->data[j]);
-                    break;
-                case STRING:
-                    printf("%s\t\t", cdataframe->columns[i]->data[j]->string_value);
-                    break;
-            }
+        AP_display_row(cdataframe, cdataframe->columns[sorted_column-1]->index[j]);
+    }
+}
+
+
+void AP_display_row(AP_CDATAFRAME * cdataframe, long long unsigned int row_number){
+    for (int i = 0; i < cdataframe->TL; i++) { // pour chaque colonne de la ligne
+        switch (cdataframe->columns[i]->column_type) {
+            // On affiche la valeur en fonction de son type
+            case UINT:
+                printf("%u\t\t", *(unsigned int *) cdataframe->columns[i]->data[row_number - 1]);
+                break;
+            case INT:
+                printf("%d\t\t", *(int *) cdataframe->columns[i]->data[row_number - 1]);
+                break;
+            case CHAR:
+                printf("%c\t\t", *(char *) cdataframe->columns[i]->data[row_number - 1]);
+                break;
+            case FLOAT:
+                printf("%f\t\t", *(float *) cdataframe->columns[i]->data[row_number - 1]);
+                break;
+            case DOUBLE:
+                printf("%lf\t", *(double *) cdataframe->columns[i]->data[row_number - 1]);
+                break;
+            case STRING:
+                printf("%s\t\t", cdataframe->columns[i]->data[row_number - 1]->string_value);
+                break;
         }
     }
 }
@@ -671,22 +684,23 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
 // cette macro ne peut être appeler que dans insertion_sort()
 
 #define INSERTION_SORT(TYPE) \
-    printf("debut\n"); for (int i = 1; i < col->TL; ++i) { \
-        printf("Affichage de la colonne\n"); AP_print_col(col); \
-        DATA_TYPE * k;\
-        k = col->data[i]; \
-        int j = i - 1;       \
-        if (ascending){                  \
-            while (j >= 0 && *(TYPE *)col->data[j] > *(TYPE *)k) { \
-                col->data[j + 1] = col->data[j];            \
-                j = j - 1; \
-        } \
-        col->data[j + 1] = k;}            \
-        else{                \
-            while (j >= 0 && *(TYPE *)col->data[j] < *(TYPE *) k) { \
-                col->data[j + 1] = col->data[j];            \
-                j = j - 1; } \
-                col->data[j + 1] = k;}} printf("Fin\n");
+    for (int i = 1; i < col->TL; ++i) { \
+            printf("Affichage de la colonne\n"); AP_print_col(col); \
+            long long unsigned int tmp = col->index[i]; \
+            int j = i - 1;\
+            if (ascending){\
+                while (j >= 0 && *(TYPE *)col->data[col->index[j]-1] > *(TYPE *) col->data[tmp-1]) { \
+                    col->index[j + 1] = col->index[j];\
+                    j = j - 1; \
+            }\
+            col->index[j + 1] = tmp;}\
+            else{ \
+                while (j >= 0 && *(TYPE *)col->data[col->index[j]-1] < *(TYPE *) col->data[tmp-1]) { \
+                    col->index[j + 1] = col->index[j];\
+                    j = j - 1; \
+            }\
+            col->index[j + 1] = tmp;}\
+            }printf("Fin\n");
 
 void insertion_sort(AP_COLUMN * col, int ascending){
     printf("on est sensé être dans la fonction \n");
@@ -715,90 +729,83 @@ void insertion_sort(AP_COLUMN * col, int ascending){
 
 void insertion_string_sort(AP_COLUMN * col, int ascending){
     for (int i = 1; i < col->TL; ++i) {
-        DATA_TYPE * k = col->data[i];
+        long long unsigned int tmp = col->index[i];
         int j = i - 1;
 
         if (ascending){
-            while (j >= 0 && comparate_string(*(char **) col->data[j], *(char**) k) == 1) {
-                col->data[j + 1] = col->data[j];
+            while (j >= 0 && comparate_string(*(char **) col->data[col->index[j] - 1], *(char**) col->data[tmp - 1]) == 1) {
+                col->index[j + 1] = col->index[j];
                 j = j - 1;
             }
-            col->data[j + 1] = k;
+            col->index[j + 1] = tmp;
         }
         else{
-            while (j >= 0 && comparate_string(*(char **) col->data[j], *(char**) k) == -1) {
-                col->data[j + 1] = col->data[j];
+            while (j >= 0 && comparate_string(*(char **) col->data[col->index[j] - 1], *(char**) col->data[tmp - 1]) == -1) {
+                col->index[j + 1] = col->index[j];
                 j = j - 1;
             }
-            col->data[j + 1] = k;
+            col->index[j + 1] = tmp;
         }
     }
 }
 
-void swap_values(AP_COLUMN * col, unsigned int i, unsigned int j){
-    printf("Swap_values \n");
-    printf("%d", i);
-    printf("%d, %c\n", i, col->data[i]->char_value);
-    DATA_TYPE *tmp = col->data[i];
+void swap_index(AP_COLUMN * col, unsigned int i, unsigned int j){
+    printf("Swap_index \n");
     unsigned long long int tmp2 = col->index[i];
-    printf("Swap_values \n");
-    col->data[i] = col->data[j];
     col->index[i] = col->index[j];
-    printf("Swap_values \n");
-    col->data[j] = tmp;
     col->index[j] = tmp2;
     printf("fin de la fonction swap_value\n");
 }
 
 int partition(AP_COLUMN * col, int left, int right, int ascending) {
     printf("\n\nPartition beggining  left %d right %d ascending %d\n", left, right, ascending);
-    DATA_TYPE* pivot = col->data[right];
+    DATA_TYPE* pivot = col->data[col->index[right]-1];
     int i = left - 1;
 
     for (unsigned int j = left; j < right; j++) {
         printf("j %d %d column type : %d\n", j, right, col->column_type);
         switch (col->column_type) {
             case UINT:
-                if ((ascending && *(unsigned int*)col->data[col->index[j]] <= *(unsigned int*)pivot) || (!ascending && *(unsigned int*)col->data[col->index[j]] >= *(unsigned int*)pivot)){
+                if ((ascending && *(unsigned int*)col->data[col->index[j]-1] <= *(unsigned int*)pivot) || (!ascending && *(unsigned int*)col->data[col->index[j]-1] >= *(unsigned int*)pivot)){
                     i++;
-                    swap_values(col, i, j);}
+                    swap_index(col, i, j);}
                 break;
             case INT:
-                printf("Dans le int %d, %d, %d\n", *(int*)col->data[col->index[j]], *(int*)pivot, ascending);
-                if ((ascending && *(int*)col->data[j] <= *(int*)pivot) || (!ascending && *(int*)col->data[j] >= *(int*)pivot)){
+                printf("Dans le int %d, %d, %d\n", *(int*)col->data[col->index[j]-1], *(int*)pivot, ascending);
+                if ((ascending && *(int*)col->data[col->index[j]-1] <= *(int*)pivot) || (!ascending && *(int*)col->data[col->index[j]-1] >= *(int*)pivot)){
                     printf("Swap \n");
                     i++;
-                    swap_values(col, i, j);}
+                    swap_index(col, i, j);}
                 break;
             case CHAR:
-                printf("Dans le char %c, %c, %d\n", *(char *)col->data[j], *(char *)pivot, ascending);
-                if ((ascending && *(char*)col->data[j] <= *(char*)pivot) || (!ascending && *(char*)col->data[j] >= *(char*)pivot)){
+                printf("Dans le char %c, %c, %d\n", *(char *)col->data[col->index[j]-1], *(char *)pivot, ascending);
+                if ((ascending && *(char*)col->data[col->index[j]-1] <= *(char*)pivot) || (!ascending && *(char*)col->data[col->index[j]-1] >= *(char*)pivot)){
                     i++;
-                    swap_values(col, i, j);}
+                    swap_index(col, i, j);}
                 break;
             case FLOAT:
-                if ((ascending && *(float*)col->data[j] <= *(float*)pivot) || (!ascending && *(float*)col->data[j] >= *(float*)pivot)){
+                if ((ascending && *(float*)col->data[col->index[j]-1] <= *(float*)pivot) || (!ascending && *(float*)col->data[col->index[j]-1] >= *(float*)pivot)){
                     i++;
-                    swap_values(col, i, j);
+                    swap_index(col, i, j);
                 }
                 break;
             case DOUBLE:
-                if ((ascending && *(double*)col->data[j] <= *(double*)pivot) || (!ascending && *(double*)col->data[j] >= *(double*)pivot)){
+                if ((ascending && *(double*)col->data[col->index[j]-1] <= *(double*)pivot) || (!ascending && *(double*)col->data[col->index[j]-1] >= *(double*)pivot)){
                     i++;
-                    swap_values(col, i, j);
+                    swap_index(col, i, j);
                 }
                 break;
             case STRING:
-                printf("Partition dans les strings, %s et %s\n", *(char**)col->data[j], *(char**)pivot);
-                if ((ascending && comparate_string(*(char**)col->data[j], *(char**)pivot) <= 0) || (!ascending && comparate_string(*(char**)col->data[j], *(char**)pivot) >= 0)){
+                printf("Partition dans les strings, %s et %s\n", *(char**)col->data[col->index[j]-1], *(char**)pivot);
+                if ((ascending && comparate_string(*(char**)col->data[col->index[j]-1], *(char**)pivot) <= 0) || (!ascending && comparate_string(*(char**)col->data[col->index[j]-1], *(char**)pivot) >= 0)){
                     printf("Swap \n");
                     i++;
-                    swap_values(col, i, j);}
+                    swap_index(col, i, j);}
                 break;
         }
     }
     printf("voici l'indice avant le swap : %d \n", i+1);
-    swap_values(col, right, i+1);
+    swap_index(col, right, i + 1);
     printf("voici l'indice avant le return : %d \n", i+1);
     printf("voici l'indice avant le return : %d \n", i);
     return i + 1;

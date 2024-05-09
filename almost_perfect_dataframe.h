@@ -96,6 +96,8 @@ void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe);
 // affichage des cdataframe
 void AP_display_titles(AP_CDATAFRAME * cdataframe);
 void AP_display_whole_cdataframe(AP_CDATAFRAME * cdataframe);
+void AP_display_sorted_cdataframe(AP_CDATAFRAME * cdataframe, long long unsigned int sorted_column);
+void AP_display_row(AP_CDATAFRAME * cdataframe, long long unsigned int row_number);
 
 DATA_TYPE * AP_find_value(AP_CDATAFRAME * ap_cdataframe, int ligne, int colonne);
 int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * value, ENUM_TYPE type);
@@ -104,7 +106,7 @@ int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, void * value, ENUM_TYPE typ
 
 void insertion_sort(AP_COLUMN * col, int ascending);
 void insertion_string_sort(AP_COLUMN * col, int ascending);
-void swap_values(AP_COLUMN * col, unsigned int i, unsigned int j);
+void swap_index(AP_COLUMN * col, unsigned int i, unsigned int j);
 void quicksort(AP_COLUMN * col, int left, int right, int ascending);
 int partition(AP_COLUMN * col, int left, int right, int ascending);
 void AP_sort_dataframe(AP_CDATAFRAME * cdataframe, int  ascending);

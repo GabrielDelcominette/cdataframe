@@ -80,6 +80,10 @@ int main(){
     AP_display_whole_cdataframe(cdf);
     AP_sort_dataframe(cdf, 1);
     AP_display_whole_cdataframe(cdf);
+    AP_display_sorted_cdataframe(cdf, 1);
+    AP_display_sorted_cdataframe(cdf, 2);
+    AP_display_sorted_cdataframe(cdf, 3);
+    AP_display_sorted_cdataframe(cdf, 4);
 
     return 0;
 }

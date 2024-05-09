@@ -171,6 +171,18 @@ void AP_print_col(AP_COLUMN* col){
     }
 }
 
+void AP_print_sorted_col(AP_COLUMN* col){
+    int max_size = 50;
+    char string[max_size];
+    if (col->valid_index == 1){
+        printf("\n\n%s\n", col->title);
+        for (int i=0; i<col->TL; i++){
+            AP_convert_value(col->column_type, col->data[col->index[i]], string, max_size);
+            printf("%s\n", string);
+        }
+    }
+}
+
 int  AP_insert_column(AP_CDATAFRAME * cdataframe, AP_COLUMN * col){
     if (cdataframe->columns == NULL){
         cdataframe->columns = (AP_COLUMN **) malloc(REALLOC_COL_NUMBER * sizeof(AP_COLUMN *));
@@ -299,10 +311,13 @@ void AP_display_whole_cdataframe(AP_CDATAFRAME * cdataframe){
 }
 
 void AP_display_sorted_cdataframe(AP_CDATAFRAME * cdataframe, long long unsigned int sorted_column){
-    AP_display_titles(cdataframe); // affichages des titles des colonnes en première ligne de la cdataframe
-    for (int j=0; j<cdataframe->columns[0]->TL; j++) {
-        printf("\n"); // avant d'afficher les valeurs de la ligne, on revient à la ligne
-        AP_display_row(cdataframe, cdataframe->columns[sorted_column-1]->index[j]);
+    if (cdataframe->columns[sorted_column-1]->index != NULL){
+        AP_sort_column(cdataframe->columns[sorted_column-1], cdataframe->columns[sorted_column-1]->sort_dir);
+        AP_display_titles(cdataframe); // affichages des titles des colonnes en première ligne de la cdataframe
+        for (int j=0; j<cdataframe->columns[0]->TL; j++) {
+            printf("\n"); // avant d'afficher les valeurs de la ligne, on revient à la ligne
+            AP_display_row(cdataframe, cdataframe->columns[sorted_column - 1]->index[j]);
+        }
     }
 }
 
@@ -823,7 +838,7 @@ void quicksort(AP_COLUMN * col, int left, int right, int ascending) {
     }
 }
 
-void sort_column(AP_COLUMN* col, int ascending){
+void AP_sort_column(AP_COLUMN* col, int ascending){
     if (col->valid_index != 1 || ascending != col->sort_dir){ // on ne trie la colonne, uniquement si elle n'est pas déjà trié
         switch (col->column_type) {
             case STRING:
@@ -889,7 +904,7 @@ int check_index(AP_COLUMN *col){
 long long unsigned int search_value_in_column(AP_COLUMN *col, void *val){
     int mid, left, right;
     if (col->index != NULL){
-        sort_column(col, col->sort_dir);
+        AP_sort_column(col, col->sort_dir);
         left = 0;
         right = col->TL;
         while (left < right){

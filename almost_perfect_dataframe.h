@@ -109,6 +109,7 @@ void insertion_string_sort(AP_COLUMN * col, int ascending);
 void swap_index(AP_COLUMN * col, unsigned int i, unsigned int j);
 void quicksort(AP_COLUMN * col, int left, int right, int ascending);
 int partition(AP_COLUMN * col, int left, int right, int ascending);
+void AP_sort_column(AP_COLUMN* col, int ascending);
 void AP_sort_dataframe(AP_CDATAFRAME * cdataframe, int  ascending);
 
 /**

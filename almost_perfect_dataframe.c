@@ -740,10 +740,13 @@ void swap_values(AP_COLUMN * col, unsigned int i, unsigned int j){
     printf("%d", i);
     printf("%d, %c\n", i, col->data[i]->char_value);
     DATA_TYPE *tmp = col->data[i];
+    unsigned long long int tmp2 = col->index[i];
     printf("Swap_values \n");
     col->data[i] = col->data[j];
+    col->index[i] = col->index[j];
     printf("Swap_values \n");
     col->data[j] = tmp;
+    col->index[j] = tmp2;
     printf("fin de la fonction swap_value\n");
 }
 
@@ -756,12 +759,12 @@ int partition(AP_COLUMN * col, int left, int right, int ascending) {
         printf("j %d %d column type : %d\n", j, right, col->column_type);
         switch (col->column_type) {
             case UINT:
-                if ((ascending && *(unsigned int*)col->data[j] <= *(unsigned int*)pivot) || (!ascending && *(unsigned int*)col->data[j] >= *(unsigned int*)pivot)){
+                if ((ascending && *(unsigned int*)col->data[col->index[j]] <= *(unsigned int*)pivot) || (!ascending && *(unsigned int*)col->data[col->index[j]] >= *(unsigned int*)pivot)){
                     i++;
                     swap_values(col, i, j);}
                 break;
             case INT:
-                printf("Dans le int %d, %d, %d\n", *(int*)col->data[j], *(int*)pivot, ascending);
+                printf("Dans le int %d, %d, %d\n", *(int*)col->data[col->index[j]], *(int*)pivot, ascending);
                 if ((ascending && *(int*)col->data[j] <= *(int*)pivot) || (!ascending && *(int*)col->data[j] >= *(int*)pivot)){
                     printf("Swap \n");
                     i++;

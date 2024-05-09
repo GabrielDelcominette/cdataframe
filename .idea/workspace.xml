@@ -24,9 +24,6 @@
     <list default="true" id="79469505-cc29-400a-98f2-cf696fb6bab2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/almost_perfect_dataframe.c" beforeDir="false" afterPath="$PROJECT_DIR$/almost_perfect_dataframe.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/DataFrame.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/DataFrame.exe" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -223,7 +220,7 @@
       <workItem from="1714465972933" duration="5351000" />
       <workItem from="1714748415072" duration="8433000" />
       <workItem from="1714993127860" duration="1189000" />
-      <workItem from="1715175357849" duration="6229000" />
+      <workItem from="1715175357849" duration="9290000" />
     </task>
     <servers />
   </component>

@@ -111,5 +111,30 @@ void quicksort(AP_COLUMN * col, int left, int right, int ascending);
 int partition(AP_COLUMN * col, int left, int right, int ascending);
 void AP_sort_dataframe(AP_CDATAFRAME * cdataframe, int  ascending);
 
+/**
+* @brief: Remove the index of a column
+* @param1: Pointer to the column
+*/
+void erase_index(AP_COLUMN *col);
+
+/**
+* @brief: Check if an index is correct
+* @param1: Pointer to the column
+* @return: 0: index not existing,
+-1: the index exists but invalid,
+1: the index is correct
+*/
+int check_index(AP_COLUMN *col);
+
+/**
+* @brief: Check if a value exists in a column
+* @param1: Pointer to the column
+* @param2: Pointer to the value to search for
+* @return: -1: column not sorted,
+0: value not found
+1: value found
+*/
+long long unsigned int search_value_in_column(AP_COLUMN *col, void *val);
+
 #define DATAFRAME_ALMOST_PERFECT_H
 #endif //DATAFRAME_ALMOST_PERFECT_H

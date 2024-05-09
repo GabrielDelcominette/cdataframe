@@ -824,7 +824,7 @@ void quicksort(AP_COLUMN * col, int left, int right, int ascending) {
 }
 
 void sort_column(AP_COLUMN* col, int ascending){
-    if (col->valid_index != 1){ // on ne trie la colonne, uniquement si elle n'est pas déjà trié
+    if (col->valid_index != 1 || ascending != col->sort_dir){ // on ne trie la colonne, uniquement si elle n'est pas déjà trié
         switch (col->column_type) {
             case STRING:
                 if (col->valid_index == -1){
@@ -858,5 +858,64 @@ void AP_sort_dataframe(AP_CDATAFRAME * cdataframe, int  ascending){
         sort_column(cdataframe->columns[i], ascending);
         AP_print_col(cdataframe->columns[i]);
     }
+}
+
+/**
+* @brief: Remove the index of a column
+* @param1: Pointer to the column
+*/
+void erase_index(AP_COLUMN *col){
+    free(col->index);
+    col->index = NULL;
+    col->valid_index = 0;
+}
+
+int check_index(AP_COLUMN *col){
+    if (col->index == NULL)
+        return 0;
+    if (col->valid_index == 1)
+        return 1;
+    return -1;
+}
+
+#define CONDITION(TYPE) \
+    if (* (TYPE*) col->data[col->index[mid]] == * (TYPE*) val)\
+        return col->index[mid];\
+    if ((* (TYPE*) col->data[col->index[mid]] < * (TYPE*) val && col->sort_dir == 1) || (* (TYPE*) col->data[col->index[mid]] > * (TYPE*) val && col->sort_dir == 0)) \
+        left = mid + 1;\
+    else\
+        right = mid - 1;
+
+long long unsigned int search_value_in_column(AP_COLUMN *col, void *val){
+    int mid, left, right;
+    if (col->index != NULL){
+        sort_column(col, col->sort_dir);
+        left = 0;
+        right = col->TL;
+        while (left < right){
+            mid = left + (left-right) / 2;
+            switch (col->column_type) {
+                case UINT:
+                    CONDITION(unsigned int)
+                    break;
+                case INT:
+                    CONDITION(int)
+                    break;
+                case CHAR:
+                    CONDITION(char)
+                    break;
+                case FLOAT:
+                    CONDITION(float)
+                    break;
+                case DOUBLE:
+                    CONDITION(double)
+                    break;
+                case STRING:
+                    CONDITION(char *)
+                    break;
+            }
+        }
+    }
+    return -1;
 }
 

@@ -5,4 +5,6 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(cdataframe
         main.c
-        Create_dataframe.c)
+        column.c
+        column.h
+        column.h)

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/cdataframe.dir/Create_dataframe.c.obj"
-  "CMakeFiles/cdataframe.dir/Create_dataframe.c.obj.d"
+  "CMakeFiles/cdataframe.dir/column.c.obj"
+  "CMakeFiles/cdataframe.dir/column.c.obj.d"
   "CMakeFiles/cdataframe.dir/main.c.obj"
   "CMakeFiles/cdataframe.dir/main.c.obj.d"
   "cdataframe.exe"

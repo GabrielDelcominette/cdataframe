@@ -23,8 +23,6 @@
   <component name="ChangeListManager">
     <list default="true" id="79469505-cc29-400a-98f2-cf696fb6bab2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/almost_perfect_dataframe.c" beforeDir="false" afterPath="$PROJECT_DIR$/almost_perfect_dataframe.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/almost_perfect_dataframe.h" beforeDir="false" afterPath="$PROJECT_DIR$/almost_perfect_dataframe.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +220,7 @@
       <workItem from="1714748415072" duration="8433000" />
       <workItem from="1714993127860" duration="1189000" />
       <workItem from="1715175357849" duration="9290000" />
-      <workItem from="1715247206077" duration="11215000" />
+      <workItem from="1715247206077" duration="11254000" />
     </task>
     <servers />
   </component>

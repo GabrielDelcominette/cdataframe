@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "C:/Users/Gabriel/Documents/GitHub/cdataframe/cdataframe.c" "CMakeFiles/cdataframe.dir/cdataframe.c.obj" "gcc" "CMakeFiles/cdataframe.dir/cdataframe.c.obj.d"
   "C:/Users/Gabriel/Documents/GitHub/cdataframe/column.c" "CMakeFiles/cdataframe.dir/column.c.obj" "gcc" "CMakeFiles/cdataframe.dir/column.c.obj.d"
   "C:/Users/Gabriel/Documents/GitHub/cdataframe/main.c" "CMakeFiles/cdataframe.dir/main.c.obj" "gcc" "CMakeFiles/cdataframe.dir/main.c.obj.d"
   )

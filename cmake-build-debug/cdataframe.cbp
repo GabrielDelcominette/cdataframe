@@ -76,6 +76,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Gabriel/Documents/GitHub/cdataframe/cdataframe.c">
+			<Option target="cdataframe"/>
+		</Unit>
+		<Unit filename="C:/Users/Gabriel/Documents/GitHub/cdataframe/cdataframe.h">
+			<Option target="cdataframe"/>
+		</Unit>
 		<Unit filename="C:/Users/Gabriel/Documents/GitHub/cdataframe/column.c">
 			<Option target="cdataframe"/>
 		</Unit>

@@ -128,6 +128,30 @@ cdataframe/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cdataframe.dir\build.make CMakeFiles/cdataframe.dir/build
 .PHONY : cdataframe/fast
 
+cdataframe.obj: cdataframe.c.obj
+.PHONY : cdataframe.obj
+
+# target to build an object file
+cdataframe.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cdataframe.dir\build.make CMakeFiles/cdataframe.dir/cdataframe.c.obj
+.PHONY : cdataframe.c.obj
+
+cdataframe.i: cdataframe.c.i
+.PHONY : cdataframe.i
+
+# target to preprocess a source file
+cdataframe.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cdataframe.dir\build.make CMakeFiles/cdataframe.dir/cdataframe.c.i
+.PHONY : cdataframe.c.i
+
+cdataframe.s: cdataframe.c.s
+.PHONY : cdataframe.s
+
+# target to generate assembly for a file
+cdataframe.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cdataframe.dir\build.make CMakeFiles/cdataframe.dir/cdataframe.c.s
+.PHONY : cdataframe.c.s
+
 column.obj: column.c.obj
 .PHONY : column.obj
 
@@ -185,6 +209,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... cdataframe
+	@echo ... cdataframe.obj
+	@echo ... cdataframe.i
+	@echo ... cdataframe.s
 	@echo ... column.obj
 	@echo ... column.i
 	@echo ... column.s

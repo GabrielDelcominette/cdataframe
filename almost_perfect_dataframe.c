@@ -192,7 +192,7 @@ int  AP_insert_column(AP_CDATAFRAME * cdataframe, AP_COLUMN * col){
         return 0;
     }
     if (cdataframe->TL == cdataframe->TP){
-        AP_COLUMN ** tmp = cdataframe->columns; // variable temporaire au cas où realoc ne fonctionnerait pas
+        AP_COLUMN ** tmp = cdataframe->columns; // variable temporaire au cas où realloc ne fonctionnerait pas
         tmp = (AP_COLUMN **) realloc(tmp, (cdataframe->TP + REALLOC_COL_NUMBER) * sizeof(AP_COLUMN *));
         if (tmp != NULL) {
             cdataframe->TP += REALLOC_COL_NUMBER;
@@ -870,7 +870,7 @@ void AP_sort_column(AP_COLUMN* col, int ascending){
 void AP_sort_dataframe(AP_CDATAFRAME * cdataframe, int  ascending){
     for (int i=0; i<cdataframe->TL; i++){
         printf("Column number : %d \n", i);
-        sort_column(cdataframe->columns[i], ascending);
+        AP_sort_column(cdataframe->columns[i], ascending);
         AP_print_col(cdataframe->columns[i]);
     }
 }
@@ -933,4 +933,3 @@ long long unsigned int search_value_in_column(AP_COLUMN *col, void *val){
     }
     return -1;
 }
-

@@ -1,7 +1,6 @@
 #include"cdataframe.h"
 #include<stdio.h>
 #include<stdlib.h>
-#include <string.h>
 
 
 CDATAFRAME* create_cdataframe(char* title) {
@@ -14,22 +13,22 @@ CDATAFRAME* create_cdataframe(char* title) {
 }
 
 
-int insert_columns(CDATAFRAME* cdataframe, char* title) {
+int insert_columns(CDATAFRAME* cdataframe, COLUMN* column) {
     // CAS MEMOIRE DEJA ALLOUEE
-    if ((cdataframe->columns[cdataframe->tl] != NULL) && (cdataframe->tl < cdataframe->tp)) {
-        cdataframe->columns[cdataframe->tl] = create_column(strcpy(title));
+    if ((cdataframe->columns != NULL) && (cdataframe->tl < cdataframe->tp)) {
+        *cdataframe->columns = column;
         cdataframe->tl += 1;
         printf("\nmemoire suffisante > insertion reussie.");
         return 1;
     }
     // ALLOCATION
-    if (cdataframe->columns[cdataframe->tl] == NULL) {
+    if (cdataframe->columns == NULL) {
         printf("\nallocation... ");
-        cdataframe->columns[cdataframe->tl] = (COLUMN*) malloc(10*sizeof(COLUMN));
+        cdataframe->columns = (COLUMN**) malloc(10*sizeof(COLUMN*));
         // vérification que l'allocation a marché
         if (cdataframe->columns != NULL) {
             printf("\n  allocation reussie ! ");
-            cdataframe->columns[cdataframe->tl] = create_column(title);
+            *cdataframe->columns = column;
             cdataframe->tl += 1;
             cdataframe->tp += 10;
             printf("\n  > insertion reussie.");

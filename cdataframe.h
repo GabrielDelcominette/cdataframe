@@ -13,7 +13,7 @@ typedef struct {
 CDATAFRAME* create_cdataframe(char* title);
 
 
-int insert_columns(CDATAFRAME* cdataframe, char* title);
+int insert_columns(CDATAFRAME* cdataframe, COLUMN* column);
 
 
 void print_cdataframe(CDATAFRAME cdataframe);

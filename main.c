@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include "column.h"
+#include "cdataframe.h"
 
 int main(void) {
-    COLUMN *mycol = create_column("title");
-    int x=0, i=0, values[5] = {1,2,3,4,5};
-    for (i = 0; i<5; i++) {
-        x = insert_value(mycol, values[i]);
+    char *title = NULL;
+    int i;
+    CDATAFRAME* cdataframe = create_cdataframe("my_cdataframe");
+    for (i = 0; i < 3; i++){
+        printf("\nsaisir le nom de la nouvelle colonne : ");
+        scanf(" %s ", title);
+        insert_columns(cdataframe, title);
     }
-    print_col(mycol);
+    add_lines_cdataframe(cdataframe, 3);
+    print_cdataframe(*cdataframe);
     return 0;
 }

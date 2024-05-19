@@ -14,7 +14,9 @@ CDATAFRAME* create_cdataframe(char* title) {
 
 
 int insert_columns(CDATAFRAME * cdataframe, COLUMN * col){
+    printf("\ninsertion de la colonne");
     if (cdataframe->columns == NULL){
+        printf("\nallocation");
         cdataframe->columns = (COLUMN **) malloc((REALLOC_COL_NUMBER) * sizeof(COLUMN *));
         cdataframe->tp += REALLOC_COL_NUMBER;
     }
@@ -32,7 +34,7 @@ int insert_columns(CDATAFRAME * cdataframe, COLUMN * col){
             return 0;
     }
     if (cdataframe->tl < cdataframe->tp){
-        //*(cdataframe->columns + cdataframe->TL) = col;
+        printf("\ninsertion directe");
         cdataframe->columns[cdataframe->tl] = col;
         cdataframe->tl+=1;
         return 1;
@@ -44,23 +46,39 @@ int insert_columns(CDATAFRAME * cdataframe, COLUMN * col){
 void insert_value_line(CDATAFRAME* cdataframe){
     int x;
     for(int i = 0; i < cdataframe->tl; i++){
-        printf("\n>Entrer la valeur de la colonne %s : ", cdataframe->columns[i]->title);
+        printf("\n\n>Entrer la valeur de la colonne %s : ", cdataframe->columns[i]->title);
         scanf(" %d", &x);
         insert_value(cdataframe->columns[i], x);
     }
 }
 
 
-void add_lines_cdataframe(CDATAFRAME* cdataframe, int nb_lines){
+void fill_cdataframe(CDATAFRAME* cdataframe, int nb_lines){
     for (int i = 0; i < nb_lines; i++){
         insert_value_line(cdataframe);
     }
 }
 
+void delete_line(CDATAFRAME* cdataframe, int num_line) {
+    if (num_line < cdataframe->columns[0]->tl) {
+        printf("\n> supression de la ligne %d...", num_line);
+        for (int line = num_line; line < cdataframe->tl; line++) {
+            for (int col=0; col < cdataframe->tl; col++) {
+                cdataframe->columns[col]->data[line] = cdataframe->columns[col]->data[line+1];
+            }
+        }
+        for (int col=0; col < cdataframe->tl; col++) {
+            cdataframe->columns[col]->data[cdataframe->columns[col]->tl];
+            cdataframe->columns[col]->tl -= 1;
+        }
+    }
+    else printf("\n> /!\\ Supression impossible");
+}
 
 void print_cdataframe(CDATAFRAME cdataframe){
     int i, j;
-    printf("\n");
+    printf("\n#%s : ", cdataframe.title);
+    printf("\n%d", cdataframe.tl);
     for (i=0; i<cdataframe.tl; i++){
         printf("%s   ", cdataframe.columns[i]->title);
     }

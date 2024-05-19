@@ -21,12 +21,12 @@ int insert_value(COLUMN* col, int value) {
     if (col->data != NULL && col->tl < col->tp) {
         col->data[col->tl] = value;
         col->tl += 1;
-        printf("\nmemoire suffisante > insertion reussie.");
+        printf("memoire suffisante > insertion reussie.");
         return 1;
     }
     // ALLOCATION
     if (col->data == NULL) {
-        printf("\nallocation... ");
+        printf("allocation... ");
         col->data = (int*) malloc(sizeof(int)*REALLOC_SIZE);
         // vérification que l'allocation a marché
         if (col->data != NULL) {
@@ -40,7 +40,7 @@ int insert_value(COLUMN* col, int value) {
     }
     // REALLOCATION
     if (col->tl == col->tp) {
-        printf("\nreallocation... ");
+        printf("reallocation... ");
         // On doit utiliser un pointeur temporaire car si realloc ne peut pas allouer en plus,
         // le pointeur entré en paramètres est mis à NULL -> perte des données
         int* tmp = col->data;
@@ -57,6 +57,15 @@ int insert_value(COLUMN* col, int value) {
     }
     printf("\n/!\\ echec de l'insertion");
     return 0;
+}
+
+void fill_column(COLUMN* col, int nb_line) {
+    int val;
+    for (int i = 0; i<nb_line; i++) {
+        printf("\n> Entrez la valeur de la ligne %d : ", col->tl + i);
+        scanf(" %d", &val);
+        insert_value(col, val);
+    }
 }
 
 

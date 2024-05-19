@@ -28,6 +28,12 @@ COLUMN *create_column(char* title);
 */
 int insert_value(COLUMN* col, int value);
 
+/**
+* @brief : fill a column of values
+* @param1 : Pointer to a column
+* @param2 : The number of lines
+*/
+void fill_column(COLUMN* col, int nb_line);
 
 /**
 * @brief : Free allocated memory

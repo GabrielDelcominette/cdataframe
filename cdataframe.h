@@ -3,6 +3,8 @@
 
 #include"column.h"
 
+#define REALLOC_COL_NUMBER 10
+
 typedef struct {
     char* title;
     int tp;

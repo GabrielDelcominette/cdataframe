@@ -13,46 +13,30 @@ CDATAFRAME* create_cdataframe(char* title) {
 }
 
 
-int insert_columns(CDATAFRAME* cdataframe, COLUMN* column) {
-    // CAS MEMOIRE DEJA ALLOUEE
-    if ((cdataframe->columns != NULL) && (cdataframe->tl < cdataframe->tp)) {
-        *cdataframe->columns = column;
-        cdataframe->tl += 1;
-        printf("\nmemoire suffisante > insertion reussie.");
+int insert_column(CDATAFRAME * cdataframe, COLUMN * col){
+    if (cdataframe->columns == NULL){
+        cdataframe->columns = (COLUMN **) malloc((REALLOC_COL_NUMBER) * sizeof(COLUMN *));
+        cdataframe->tp += REALLOC_COL_NUMBER;
+    }
+    if (cdataframe->columns == NULL){
+        return 0;
+    }
+    if (cdataframe->tl == cdataframe->tp){
+        COLUMN ** tmp = cdataframe->columns; // variable temporaire au cas où realoc ne fonctionnerait pas
+        tmp = (COLUMN **) realloc(tmp, (cdataframe->tp + REALLOC_COL_NUMBER) * sizeof(COLUMN *));
+        if (tmp != NULL) {
+            cdataframe->tp += REALLOC_COL_NUMBER;
+            cdataframe->columns = tmp;
+        }
+        else
+            return 0;
+    }
+    if (cdataframe->tl < cdataframe->tp){
+        //*(cdataframe->columns + cdataframe->TL) = col;
+        cdataframe->columns[cdataframe->tl] = col;
+        cdataframe->tl+=1;
         return 1;
     }
-    // ALLOCATION
-    if (cdataframe->columns == NULL) {
-        printf("\nallocation... ");
-        cdataframe->columns = (COLUMN**) malloc(10*sizeof(COLUMN*));
-        // vérification que l'allocation a marché
-        if (cdataframe->columns != NULL) {
-            printf("\n  allocation reussie ! ");
-            *cdataframe->columns = column;
-            cdataframe->tl += 1;
-            cdataframe->tp += 10;
-            printf("\n  > insertion reussie.");
-            return 1;
-        }
-    }
-    // REALLOCATION
-    if (cdataframe->tl == cdataframe->tp) {
-        printf("\nreallocation... ");
-        // On doit utiliser un pointeur temporaire car si realloc ne peut pas allouer en plus,
-        // le pointeur entré en paramètres est mis à NULL -> perte des données
-        COLUMN** tmp = cdataframe->columns;
-        tmp = (COLUMN**) realloc(tmp, (10*sizeof(COLUMN*)));
-        // vérification que la réallocation a marché
-        if (tmp != NULL) {
-            printf("\n  reallocation reussie ! ");
-            cdataframe->tp += 10;
-            cdataframe->tl += 1;
-            cdataframe->columns = tmp;
-            printf("\n  > insertion reussie.");
-            return 1;
-        }
-    }
-    printf("\n/!\\ echec de l'insertion");
     return 0;
 }
 

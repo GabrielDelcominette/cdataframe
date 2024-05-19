@@ -1,16 +1,18 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include"column.h"
+#include"string.h"
 
 
-
-COLUMN* create_column(char*title) {
-    COLUMN* col = (COLUMN*) malloc(sizeof(COLUMN*));
-    col->title = title;
-    col->tp = 0;
-    col->tl = 0;
-    col->data = NULL;
-    return col;
+COLUMN* create_column(char* title){
+    COLUMN * column;
+    column = (COLUMN*) malloc(sizeof(COLUMN));
+    column->title = (char *) malloc(sizeof(char *) * (strlen(title) + 1));
+    strcpy(column->title, title);
+    column->tp = 0;
+    column->tl = 0;
+    column->data = NULL;
+    return column;
 }
 
 

@@ -7,6 +7,5 @@ add_executable(cdataframe
         main.c
         column.c
         column.h
-        column.h
         cdataframe.h
         cdataframe.c)

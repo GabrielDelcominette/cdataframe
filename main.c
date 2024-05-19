@@ -9,7 +9,7 @@ int main(void) {
     CDATAFRAME* cdataframe = create_cdataframe("my_cdataframe");
     for (i = 0; i < 3; i++){
         printf("\nsaisir le nom de la nouvelle colonne : ");
-        scanf(" %s ", title);
+        scanf(" %s", &title);
         column = create_column(title);
         insert_columns(cdataframe, column);
     }

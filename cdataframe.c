@@ -13,7 +13,7 @@ CDATAFRAME* create_cdataframe(char* title) {
 }
 
 
-int insert_column(CDATAFRAME * cdataframe, COLUMN * col){
+int insert_columns(CDATAFRAME * cdataframe, COLUMN * col){
     if (cdataframe->columns == NULL){
         cdataframe->columns = (COLUMN **) malloc((REALLOC_COL_NUMBER) * sizeof(COLUMN *));
         cdataframe->tp += REALLOC_COL_NUMBER;
@@ -66,8 +66,9 @@ void print_cdataframe(CDATAFRAME cdataframe){
     }
     for (i=0; i<cdataframe.columns[0]->tl; i++){
         printf("\n");
-        for (j=1; j<cdataframe.tl; j++){
+        for (j=0; j<cdataframe.tl; j++){
             printf("   %d   ", cdataframe.columns[j]->data[i]);
         }
     }
 }
+

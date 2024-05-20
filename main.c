@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "cdataframe.h"
 #include "almost_perfect_dataframe.h"
+#include"menu.h"
 
 
 int main(){
@@ -12,6 +13,8 @@ int main(){
     DATA_TYPE *data_type;
     data_type = (DATA_TYPE*) malloc(sizeof(DATA_TYPE));
 
+
+    main_menu();
     data_type->int_value = 5;
     data_type->double_value = 9.56;
     printf("OK\n");

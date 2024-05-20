@@ -55,7 +55,8 @@
 				0,
 				1,
 				2,
-				4
+				4,
+				5
 			]
 		}
 	],
@@ -95,14 +96,16 @@
 				0,
 				1,
 				2,
-				4
+				4,
+				5
 			]
 		},
 		{
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				3
+				3,
+				6
 			]
 		}
 	],
@@ -117,7 +120,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "dataframe.c",
+			"path" : "column.c",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -136,6 +139,17 @@
 			"compileGroupIndex" : 0,
 			"path" : "almost_perfect_dataframe.c",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "menu.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "menu.h",
+			"sourceGroupIndex" : 1
 		}
 	],
 	"type" : "EXECUTABLE"

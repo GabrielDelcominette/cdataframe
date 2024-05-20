@@ -91,7 +91,7 @@ void commands_dataframe(CDATAFRAME* cdataframe) {
         printf("\n\n>Entrez une commande a effectuer : ");
         scanf(" %s", command);
         printf("\n");
-        if (strcmp(command,"/help") == 0) {
+        if (comparate_string(command,"/help") == 0) {
             printf("\ncommandes existantes : "
            "\n/quit : retour au menu principal"
            "\n/help : affichage des commandes disponibles"
@@ -111,7 +111,7 @@ void commands_dataframe(CDATAFRAME* cdataframe) {
            "\n/nbeqval : nombre de valeurs = a celle choisie"
            "\n/changeval : change la valeur i,j par une choisie");
         }
-        else if (strcmp(command,"/addcol") == 0) {
+        else if (comparate_string(command,"/addcol") == 0) {
             char title[50];
             printf("\n>Entrez le titre de la nouvelle colonne : ");
             scanf(" %s", title);
@@ -119,70 +119,72 @@ void commands_dataframe(CDATAFRAME* cdataframe) {
             fill_column(column, cdataframe->columns[0]->TL);
             insert_column(cdataframe, column);
         }
-        else if (strcmp(command,"/addrow") == 0) {
+        else if (comparate_string(command,"/addrow") == 0) {
             insert_row(cdataframe);
         }
-        else if (strcmp(command,"/delcol") == 0) {
+        else if (comparate_string(command,"/delcol") == 0) {
             printf("\n>Saisir le numero de la colonne a supprimer : ");
             scanf(" %d", &indice);
             delete_column(cdataframe, indice);
         }
-        else if (strcmp(command,"/delrow") == 0) {
+        else if (comparate_string(command,"/delrow") == 0) {
             printf("\n>Saisir le numero de la ligne a supprimer : ");
             scanf(" %d", &indice);
             delete_row(cdataframe, indice);
         }
-        else if (strcmp(command,"/dataframe") == 0) {
+        else if (comparate_string(command,"/dataframe") == 0) {
             display_whole_cdataframe(cdataframe);
         }
-        else if (strcmp(command,"/dataframelimits") == 0) {
+        else if (comparate_string(command,"/dataframelimits") == 0) {
             printf("\n>Saisir les indices des colonnes et lignes de début, olonnes et lignes de fin "
                          "\n sous la forme :start_col start_row end_col end_row : ");
             scanf(" %d %d %d %d", &startcol, &startrow, &endcol, &endrow);
             display_cdataframe(cdataframe, startcol, startrow, endcol, endrow);
         }
-        else if (strcmp(command,"/rownb") == 0) {
+        else if (comparate_string(command,"/rownb") == 0) {
             display_rows_number(cdataframe);
         }
-        else if (strcmp(command,"/colnb") == 0) {
+        else if (comparate_string(command,"/colnb") == 0) {
             display_columns_number(cdataframe);
         }
-        else if (strcmp(command,"/titles") == 0) {
+        else if (comparate_string(command,"/titles") == 0) {
             display_titles(cdataframe);
         }
-        else if (strcmp(command,"/val") == 0) {
+        else if (comparate_string(command,"/val") == 0) {
             printf("\n>Saisir les indices de recherche sous la forme: col row: ");
             scanf(" %d %d", &i, &j);
             printf("\n>Valeur : %d", find_value(cdataframe, i, j));
         }
-        else if (strcmp(command,"/searchval") == 0) {
+        else if (comparate_string(command,"/searchval") == 0) {
             printf("\n>Saisir une valeur à rechercher : ");
             scanf(" %d", &value);
             is_value_in(cdataframe, value);
         }
-        else if (strcmp(command,"/nbhival") == 0) {
+        else if (comparate_string(command,"/nbhival") == 0) {
             printf("\n>Saisir une valeur à comparer : ");
             scanf(" %d", &value);
             n_higher_values(cdataframe, value);
         }
-        else if (strcmp(command,"/nbloval") == 0) {
+        else if (comparate_string(command,"/nbloval") == 0) {
             printf("\n>Saisir une valeur à comparer : ");
             scanf(" %d", &value);
             n_lower_values(cdataframe, value);
         }
-        else if (strcmp(command,"/nbeqval") == 0) {
+        else if (comparate_string(command,"/nbeqval") == 0) {
             printf("\n>Saisir une valeur à comparer : ");
             scanf(" %d", &value);
             n_equals_values(cdataframe, value);
         }
-        else if (strcmp(command,"/changeval") == 0) {
+        else if (comparate_string(command,"/changeval") == 0) {
             printf("\n>Saisir les indices de la valeur à changer sous la forme: col row: ");
             scanf(" %d %d", &i, &j);
             printf(">Saisir une valeur : ");
             scanf(" %d", &value);
             change_cell_value(cdataframe, value, i, j);
         }
-    } while (strcmp(command,"/quit") != 0);
+    } while (comparate_string(command,"/quit") != 0);
     printf("\n==============================");
     main_menu();
 }
+
+

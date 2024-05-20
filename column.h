@@ -85,4 +85,6 @@ int superior_x(COLUMN col, int x);
 int inferior_x(COLUMN col, int x);
 
 
+
+
 #endif //COLUMN_H

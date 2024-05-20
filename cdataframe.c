@@ -53,11 +53,36 @@ void insert_value_line(CDATAFRAME* cdataframe){
 }
 
 
-void fill_cdataframe(CDATAFRAME* cdataframe, int nb_lines){
-    for (int i = 0; i < nb_lines; i++){
+void fill_cdataframe_l_by_l(CDATAFRAME* cdataframe, int nb_col, int nb_line){
+    char title[20];
+    COLUMN * column = NULL;
+    int i;
+    for (i = 0; i < nb_col; i++){
+        printf("\nsaisir le nom de la nouvelle colonne : ");
+        scanf(" %s", &title);
+        column = create_column(title);
+        insert_columns(cdataframe, column);
+
+    }
+    for (i = 0; i < nb_line; i++){
         insert_value_line(cdataframe);
     }
 }
+
+
+void fill_cdataframe_c_by_c(CDATAFRAME* cdataframe, int nb_col, int nb_line) {
+    char title[20];
+    COLUMN * column = NULL;
+    int i;
+    for (i = 0; i < nb_col; i++){
+        printf("\nsaisir le nom de la nouvelle colonne : ");
+        scanf(" %s", &title);
+        column = create_column(title);
+        fill_column(column, nb_line);
+        insert_columns(cdataframe, column);
+    }
+}
+
 
 void delete_line(CDATAFRAME* cdataframe, int num_line) {
     if (num_line < cdataframe->columns[0]->tl) {
@@ -75,10 +100,10 @@ void delete_line(CDATAFRAME* cdataframe, int num_line) {
     else printf("\n> /!\\ Supression impossible");
 }
 
-void print_cdataframe(CDATAFRAME cdataframe){
+void print_all_cdataframe(CDATAFRAME cdataframe){
     int i, j;
     printf("\n#%s : ", cdataframe.title);
-    printf("\n%d", cdataframe.tl);
+    printf("\n");
     for (i=0; i<cdataframe.tl; i++){
         printf("%s   ", cdataframe.columns[i]->title);
     }
@@ -90,3 +115,67 @@ void print_cdataframe(CDATAFRAME cdataframe){
     }
 }
 
+
+void print_cdataframe_limit_col(CDATAFRAME cdataframe, int limit_col) {
+    int i, j;
+    if (limit_col > cdataframe.tl) {
+        limit_col = cdataframe.tl;
+        printf("\n> affichage de %s jusqu'à la fin : ", cdataframe.title);
+    }
+    else {
+        printf("\n> affichage de %s jusuqu'a la colonne %d : ", cdataframe.title, limit_col);
+    }
+    printf("\n");
+    for (i=0; i<limit_col; i++){
+        printf("%s   ", cdataframe.columns[i]->title);
+    }
+    for (i=0; i<cdataframe.columns[0]->tl; i++){
+        printf("\n");
+        for (j=0; j<limit_col; j++){
+            printf("   %d   ", cdataframe.columns[j]->data[i]);
+        }
+    }
+}
+
+
+void print_cdataframe_limit_line(CDATAFRAME cdataframe, int limit_line) {
+    int i, j;
+    if (limit_line > cdataframe.columns[0]->tl) {
+        limit_line = cdataframe.columns[0]->tl;
+        printf("\n> affichage de %s jusqu'à la fin : ", cdataframe.title);
+    }
+    else {
+        printf("\n> affichage de %s jusuqu'a la ligne %d : ", cdataframe.title, limit_line);
+    }
+    printf("\n");
+    for (i=0; i<cdataframe.tl; i++){
+        printf("%s   ", cdataframe.columns[i]->title);
+    }
+    for (i=0; i<limit_line; i++){
+        printf("\n");
+        for (j=0; j<cdataframe.tl; j++){
+            printf("   %d   ", cdataframe.columns[j]->data[i]);
+        }
+    }
+}
+
+
+
+void delete_col_by_id(CDATAFRAME* cdataframe, int id_col) {
+    for (int col = id_col; col < cdataframe->tl-1; col++) {
+        delete_column(cdataframe->columns[col]);
+        cdataframe->columns[col] = cdataframe->columns[col+1];
+        printf("\ndecallage");
+    }
+    cdataframe->tl -= 1;
+}
+
+
+int search_idcol_by_name(CDATAFRAME cdataframe, char* title) {
+    for (int i = 0; i<cdataframe.tl; i++) {
+        if (cdataframe.columns[i]->title == title) {
+            return i;
+        }
+    }
+    return -1;
+}

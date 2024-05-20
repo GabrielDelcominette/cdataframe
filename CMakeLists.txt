@@ -9,7 +9,5 @@ add_executable(DataFrame main.c
         almost_perfect_dataframe.h
         almost_perfect_dataframe.c
         menu.c
-        menu.c
-        menu.h
         menu.h
 )

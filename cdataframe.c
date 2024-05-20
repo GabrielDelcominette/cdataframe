@@ -93,7 +93,7 @@ void insert_row(CDATAFRAME * cdataframe){
 
 void display_titles(CDATAFRAME * cdataframe){
     for (int i=0; i<cdataframe->TL; i++){
-        printf("  %s  ", cdataframe->columns[i]->title);
+        printf("\t%s\t ", cdataframe->columns[i]->title);
     }
 }
 
@@ -103,7 +103,7 @@ void display_whole_cdataframe(CDATAFRAME * cdataframe){
     for (int j=0; j<cdataframe->columns[0]->TL; j++) {
         printf("\n");
         for (int i = 0; i < cdataframe->TL; i++) {
-            printf("    %d  ", cdataframe->columns[i]->data[j]);
+            printf("\t%d\t|", cdataframe->columns[i]->data[j]);
         }
     }
 }
@@ -206,13 +206,13 @@ void delete_column(CDATAFRAME * cdataframe, int col){
 }
 
 void delete_row(CDATAFRAME * cdataframe, int row){
-    if (row < 1 ||  row > cdataframe->columns[0]->TL) {
+    if (row < 0 ||  row > cdataframe->columns[0]->TL) {
         printf("/!\\ERREUR : les indices entrées sont impossibles !");
     }
     else{
         for (int i=0; i<cdataframe->TL; i++){
             for (int j=row; j<cdataframe->columns[0]->TL; j++){
-                cdataframe->columns[i]->data[j+1] = cdataframe->columns[i]->data[j];
+                cdataframe->columns[i]->data[j] = cdataframe->columns[i]->data[j+1];
             }
             cdataframe->columns[i]->TL-=1;
         }

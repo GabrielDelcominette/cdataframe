@@ -125,13 +125,42 @@ int AP_insert_value(AP_COLUMN *col, void *value){
 }
 
 void AP_delete_column(AP_COLUMN **col){
+    printf("\nsupression...");
     free((*col)->title);
     for (int i = 0; i<(*col)->TP; i++){
         free((*col)->data[i]);
     }
     free((*col)->data);
     free(*col);
-    free(col);
+}
+
+void AP_delete_column_from_dataframe(AP_CDATAFRAME * cdataframe, int col){
+    if (col < 1 ||  col > cdataframe->TL) {
+        printf("/!\\ERREUR : les indices entrées sont impossibles !");
+    }
+    else {
+        AP_COLUMN* tmp = cdataframe->columns[col - 1];
+        for (int i = col; i < cdataframe->TL; i++) {
+            cdataframe->columns[i - 1] = cdataframe->columns[i];
+        }
+        cdataframe->TL -= 1;
+        AP_delete_column(&tmp);
+    }
+}
+
+
+void AP_delete_row(AP_CDATAFRAME * cdataframe, int row){
+    if (row < 0 ||  row > cdataframe->columns[0]->TL) {
+        printf("/!\\ERREUR : les indices entrées sont impossibles !");
+    }
+    else{
+        for (int i=0; i<cdataframe->TL; i++){
+            for (int j=row; j<cdataframe->columns[0]->TL; j++){
+                cdataframe->columns[i]->data[j] = cdataframe->columns[i]->data[j+1];
+            }
+            cdataframe->columns[i]->TL-=1;
+        }
+    }
 }
 
 void AP_convert_value(ENUM_TYPE type, DATA_TYPE * value, char *str, int size){
@@ -212,56 +241,55 @@ int  AP_insert_column(AP_CDATAFRAME * cdataframe, AP_COLUMN * col){
 
 void AP_insert_row(AP_CDATAFRAME * cdataframe){
     for (int colonne=0; colonne<cdataframe->TL; colonne++){
-        printf("début du switch\n");
         switch (cdataframe->columns[colonne]->column_type) {
             case UINT:
             {
                 unsigned int value;
-                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est UNSIGNED INT : \\n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                printf(">Saisissez la valeure de la ligne %d de la colonne %d, dont le type est UNSIGNED INT : \\n", cdataframe->columns[colonne]->TL + 1, colonne+1);
                 scanf(" %u", &value);
                 AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
             case INT:
             {
                 int value;
-                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est INT : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                printf(">Saisissez la valeure de la ligne %d de la colonne %d, dont le type est INT : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
                 scanf(" %d", &value);
-                printf("scanf\n");
                 AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
             case CHAR:
             {
                 char value;
-                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est CHAR : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                printf(">Saisissez la valeure de la ligne %d de la colonne %d, dont le type est CHAR : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
                 scanf(" %c", &value);
                 AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
             case FLOAT:
             {
                 float value;
-                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est FLOAT : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                printf(">Saisissez la valeure de la ligne %d de la colonne %d, dont le type est FLOAT : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
                 scanf(" %f", &value);
                 AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
             case DOUBLE:
             {
                 double value;
-                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est DOUBLE : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                printf(">Saisissez la valeure de la ligne %d de la colonne %d, dont le type est DOUBLE : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
                 scanf(" %lf", &value);
                 AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
             case STRING:
             {
                 char *value = NULL;
-                printf("Saisissez la valeure de la ligne %d de la colonne %d, dont le type est STRING : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
-                scanf(" %s", value);
-                AP_insert_value(cdataframe->columns[colonne], value);
+                printf(">Saisissez la valeure de la ligne %d de la colonne %d, dont le type est STRING : \n", cdataframe->columns[colonne]->TL + 1, colonne+1);
+                scanf(" %s", &value);
+                AP_insert_value(cdataframe->columns[colonne], &value);
                 break;}
         }
         printf("%d \n", cdataframe->columns[colonne]->data[cdataframe->columns[colonne]->TL - 1]->int_value);
     }
     AP_display_whole_cdataframe(cdataframe);
 }
+
 
 void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
     int C, L;
@@ -289,7 +317,7 @@ void AP_read_cdataframe_user(AP_CDATAFRAME * cdataframe) {
 
     printf("\t\t ********* Entrer les valeurs dans les cellules ***********\n");
     for (int ligne=1; ligne<L+1; ligne++){
-        printf("***** Saisir les valeurs de la ligne %d *****\n", ligne + 1);
+        printf("\n=== Saisir les valeurs de la ligne %d ===\n", ligne);
         AP_insert_row(cdataframe);
         printf("%d \n", cdataframe->columns[0]->data[ligne]->int_value);
     }

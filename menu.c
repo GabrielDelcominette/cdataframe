@@ -1,10 +1,6 @@
 #include "menu.h"
-#include"column.h"
-#include "cdataframe.h"
-#include "almost_perfect_dataframe.h"
 #include <stdio.h>
-#include <string.h>
-
+#include "column.h"
 
 int main_menu() {
     int answ = 0;
@@ -19,7 +15,7 @@ int main_menu() {
     printf("\n>>>");
     scanf(" %d", &answ);
     if (answ == 1) menu_dataframe();
-    else if (answ == 2) return 0;
+    else if (answ == 2) menu_AP_dataframe();
     else if (answ == 3) return 1;
     else {
         printf("/!\\ ERREUR, RETOUR AU MENU PRINCIPAL");
@@ -128,7 +124,7 @@ void commands_dataframe(CDATAFRAME* cdataframe) {
             delete_column(cdataframe, indice);
         }
         else if (comparate_string(command,"/delrow") == 0) {
-            printf("\n>Saisir le numero de la ligne a supprimer : ");
+            printf("\n>Saisir l'indice de la ligne a supprimer : ");
             scanf(" %d", &indice);
             delete_row(cdataframe, indice);
         }
@@ -187,4 +183,156 @@ void commands_dataframe(CDATAFRAME* cdataframe) {
     main_menu();
 }
 
+
+void menu_AP_dataframe() {
+    printf("\n\n\n");
+    printf("\n*** DATAFRAME A TYPE MULTIPLE ***");
+    printf("\n");
+    printf("\nPour creer un nouveau cdataframe, appuyez sur 1 ");
+    printf("\nPour quitter appuyez sur 2 ");
+    printf("\n>>>");
+    int answ = 0;
+    scanf(" %d", &answ);
+    if (answ == 1) menu_create_AP_dataframe();
+    else if (answ == 2) main_menu();
+    else {
+        printf("/!\\ ERREUR, RETOUR AU MENU PRINCIPAL");
+        main_menu();
+    }
+}
+
+
+void menu_create_AP_dataframe() {
+    AP_CDATAFRAME* ap_cdataframe = AP_create_cdataframe();
+    AP_read_cdataframe_user(ap_cdataframe);
+    AP_display_whole_cdataframe(ap_cdataframe);
+    commands_AP_dataframe(ap_cdataframe);
+}
+
+
+void commands_AP_dataframe(AP_CDATAFRAME* ap_cdataframe) {
+    char command[50];
+    int indice, i, j;
+    int startcol, startrow, endcol, endrow;
+    printf("\ncommandes existantes : "
+           "\n/quit : retour au menu principal"
+           "\n/help : affichage des commandes disponibles"
+           "\n/addcol : ajoute une colonne au dataframe"
+           "\n/addrow : ajoute une ligne au dataframe"
+           "\n/delcol : supprime une colonne d'indice i"
+           "\n/delrow : supprime une ligne d'indice i"
+           "\n/dataframe : affiche le dataframe en entier"
+           "\n/dataframelimits : affiche le dataframe avec une limites de lignes et colonnes"
+           "\n/rownb : affiche le nombre de lignes"
+           "\n/colnb : affiche le nombre de colonnes"
+           "\n/titles : affiche les titres des colonnes"
+           "\n/val : affiche la valeur a i,j"
+           "\n/searchval : recherche d'une valeur choisie"
+           "\n/nbhival : nombre de valeurs superieures a celle choisie"
+           "\n/nbloval : nombre de valeurs inferieurs a celle choisie"
+           "\n/nbeqval : nombre de valeurs égales a celle choisie"
+           "\n/changeval : change la valeur i,j par une choisie");
+    do {
+        printf("\n\n>Entrez une commande a effectuer : ");
+        scanf(" %s", command);
+        printf("\n");
+        if (comparate_string(command,"/help") == 0) {
+            printf("\ncommandes existantes : "
+           "\n/quit : retour au menu principal"
+           "\n/help : affichage des commandes disponibles"
+           "\n/addcol : ajoute une colonne au dataframe"
+           "\n/addrow : ajoute une ligne au dataframe"
+           "\n/delcol : supprime une colonne d'indice i"
+           "\n/delrow : supprime une ligne d'indice i"
+           "\n/dataframe : affiche le dataframe en entier"
+           "\n/titles : affiche les titres des colonnes"
+           "\n/sortdataframe : trie le dataframe");
+        }
+        else if (comparate_string(command,"/addcol") == 0) {
+            char title[50];
+            ENUM_TYPE type = 1;
+            printf("\n>Entrez le titre de la colonne : ");
+            scanf(" %s", title);
+            printf("\n>Entrez le type de la colonne "
+                   "\n(1 = UINT; 2 = INT; 3 = CHAR; 4 = FLOAT; 5 = DOUBLE; 6 = STRING");
+            printf("\n>>>");
+            scanf(" %d", &type);
+            AP_COLUMN* column = AP_create_column(type, title);
+            while (column->TL<ap_cdataframe->columns[0]->TL) {
+                switch (column->column_type) {
+                    case UINT: {
+                        printf("\n>Saisir un entier non signe : ");
+                        unsigned int value;
+                        scanf(" %u", &value);
+                        AP_insert_value(column, &value);
+                        break;
+                    }
+                    case INT: {
+                        printf("\n>Saisir un entier : ");
+                        int value;
+                        scanf(" %d", &value);
+                        AP_insert_value(column, &value);
+                        break;
+
+                    }
+                    case CHAR: {
+                        printf("\n>Saisir un caractere : ");
+                        char value;
+                        scanf(" %c", &value);
+                        AP_insert_value(column, &value);
+                        break;
+                    }
+                    case FLOAT: {
+                        printf("\n>Saisir un decimal : ");
+                        float value;
+                        scanf(" %f", &value);
+                        AP_insert_value(column, &value);
+                        break;
+                    }
+                    case DOUBLE: {
+                        printf("\n>Saisir un double : ");
+                        double value;
+                        scanf(" %lf", &value);
+                        AP_insert_value(column, &value);
+                        break;
+                    }
+                    case STRING: {
+                        printf("\n>Saisir une chaine de caracteres : ");
+                        char value[50];
+                        scanf(" %s", value);
+                        AP_insert_value(column, value);
+                        break;
+                    }
+                }
+            }
+            AP_insert_column(ap_cdataframe, column);
+        }
+        else if(comparate_string(command,"/dataframe") == 0) {
+            AP_display_whole_cdataframe(ap_cdataframe);
+        }
+        else if(comparate_string(command,"/addrow") == 0) {
+            AP_insert_row(ap_cdataframe);
+        }
+        else if (comparate_string(command,"/delcol") == 0) {
+            printf("\n>Saisir le numero de la colonne a supprimer : ");
+            scanf(" %d", &indice);
+            AP_delete_column_from_dataframe(ap_cdataframe, indice);
+        }
+        else if (comparate_string(command,"/delrow") == 0) {
+            printf("\n>Saisir l'indice de la ligne a supprimer : ");
+            scanf(" %d", &indice);
+            AP_delete_row(ap_cdataframe, indice);
+        }
+        else if (comparate_string(command,"/titles")==0) {
+            AP_display_titles(ap_cdataframe);
+        }
+        else if (comparate_string(command,"/sortdataframe") == 0) {
+            AP_sort_dataframe(ap_cdataframe, 1);
+            AP_display_sorted_cdataframe(ap_cdataframe, 1);
+        }
+
+    } while (comparate_string(command,"/quit") != 0);
+    printf("\n==============================");
+    main_menu();
+}
 

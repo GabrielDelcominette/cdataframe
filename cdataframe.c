@@ -115,12 +115,12 @@ void display_cdataframe(CDATAFRAME * cdataframe, int start_column, int start_row
     }
     else{
         for (int i=start_column-1; i<end_column; i++){
-            printf("%s\t", cdataframe->columns[i]->title);
+            printf("  %s  ", cdataframe->columns[i]->title);
         }
         for (int j=start_row-1; j<end_row-1; j++) {
             printf("\n");
             for (int i = start_column - 1; i < end_column; i++) {
-                printf("%d\t\t", cdataframe->columns[i]->data[j]);
+                printf("    %d  ", cdataframe->columns[i]->data[j]);
             }
         }
     }
@@ -212,9 +212,9 @@ void delete_row(CDATAFRAME * cdataframe, int row){
     else{
         for (int i=0; i<cdataframe->TL; i++){
             for (int j=row; j<cdataframe->columns[0]->TL; j++){
-                cdataframe->columns[i]->data[j-1] = cdataframe->columns[i]->data[j];
+                cdataframe->columns[i]->data[j+1] = cdataframe->columns[i]->data[j];
             }
-            cdataframe->columns[i]->TL--;
+            cdataframe->columns[i]->TL-=1;
         }
     }
 }

@@ -1,4 +1,5 @@
 #include "cdataframe.h"
+#include "column.h"
 #include <stdlib.h>
 #include <stdio.h>
 

@@ -57,8 +57,8 @@ build CMakeFiles/DataFrame.dir/main.c.obj: C_COMPILER__DataFrame_unscanned_Debug
   TARGET_COMPILE_PDB = CMakeFiles\DataFrame.dir\
   TARGET_PDB = DataFrame.pdb
 
-build CMakeFiles/DataFrame.dir/dataframe.c.obj: C_COMPILER__DataFrame_unscanned_Debug C$:/Users/etien/Documents/GitHub/cdataframe/dataframe.c || cmake_object_order_depends_target_DataFrame
-  DEP_FILE = CMakeFiles\DataFrame.dir\dataframe.c.obj.d
+build CMakeFiles/DataFrame.dir/column.c.obj: C_COMPILER__DataFrame_unscanned_Debug C$:/Users/etien/Documents/GitHub/cdataframe/column.c || cmake_object_order_depends_target_DataFrame
+  DEP_FILE = CMakeFiles\DataFrame.dir\column.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\DataFrame.dir
   OBJECT_FILE_DIR = CMakeFiles\DataFrame.dir
@@ -81,6 +81,14 @@ build CMakeFiles/DataFrame.dir/almost_perfect_dataframe.c.obj: C_COMPILER__DataF
   TARGET_COMPILE_PDB = CMakeFiles\DataFrame.dir\
   TARGET_PDB = DataFrame.pdb
 
+build CMakeFiles/DataFrame.dir/menu.c.obj: C_COMPILER__DataFrame_unscanned_Debug C$:/Users/etien/Documents/GitHub/cdataframe/menu.c || cmake_object_order_depends_target_DataFrame
+  DEP_FILE = CMakeFiles\DataFrame.dir\menu.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DataFrame.dir
+  OBJECT_FILE_DIR = CMakeFiles\DataFrame.dir
+  TARGET_COMPILE_PDB = CMakeFiles\DataFrame.dir\
+  TARGET_PDB = DataFrame.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target DataFrame
@@ -89,7 +97,7 @@ build CMakeFiles/DataFrame.dir/almost_perfect_dataframe.c.obj: C_COMPILER__DataF
 #############################################
 # Link the executable DataFrame.exe
 
-build DataFrame.exe: C_EXECUTABLE_LINKER__DataFrame_Debug CMakeFiles/DataFrame.dir/main.c.obj CMakeFiles/DataFrame.dir/dataframe.c.obj CMakeFiles/DataFrame.dir/cdataframe.c.obj CMakeFiles/DataFrame.dir/almost_perfect_dataframe.c.obj
+build DataFrame.exe: C_EXECUTABLE_LINKER__DataFrame_Debug CMakeFiles/DataFrame.dir/main.c.obj CMakeFiles/DataFrame.dir/column.c.obj CMakeFiles/DataFrame.dir/cdataframe.c.obj CMakeFiles/DataFrame.dir/almost_perfect_dataframe.c.obj CMakeFiles/DataFrame.dir/menu.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\DataFrame.dir

@@ -428,16 +428,12 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
             str_val[i] = '\0';
             break;
     }
-    printf("conversion de la valeur\n");
 
     for (int i=0; i<ap_cdataframe->TL; i++) {
         switch (ap_cdataframe->columns[i]->column_type) {
             case (STRING):
                 if (!is_digital) {
                     for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-
-                        printf("les caractères sont : %s et %s .\n",ap_cdataframe->columns[i]->data[j]->string_value, str_val);
-
                         // on compare les deux chaines de caractères
                         if (!comparate_string(ap_cdataframe->columns[i]->data[j]->string_value, str_val))
                             sum++;
@@ -455,7 +451,6 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
             case INT:
                 if (is_digital) {
                     for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                        printf("les entiers sont : %lf  et %lf\n", (double) ap_cdataframe->columns[i]->data[j]->int_value, value);
                         if ((double) ap_cdataframe->columns[i]->data[j]->int_value == value)
                             sum++;
                     }
@@ -464,7 +459,6 @@ int AP_n_equals_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
             case CHAR:
                 if (!is_digital) {
                     for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                        printf("les caractères sont : %c  et %c et la terminaise %c .\n", *(char *) ap_cdataframe->columns[i]->data[j], str_val[0], str_val[1]);
                         if (ap_cdataframe->columns[i]->data[j]->char_value == str_val[0] && str_val[1] == '\0')
                             sum++;
                     }
@@ -551,9 +545,6 @@ int AP_n_lower_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type)
             case (STRING):
                 if (!is_digital) {
                     for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-
-                        printf("les caractères sont : %s et %s .\n",ap_cdataframe->columns[i]->data[j]->string_value, str_val);
-
                         // on compare les deux chaines de caractères
                         if (comparate_string(ap_cdataframe->columns[i]->data[j]->string_value, str_val) == -1)
                             sum++;
@@ -659,16 +650,12 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
             str_val[i] = '\0';
             break;
     }
-    printf("conversion de la valeur\n");
 
     for (int i=0; i<ap_cdataframe->TL; i++) {
         switch (ap_cdataframe->columns[i]->column_type) {
             case (STRING):
                 if (!is_digital) {
                     for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-
-                        printf("les caractères sont : %s et %s .\n",ap_cdataframe->columns[i]->data[j]->string_value, str_val);
-
                         // on compare les deux chaines de caractères
                         if (comparate_string(ap_cdataframe->columns[i]->data[j]->string_value, str_val) == 1)
                             sum++;
@@ -686,7 +673,6 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
             case INT:
                 if (is_digital) {
                     for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                        printf("les entiers sont : %lf  et %lf\n", (double) ap_cdataframe->columns[i]->data[j]->int_value, value);
                         if ((double) ap_cdataframe->columns[i]->data[j]->int_value > value)
                             sum++;
                     }
@@ -695,7 +681,6 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
             case CHAR:
                 if (!is_digital) {
                     for (int j = 0; j < ap_cdataframe->columns[0]->TL; j++) {
-                        printf("les caractères sont : %c  et %c et la terminaise %c .\n", *(char *) ap_cdataframe->columns[i]->data[j], str_val[0], str_val[1]);
                         if (ap_cdataframe->columns[i]->data[j]->char_value > str_val[0])
                             sum++;
                     }
@@ -743,14 +728,11 @@ int AP_n_higher_values(AP_CDATAFRAME * ap_cdataframe, void * val, ENUM_TYPE type
                     j = j - 1; \
             }\
             col->index[j + 1] = tmp;}\
-            }printf("Fin\n");
+            }
 
 void insertion_sort(AP_COLUMN * col, int ascending){
-    printf("on est sensé être dans la fonction \n");
-    printf("début \n");
     switch (col->column_type){
         case INT:
-            printf("là \n");
             INSERTION_SORT(int)
             break;
         case UINT:
@@ -793,20 +775,16 @@ void insertion_string_sort(AP_COLUMN * col, int ascending){
 }
 
 void swap_index(AP_COLUMN * col, unsigned int i, unsigned int j){
-    printf("Swap_index \n");
     unsigned long long int tmp2 = col->index[i];
     col->index[i] = col->index[j];
     col->index[j] = tmp2;
-    printf("fin de la fonction swap_value\n");
 }
 
 int partition(AP_COLUMN * col, int left, int right, int ascending) {
-    printf("\n\nPartition beggining  left %d right %d ascending %d\n", left, right, ascending);
     DATA_TYPE* pivot = col->data[col->index[right]-1];
     int i = left - 1;
 
     for (unsigned int j = left; j < right; j++) {
-        printf("j %d %d column type : %d\n", j, right, col->column_type);
         switch (col->column_type) {
             case UINT:
                 if ((ascending && *(unsigned int*)col->data[col->index[j]-1] <= *(unsigned int*)pivot) || (!ascending && *(unsigned int*)col->data[col->index[j]-1] >= *(unsigned int*)pivot)){
@@ -814,14 +792,11 @@ int partition(AP_COLUMN * col, int left, int right, int ascending) {
                     swap_index(col, i, j);}
                 break;
             case INT:
-                printf("Dans le int %d, %d, %d\n", *(int*)col->data[col->index[j]-1], *(int*)pivot, ascending);
                 if ((ascending && *(int*)col->data[col->index[j]-1] <= *(int*)pivot) || (!ascending && *(int*)col->data[col->index[j]-1] >= *(int*)pivot)){
-                    printf("Swap \n");
                     i++;
                     swap_index(col, i, j);}
                 break;
             case CHAR:
-                printf("Dans le char %c, %c, %d\n", *(char *)col->data[col->index[j]-1], *(char *)pivot, ascending);
                 if ((ascending && *(char*)col->data[col->index[j]-1] <= *(char*)pivot) || (!ascending && *(char*)col->data[col->index[j]-1] >= *(char*)pivot)){
                     i++;
                     swap_index(col, i, j);}
@@ -839,29 +814,21 @@ int partition(AP_COLUMN * col, int left, int right, int ascending) {
                 }
                 break;
             case STRING:
-                printf("Partition dans les strings, %s et %s\n", *(char**)col->data[col->index[j]-1], *(char**)pivot);
                 if ((ascending && comparate_string(*(char**)col->data[col->index[j]-1], *(char**)pivot) <= 0) || (!ascending && comparate_string(*(char**)col->data[col->index[j]-1], *(char**)pivot) >= 0)){
-                    printf("Swap \n");
                     i++;
                     swap_index(col, i, j);}
                 break;
         }
     }
-    printf("voici l'indice avant le swap : %d \n", i+1);
     swap_index(col, right, i + 1);
-    printf("voici l'indice avant le return : %d \n", i+1);
-    printf("voici l'indice avant le return : %d \n", i);
     return i + 1;
 }
 
 void quicksort(AP_COLUMN * col, int left, int right, int ascending) {
     int pi;
-    printf("Start of function %d %d %d", left, right, ascending);
     if (left < right) {
         pi = partition(col, left, right, ascending);
-        printf("fin de la partition %d \n", pi);
         quicksort(col, left, pi - 1, ascending);
-        printf("fin du premier quicksort \n");
         quicksort(col, pi + 1, right, ascending);
     }
 }
@@ -871,22 +838,17 @@ void AP_sort_column(AP_COLUMN* col, int ascending){
         switch (col->column_type) {
             case STRING:
                 if (col->valid_index == -1){
-                    printf("String insertion_sort\n");
                     insertion_string_sort(col, ascending);}
                 else{
-                    printf("String quick_sort\n");
                     quicksort(col, 0, col->TL - 1, ascending);}
                 col->valid_index = 1;
                 col->sort_dir = ascending;
                 break;
             default:
                 if (col->valid_index == -1){
-                    printf("Default insertion_sort\n");
-                    printf("Le ascending %d \n", ascending);
                     insertion_sort(col, ascending);
                 }
                 else{
-                    printf("\n\nDefault quick_sort\n");
                     quicksort(col, 0, col->TL - 1, ascending);
                 }
                 col->valid_index = 1;
@@ -897,7 +859,6 @@ void AP_sort_column(AP_COLUMN* col, int ascending){
 
 void AP_sort_dataframe(AP_CDATAFRAME * cdataframe, int  ascending){
     for (int i=0; i<cdataframe->TL; i++){
-        printf("Column number : %d \n", i);
         AP_sort_column(cdataframe->columns[i], ascending);
         AP_print_col(cdataframe->columns[i]);
     }

@@ -26,7 +26,6 @@ int main(){
     double val11 = 2.0, val12 = 28.76, val13 = 7.8, val14 = 4.5, val15 = 4.5;
     char* val16 = "stroumf", * val17 = "machin", * val18 = "truc", * val19="e", * val20 = "machin";
 
-    printf("coucou ceci est un test\n");
     column1 = AP_create_column(type3, "Canard");
     AP_insert_value(column1, &val1);
     AP_insert_value(column1, &val2);

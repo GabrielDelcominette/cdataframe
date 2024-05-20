@@ -12,6 +12,7 @@ typedef struct{
 CDATAFRAME* create_cdataframe();
 
 void read_cdataframe_user(CDATAFRAME *);
+void fill_cdataframe_c_by_c(CDATAFRAME* cdataframe, int nb_col, int nb_line);
 void display_whole_cdataframe(CDATAFRAME * cdataframe);
 void display_cdataframe(CDATAFRAME * cdataframe, int start_column, int start_row, int end_column, int end_row);
 

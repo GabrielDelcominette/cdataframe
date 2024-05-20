@@ -47,13 +47,13 @@ void read_cdataframe_user(CDATAFRAME * cdataframe) {
     COLUMN* new_column = NULL;
     //new_column = (COLUMN**) malloc(sizeof(COLUMN **));
     //new_column= (COLUMN*) malloc(sizeof(COLUMN *));
-    printf("saisissez le nombres de colonnes de la cdataframe : \n");
+    printf("saisissez le nombres de colonnes : \n");
     scanf(" %d", &C);
-    printf("saisissez le nombres de lignes de la cdataframe : \n");
+    printf("saisissez le nombres de lignes : \n");
     scanf(" %d", &L);
-    printf("\t\t********** Entrez les titres des colonnes *********\n");
+    printf("*** Entrez les titres des colonnes ***\n");
     for (int i=0; i<C; i++){
-        printf("Saisissez le titre de la colonnes %d : \n", i+1);
+        printf(">Saisissez le titre de la colonne %d : \n", i+1);
         scanf(" %s", name);
         new_column = create_column(name); // création d'une nouvelle colonne ayant pour titre celui entré par l'utilisateur
         insert_column(cdataframe, new_column); // on ajoute la nouvelle colonne à la cdataframe
@@ -62,10 +62,23 @@ void read_cdataframe_user(CDATAFRAME * cdataframe) {
         //printf("Voici la nouvelle colone %s en position %d\n", (cdataframe->columns[i])->title, i);
     }
 
-    printf("\t\t ********* Entrer les valeurs dans les cellules ***********\n");
+    printf("*** Entrer les valeurs dans les cellules ***");
     for (int ligne=1; ligne<L+1; ligne++){
-        printf("***** Saisir les valeurs de la ligne %d *****\n", ligne + 1);
+        printf("*** Saisir les valeurs de la ligne %d ***", ligne + 1);
         insert_row(cdataframe);
+    }
+}
+
+void fill_cdataframe_c_by_c(CDATAFRAME* cdataframe, int nb_col, int nb_line) {
+    char title[20];
+    COLUMN * column = NULL;
+    int i;
+    for (i = 0; i < nb_col; i++){
+        printf("\nsaisir le nom de la nouvelle colonne : ");
+        scanf(" %s", &title);
+        column = create_column(title);
+        fill_column(column, nb_line);
+        insert_column(cdataframe, column);
     }
 }
 
@@ -80,7 +93,7 @@ void insert_row(CDATAFRAME * cdataframe){
 
 void display_titles(CDATAFRAME * cdataframe){
     for (int i=0; i<cdataframe->TL; i++){
-        printf("%s\t", cdataframe->columns[i]->title);
+        printf("  %s  ", cdataframe->columns[i]->title);
     }
 }
 
@@ -90,7 +103,7 @@ void display_whole_cdataframe(CDATAFRAME * cdataframe){
     for (int j=0; j<cdataframe->columns[0]->TL; j++) {
         printf("\n");
         for (int i = 0; i < cdataframe->TL; i++) {
-            printf("%d\t\t", cdataframe->columns[i]->data[j]);
+            printf("    %d  ", cdataframe->columns[i]->data[j]);
         }
     }
 }
@@ -128,11 +141,13 @@ void cdataframe_rename_column(CDATAFRAME * cdataframe, char * new_title, int i_c
 int is_value_in(CDATAFRAME * cdataframe, int value){
     for (int i=0; i<cdataframe->TL; i++){
         for (int j=0; j<cdataframe->columns[0]->TL; j++){
-            if (cdataframe->columns[i]->data[i] == value){
+            if (cdataframe->columns[i]->data[j] == value){
+                printf(">>>valeur aux ligne/colonnes %d/%d\n", j,i);
                 return 1;
             }
         }
     }
+    printf(">>>la valeur n'est pas dans le dataframe...\n");
     return 0;
 }
 
@@ -141,6 +156,7 @@ int n_equals_values(CDATAFRAME * cdataframe, int value){
     for (int i=0; i<cdataframe->TL; i++){
         sum += column_n_equals_values(cdataframe->columns[i], value);
     }
+    printf(">>>nb de valeurs : %d\n", sum);
     return sum;
 }
 
@@ -149,6 +165,7 @@ int n_lower_values(CDATAFRAME * cdataframe, int value){
     for (int i=0; i<cdataframe->TL; i++){
         sum += column_n_lower_values(cdataframe->columns[i], value);
     }
+    printf(">>>nb de valeurs : %d\n", sum);
     return sum;
 }
 
@@ -157,6 +174,7 @@ int n_higher_values(CDATAFRAME * cdataframe, int value){
     for (int i=0; i<cdataframe->TL; i++){
         sum += column_n_higher_values(cdataframe->columns[i], value);
     }
+    printf(">>>nb de valeurs : %d\n", sum);
     return sum;
 }
 
@@ -165,12 +183,18 @@ int find_value(CDATAFRAME * cdataframe, int col, int row){
 }
 
 void change_cell_value(CDATAFRAME * cdataframe, int new_value, int col, int row){
-    cdataframe->columns[col-1]->data[row-1] = new_value;
+    if(col<cdataframe->TL && row<cdataframe->columns[0]->TL) {
+        cdataframe->columns[col-1]->data[row-1] = new_value;
+        printf(">>>changement effectue");
+    }
+    else {
+        printf(">>>changement impossible");
+    }
 }
 
 void delete_column(CDATAFRAME * cdataframe, int col){
     if (col < 1 ||  col > cdataframe->TL) {
-        printf("ERREUR : les indices entrées sont impossibles !");
+        printf("/!\\ERREUR : les indices entrées sont impossibles !");
     }
     else {
         COLUMN* tmp = cdataframe->columns[col - 1];
@@ -183,7 +207,7 @@ void delete_column(CDATAFRAME * cdataframe, int col){
 
 void delete_row(CDATAFRAME * cdataframe, int row){
     if (row < 1 ||  row > cdataframe->columns[0]->TL) {
-        printf("ERREUR : les indices entrées sont impossibles !");
+        printf("/!\\ERREUR : les indices entrées sont impossibles !");
     }
     else{
         for (int i=0; i<cdataframe->TL; i++){

@@ -27,6 +27,13 @@ int insert_value(COLUMN* col, int value);
 void print_col(COLUMN* col);
 
 /**
+* @brief : fill a column of values
+* @param1 : Pointer to a column
+* @param2 : The number of lines
+*/
+void fill_column(COLUMN* col, int nb_line);
+
+/**
  * @brief: return the number of occurences of value in the column
  * @param : col - Pointer to a column
  * @param : int - value that we search in the column

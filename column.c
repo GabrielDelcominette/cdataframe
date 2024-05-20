@@ -40,6 +40,15 @@ int insert_value(COLUMN* col, int value){
     return 0;
 }
 
+void fill_column(COLUMN* col, int nb_line) {
+    int val;
+    for (int i = 0; i<nb_line; i++) {
+        printf("\n> Entrez la valeur de la ligne %d : ", col->TL);
+        scanf(" %d", &val);
+        insert_value(col, val);
+    }
+}
+
 int occurence(COLUMN * col, int value){
     int number = 0;
     for (int i=0; i<col->TL; i++){

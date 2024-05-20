@@ -74,6 +74,20 @@ int AP_insert_value(AP_COLUMN *col, void *value);
 void AP_delete_column(AP_COLUMN **col);
 
 /**
+* @brief: Delete a column from dataframe
+* @param1: pointer of cdataframe
+* @param2: indice of column to delete
+*/
+void AP_delete_column_from_dataframe(AP_CDATAFRAME * cdataframe, int col);
+
+/**
+* @brief: Delete a row from dataframe
+* @param1: pointer of cdataframe
+* @param2: indice of row to delete
+*/
+void AP_delete_row(AP_CDATAFRAME * cdataframe, int row);
+
+/**
 * @brief: Convert a value into a string
 * @param1: Pointer to the column
 * @param2: Position of the value in the data array

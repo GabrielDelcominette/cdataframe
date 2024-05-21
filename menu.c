@@ -222,16 +222,8 @@ void commands_AP_dataframe(AP_CDATAFRAME* ap_cdataframe) {
            "\n/delcol : supprime une colonne d'indice i"
            "\n/delrow : supprime une ligne d'indice i"
            "\n/dataframe : affiche le dataframe en entier"
-           "\n/dataframelimits : affiche le dataframe avec une limites de lignes et colonnes"
-           "\n/rownb : affiche le nombre de lignes"
-           "\n/colnb : affiche le nombre de colonnes"
            "\n/titles : affiche les titres des colonnes"
-           "\n/val : affiche la valeur a i,j"
-           "\n/searchval : recherche d'une valeur choisie"
-           "\n/nbhival : nombre de valeurs superieures a celle choisie"
-           "\n/nbloval : nombre de valeurs inferieurs a celle choisie"
-           "\n/nbeqval : nombre de valeurs égales a celle choisie"
-           "\n/changeval : change la valeur i,j par une choisie");
+           "\n/sortdataframe : trie le dataframe");
     do {
         printf("\n\n>Entrez une commande a effectuer : ");
         scanf(" %s", command);
